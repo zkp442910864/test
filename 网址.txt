@@ -1,0 +1,76 @@
+http://camnpr.com/html-css/2263.html									解决苹果上的Fixed定位
+https://segmentfault.com/q/1010000000682428    							解决苹果上的overflow无效
+
+http://www.bootcss.com/p/bootstrap-datetimepicker/       				bootstrap日期选择器
+http://www.cnblogs.com/kingboy2008/p/5261771.html       				10大H5前端框架
+
+http://www.layui.com/													LayUi框架
+
+http://www.runoob.com/jeasyui/jqueryeasyui-tutorial.html 				jQuery EasyUI 框架
+http://www.jeasyui.net/
+
+https://ant.design/index-cn												需先学习react、es2015，ant design框架
+
+http://www.cnblogs.com/wangfupeng1988/p/4001284.html 					深入理解javascript原型和闭包系列
+
+http://www.devdo.net/localresizeimg-yasuo-upload.html 					移动端上传图片插件
+
+http://blog.csdn.net/charlene0824/article/details/52165429 				H5的新特性及部分API详解
+http://www.cnblogs.com/litao666/p/6070498.html
+https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/HTML5
+http://web.jobbole.com/84792/											Service Worker API
+https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers#Service_Workers出现的背景
+	service worker可以：
+		1.后台消息传递
+		2.网络代理，转发请求，伪造响应
+		3.离线缓存
+		4.消息推送
+		5. ... ...
+
+http://www.cnblogs.com/hykun/p/EventUtil.html 							EventUtil——跨浏览器的事件对象
+
+http://www.jq22.com/													jquery插件库
+
+http://www.thinkcmf.com/font/icons/cc-amex								文字图标 奥森图标（Font Awesome）
+
+http://fontawesome.dashgame.com/										图库
+http://www.iconsvg.com/													svg图
+
+http://www.runoob.com/highcharts/highcharts-tutorial.html 				Highcharts 画图插件
+https://www.hcharts.cn/
+
+http://echarts.baidu.com/index.html 									echarts 画图插件
+
+http://www.ionic.wang/course-index.html 								ionic app开发
+
+http://newdocx.appcan.cn/JSSDK/Request									appcan 半原生app
+
+http://www.cnblogs.com/seasons1987/archive/2012/10/09/2716345.html  	html语言切换
+http://blog.csdn.net/dowithsmiles/article/details/8562590
+
+https://vuefe.cn/v2/guide/												vue 文档
+http://cn.vuejs.org/v2/api/												vue 文档
+http://router.vuejs.org/zh-cn/essentials/getting-started.html 			vue-router 文档
+
+http://font.chinaz.com/													字体
+http://www.cnblogs.com/yes-V-can/p/5716853.html 						字体文件转换
+
+http://tool.chinaz.com/													站长工具
+http://tool.lu/															在线工具
+
+https://github.com/calidion/webfullstack-awesome						Web全栈开发网址导航
+http://webfullstack.me/														
+
+
+http://member.ds160.com
+	13418803185
+	123zkp123
+
+	老板的	18503084307
+			ds123456
+
+
+中转站
+开始- \\neo
+zhoukaipeng
+kd244adds

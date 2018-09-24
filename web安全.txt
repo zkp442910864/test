@@ -1,0 +1,140 @@
+https://www.v2ex.com/t/227773?utm_source=tool.lu
+
+
+
+
+数据通道安全
+	http 协议下的网络连接都是基于明文的，信息很有可能被泄露篡改，因此，信息通道安全有以下两个目标：
+		身份认证
+		数据不被泄漏和篡改
+	理论上 https 是安全的，即使如此， https 依然应该被重视，因为理论上理论和实践是一样的，但实践中又是另外一回事。
+
+
+浏览器安全
+	origin 源， 什么是源呢？
+		相同的 HOST
+		相同的协议
+		相同的端口
+
+		例：
+			https://www.wilddog.com 和 http://www.wilddog.com 非同源，因为协议不同。
+			http://wilddog.com 和 http://www.wilddog.com 非同源，因为域名不同。
+			http://wilddog.com 和 http://wilddog.com:8080 非同源，因为端口不同。
+
+	同源策略
+		同源策略限制了一个源（ origin ）中加载文本或脚本与来自其它源（ origin ）中资源的交互方式。
+		简单的说就是一个源的页面上的 js 只能访问当前源的资源，不能访问其他源的资源。
+		那么资源是什么呢？
+			DOM
+			通过 AJAX 请求的网络资源
+			Cookie
+			WebStorage ， webSql
+			...
+		很显然，同源策略以源为单位，把资源天然分隔，保护了用户的信息安全。
+		同源策略是一堵墙，然而墙并非不透风。有很多方法可以绕过同源策略让 javascript 访问其他源的资源。
+
+		如：
+			JSONP 
+			基于 iframe 的方法（ iframe+window.name iframe+window.domain iframe+webMessage ）
+			CORS 
+		同源策略是浏览器安全策略的基础，但同源策略面对很多攻击是无能为力的，比如 XSS
+
+	XSS(Cross-Site Script)
+		跨站脚本攻击，跨站脚本攻击本质上是一种注入攻击（有兴趣了解更多注入攻击可以看 Injection Theory ）。
+		简单的说就是利用各种手段把恶意代码添加到网页中，并让受害者执行这段脚本。
+
+		XSS 攻击从攻击的方式可以分为：
+			反射型
+			存储型
+			文档型
+		这种分类方式有些过时，长久以来，人们认为 XSS 分类有以上三种，但实际情况中经常无法区分，所以更明确的分类方式可以分为以下两类：
+			client(客户端型)
+			server(服务端型)
+		当一端 XSS 代码是在服务端被插入的，那么这就是服务端型 XSS ，同理，如果代码在客户端插入，就是客户端型 XSS 。
+
+	防止 XSS 攻击--转义
+	 	无论是服务端型还是客户端型 XSS ，攻击达成需要两个条件：
+	 		代码被注入
+			代码被执行
+		其实只要做好无论任何情况下保证代码不被执行就能完全杜绝 XSS 攻击。详情可以看下 XSS (Cross Site Scripting) Prevention Cheat Sheet 这篇文章。
+		这里简单说下结论：任何时候都不要把不受信任的数据直接插入到 dom 中的任何位置,一定要做转义。
+		对于某些位置，即使做了转义依然不安全：
+			<script>中
+			注释中
+			表签的属性名名
+			标签名
+			css 标签中
+		使用 JSON.parse 而不是 eval,request 的 content-type 要指定是 Content-Type: application/json;
+		如果链接的 URL 中部分是动态生成的，一定要做转义。
+
+	HTML 转义
+		& --> &amp;
+		< --> &lt;
+		> --> &gt;
+		" --> &quot;
+		' --> &#x27;
+		/ --> &#x2F;
+
+	使用浏览器自带的 XSS-filter
+		现代浏览器都对反射型 XSS 有一定的防御力，其原理是检查 url 和 dom 中元素的相关性。但这并不能完全防止反射型 XSS 。
+		另外，浏览器对于存储型 XSS 并没有抵抗力，原因很简单，用户的需求是多种多样的。所以，抵御 XSS 这件事情不能指望浏览器。
+		可以通过 http 头控制是否打开 XSS-filter,当然默认是打开的.X-XSS-Protection
+
+	CSP(Content Security Policy)
+	 	从原理上说防止 XSS 是很简单的一件事，但实际中，业务代码非常多样和复杂，漏洞还是时不时会出现。
+	 	CSP 并不是用来防止 XSS 攻击的，而是最小化 XSS 发生后所造成的伤害。
+	 	事实上，除了开发者自己做好 XSS 转义，并没有别的方法可以防止 XSS 的发生。 
+	 	CSP 可以说是 html5 给 Web 安全带来的最实惠的东西。 
+	 	CSP 的作用是限制一个页面的行为不论是否是 javacript 控制的。
+	 	如何引入 CSP 呢？
+	 		通过 response 头
+	 			//只允许脚本从本源加载 Content-Security-Policy: script-src 'self'
+	 		通过 html 的 meta 标签
+	 			//作用同上<meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+
+	X-Frame-Options
+
+	Http-Only
+		使用 Http-only 保护 cookie ，可以保证即使发生了 XSS ，用户的 cookie 也是安全的。
+		使用 Http-only 保护的 cookie 是不会被 javascript 读写的。
+
+	iframe 沙箱环境
+
+	其他安全相关的 HTTP 头
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
