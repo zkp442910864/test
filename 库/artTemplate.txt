@@ -1,0 +1,76 @@
+
+更多详情:https://github.com/aui/arttemplate
+
+
+
+
+简洁语法	使用template.js
+	表达式 
+		{{ }}
+
+	输出内容 
+		{{content}}
+
+	条件表达式
+		{{if admin}}
+		    <p>admin</p>
+		{{else if code > 0}}
+		    <p>master</p>
+		{{else}}
+		    <p>error!</p>
+		{{/if}}
+
+	遍历表达式
+		无论数组或者对象都可以用 each 进行遍历。
+			{{each list as value index}}
+			    <li>{{index}} - {{value.user}}</li>
+			{{/each}}
+
+		亦可以被简写：
+			{{each list}}
+			    <li>{{$index}} - {{$value.user}}</li>
+			{{/each}}
+
+
+
+原生语法  	使用template-native.js
+	表达式 
+		<% %>
+
+	输出内容 
+		<%=content%>	
+
+	条件表达式
+		<% if(chat_type == 1) {%> 
+			c
+		<% }else{ %> 
+			b
+		<% } %>
+
+	遍历表达式
+
+
+
+<script type="text/html" id="add_voice_main_tpl">
+	
+	<img src="{{ img }}"/> 或 <img src="<%=img%>"/>
+
+</script>
+var data ={
+	img:'aaaa',
+	sec:s
+};
+
+
+
+template('add_voice_main_tpl', data)
+
+根据 id 渲染模板。内部会根据document.getElementById(id)查找模板。
+如果没有 data 参数，那么将返回一渲染函数。
+
+
+
+
+
+
+

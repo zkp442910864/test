@@ -1,0 +1,80 @@
+
+
+
+	发布到线上的叫'生产环境'
+
+	本地开发的时候叫'开发环境'
+
+	--save(dependencies) 就是会打包到线上去并且在线上环境能用到的
+
+	--save-dev(devDependencies) 线上并不需用到
+
+
+
+	(p: node中转.png)
+	步骤：
+		1.安装node、npm
+			1)使用npm会比较慢，所以安装cnpm   $ npm install cnpm -g
+		2.新建个文件夹,$ npm init 进行初始化
+		3.创建js文件，test.js  通过 node test.js 运行
+		4.需要依赖到的js，直接 $ npm install ... --save 进行安装
+
+
+
+
+		npm安装模块
+		【npm install xxx】利用 npm 安装xxx模块到当前命令行所在目录；
+		【npm install -g xxx】利用npm安装全局模块xxx；
+		本地安装时将模块写入package.json中：
+
+		【npm install xxx】安装但不写入package.json；
+		【npm install xxx –save】 安装并写入package.json的”dependencies”中；
+		【npm install xxx –save-dev】安装并写入package.json的”devDependencies”中。
+		npm 删除模块
+		【npm uninstall xxx】删除xxx模块； 
+		【npm uninstall -g xxx】删除全局模块xxx；
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
