@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 window.screen.width>1200?'':document.body.style.fontSize = parseInt(window.screen.width/320 * 12) + 'px';//移动适配
+=======
+
+window.screen.width>1200?'':document.body.style.fontSize = parseInt(window.screen.width/320 * 12) + 'px';//移动适配
+console.log(123);
+
+
+>>>>>>> 5960a939fda6aa7be57d54d656b399054b08ce4d
 
 
 //checkbox 复选框的全选
