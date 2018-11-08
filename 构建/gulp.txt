@@ -1,0 +1,72 @@
+
+
+1.全局安装gulp
+  npm install -g gulp
+2.创建项目
+  npm init
+3.安装需要的插件
+  npm install --save-dev babel-cli babel-preset-es2015 gulp gulp-babel gulp-minify-css gulp-uglify
+    处理js
+      babel-cli
+      babel-preset-es2015
+      gulp-babel  处理js文件 (目前只会转es2015)
+        转es2015 需要.babelrc文件
+          {
+            "presets": [
+              "es2015"
+            ]
+          }
+      gulp-uglify 压缩js文件
+    处理css
+      gulp-minify-css 压缩css文件
+4.创建gulpfile.js文件
+  const gulp = require('gulp');
+  const babel = require('gulp-babel');
+  const uglify = require('gulp-uglify');
+  const minifyCss = require('gulp-minify-css');
+
+  const js = ['src/*.js', 'src/**/*.js']; // 需要监听处理的文件
+
+  gulp.task('script', () => {
+    gulp.src(js) // 文件路径
+        .pipe(babel())
+        .pipe(uglify())
+        .pipe(gulp.dest('dist')); // 文件输出路径
+  });
+
+  gulp.task('css', () => {
+    gulp.src('src/*.css')
+        .pipe(minifyCss())
+        .pipe(gulp.dest('dist'));
+  });
+
+  gulp.task('auto', () => {
+    gulp.watch(js, ['script']);
+    gulp.watch('css/**/*.css', ['css']);
+  });
+
+5.控制台输入
+  gulp auto   auto运行的任务名
+6.一下是扩展
+  1)安装gulp-watch插件
+    用来监听文件(当文件改动，只会重新编译当前的文件)，原gulp的监听会全部一起编译
+    const watch = require('gulp-watch');
+    gulp.task('script', () => {
+      gulp.src(js)
+          .pipe(watch(js))
+          .pipe(babel())
+          .pipe(uglify())
+          .pipe(gulp.dest('dist'));
+    });
+  2)执行多任务可以用
+    gulp.task('all', [script, css]);
+7.更改package.json文件
+  "script": {
+    "watch": "gulp all"
+  }
+
+
+
+
+
+
