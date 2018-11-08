@@ -1,0 +1,406 @@
+﻿http://jquery.com   	官网
+http://www.jquery123.com/category/selectors/attribute-selectors/				中文文档
+http://www.css88.com/jqapi-1.9/category/events/event-handler-attachment/		中文文档
+http://jquery.cuishifeng.cn/index.html											中文文档
+http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp						jquery选择器	
+	
+	
+jQuery的使用:
+	$('')	
+		$()获取到的都是一个集合
+		引号里写样式中的选择器	如: id、class、标签、属性
+		通过这样来得到集合
+		省略原生的循环操作
+			例:$('#ul1 li').css('background','red');
+		事件click()	   $('li').click(function(){})	
+		内容html()	   get:$('li').html()   		set:$('li').html('asdf')
+		属性attr()     get:$('li').attr('title')   	set:$('li').attr('title','aaa')
+		值val()        get:$('li').val()   	set:$('li').val('wewr')  
+			多元素取值   只得到第一个
+		this在函数中返回原生js的   想要jquery的要$(this)
+		JQ的链式操作$().css().html().click()
+	
+	class的操作
+		addClass()        添加类名       		$('li').addClass('aa');
+		removeClass()     删除    
+		toggleClass()     类切换(添加或删除)      
+	
+	显示隐藏
+		show()/hide()     显示和隐藏			$('li').show();
+		toggle()		  切换(显示和隐藏)
+	下标
+		eq() 
+		
+	节点的选择			$('#span').prev()	
+	
+		在同级的兄弟元素进行选择
+		prev()			无参:当前元素的上一个元素		有参:指定上一个元素的标签(选择器),如果上一个元素匹配就得到
+		next()          这是选择下一个元素,其他同上   
+		prevAll()		无参:前面所有元素		有参:指定的所有元素
+		nextAll() 		这是选择下面所有元素,其他同上
+		siblings()      无参:选中除了当前元素所有的元素	  有参:指定要选择的所有元素       
+		first()         选中首个元素,只匹配一次               
+		last()          选中最后元素,只匹配一次              	       
+		slice()         范围内的所有元素 				$('li').slice(1,3)从下标1~3,不包括3  
+		
+		获取子节点
+		children()      不给定参数,选中当前元素下所有子节点,给定参数指定某些子节点或一个子节点            
+		find()          必须给参数,会从下级多层去找,chrldern只找下一级元素              
+	
+		获取父节点
+		parent()         父级节点            
+		parents()        祖先节点,所有父级节点            
+		closest()        从所有的祖先节点当中选,包括自己             
+	
+	节点的操作
+		创建节点	$(<>)  
+		例:1、var $Li = $('<li>')						2、var $Li = $('<li id="li">newlililili</li>');
+			   $Li.html('newnewli');
+	
+		添加节点
+		insertBefore()  	把匹配的元素插入到另一个指定的元素集合的前面.		 $("<span>你好！</span>").insertBefore("p");
+		before()            在每个匹配的元素之前插入内容.          			 $("p").before("<p>Hello world!</p>");
+		insertAfter()   	把匹配的元素插入到另一个指定的元素集合的后面.
+		after()             在匹配的元素之后插入内容.     	
+		appendTo()   		向目标结尾插入匹配元素集合中的每个元素.			 $("<b>Hello World!</b>").appendTo("p");
+		append()            向匹配元素集合中的每个元素结尾插入由参数指定的内容. $("p").append(" <b>Hello world!</b>");  
+		prependTo()     	向目标开头插入匹配元素集合中的每个元素.			 $("<b>Hello World!</b>").prependTo("p");
+		prepend()           向匹配元素集合中的每个元素开头插入由参数指定的内容. 	
+
+		remove()            删除		$('.box').remove();  
+		clone()             用上面的添加节点都是剪切操作,加上这个方法进行克隆,有参:克隆事件     
+			例:$('.span').click(function(){
+					alert(666);
+				｝
+				$('.span').clone().appendTo($('.box'));//clone默认不能克隆事件
+				$('.span').clone(true).appendTo($('.box'));//clone(true)----->克隆事件
+	
+	JQ中的索引
+		index()           
+			$('div').index()			第一种用法:index当前元素在兄弟节点当中的排行,从0开始
+			$('#span').index('span')	第二种用法,筛选后的排行	在所有的span标签中筛选
+	
+	JQ中的遍历
+		each()            
+		回调函数的两个参数
+		this指向
+		return false;
+		例:$('li').each(function(i,elem){			
+//				console.log(i);  //0,1,2,...下标
+//				console.log(elem);  //this
+//				$(elem).html(i);  //elem---->this
+					
+				if(i==2){
+					return false;
+				}
+				$(this).html(i);
+			});
+	
+	JQ包装对象
+		wrap()            外包装          $('span').wrap('<love>');                
+		wrapAll()         内包装          $('span').wrapInner('<love>');               
+		wrapInner()       整体包装        $('span').wrapAll('<love>');              
+		unwrap()          拆包装          $('span').unwrap();              
+	
+	JQ转原生JS
+		get()                         
+		get获取的集合			$('div').get(0).innerHTML
+		为什么要转,比如:jq获取不到内容的高度	元素之间的比较
+	
+	元素的尺寸
+		width()    height()      		获取设置好的宽高,没设置就获取默认的               
+		innerWidth()  innerHeight()     width\height+padding
+		outerWidth()  outerHeight()     width\height+padding+border     
+			参数:true					width\height+padding+border+margin  
+	
+	滚动距离
+		scrollTop()         窗口的上下滚动距离		$(window).scrollTop()
+			可以写参数  要条到某个位置				$(window).scrollTop(500)
+		scrollLeft()        窗口的左右滚动距离      $(window).scrollleft() 
+	
+	元素距离
+		offset()			文档偏移
+			left   top			$('.box2').offset().left\top
+		position()			定位偏移
+			left   top			$('.box2').position().left\top
+	
+	其他尺寸
+		$(document).height()	文档高度
+		$(window).width()		可视区域宽度
+			
+	JQ的事件
+		on()              	参数1:事件名可以多个   2:方法           
+		off()               无参:取消全部		有参:指定某个事件   
+			$('.box').off().on(function(){})
+		JQ中都是绑定的形式
+		支持多事件写法
+		click()写法,也是采用off()取消
+		例:$('.box').on('click',function(){});
+		   $('.box').on('click mouseout',function(){});
+		   $('.box').off('mouseover');
+	
+		Event对象 
+			pageX,pageY				鼠标相对于文档中位置
+			clientX,clientY			鼠标相对于可视区的位置
+			which					获取键盘值			ev.which
+			Target					事件的目标对象		ev.target
+		阻止事件
+			stopPropagation()		阻止冒泡事件		当文档和节点都设置了点击事件,在节点事件加上就不会一起执行
+			preventDefault()		阻止默认事件		鼠标点击右键
+			return false			同时阻止上面2个事件
+
+		delegate委托事件
+			委托父元素给子元素设置事件
+			好处:1.提高性能     2.后续添加元素直接拥有事件
+			$('ul').delegate('li','click',function(ev){})
+			通过ev.delegateTarget得到父对象 	   代理目标对象-->>ul
+			$(ev.delegateTarget).undelegate();	   取消代理
+	
+		trigger主动触发事件                 
+			$('.box').trigger('click')
+			给对象创建事件时通过.来命名,方便主动触发
+			$(document).on('click.abc',function(){})
+			$(document).trigger('click.abc');
+	
+	工具方法
+		$. type()                判断类型	         
+		比原生typeof更强大
+		$. isFunction()          判断函数      
+		$. isNumeric()           判断数字      
+		$. isArray()                    
+		$. isWindow()                
+		$. isEmptyObject()       判断是否空对象 
+		$. isPlainObject()       判断是否是自变量对象{}、new    
+	
+		$. extend()
+			对象继承操作
+			深拷贝操作
+			例:var a = {name:'hello'};					var a = {person:{name:'hello'}};
+				var b = {};								var b = {};
+				$.extend(b,a);	b.name = 'word';		$.extend(b,a);			b.person.name = 'hellohello';
+				各自操作自己的属性或方法				如果拷贝的对象中包含对象,操作里面的对象是公共的
+														$.extend(true,b,a);
+														这样加上true,就是各自的
+	
+		$.proxy()                    	
+			修改this指向
+			两处传参的区别
+			例:function show(a,b){alert(this);}
+				$.proxy(show,document)(1,2);
+			
+				$('.box').click($.proxy(function(){
+					alert(this);
+				},document));
+	
+	JQ中的运动
+		隐藏显示
+			show(),hide(),toggle()     				左上角收缩                    
+			默认无
+			fadeIn(),fadeOut(),fadeToggle()         淡入淡出
+			默认 normal 
+			slideDown(),slideUp(),slideToggle()    	向上收缩
+			默认 normal 
+				fast normal slow   时间参数写在括号里,也可以指定时间		$('#d1').show(fast\2000);
+	
+		动画              
+			参数1:运动的属性和目标点
+			参数2:运动时间
+			参数3:运动的形式
+			参数4:运动结束回调函数
+			相对运动:数值运算{width:'+=400'}
+			$('.box').animate({width:400},2000,'linear',function(){alert('end');});
+			
+			配置参数
+			$('#box').animate({num:'auto'},{
+				//duration 时间  	easing 方式	    complete 回调事件
+				duration:2000,
+				easing:'linear',
+				complete:function(){alert(123);}
+		
+			});
+			
+			$('#box').animate({num:'auto'},{
+				duration:2000,
+				easing:'linear',	
+				
+				////step回调函数看运动的属性,运动目标起始状态
+				//一直触发	step的作用
+				step:function(a,b){
+					console.log(a);
+					console.log(b);
+					$(this).html(Math.floor(b.pos*23234543));
+				}	
+			});
+			
+			链式运动	
+				$('.box').animate({width:300});
+				$('.box').animate({height:300});
+				$('.box').animate({left:100})
+				$('.box').animate({width:200}).delay(1000).animate({height:200});
+				按顺序一个一个执行,将运动放到队列中
+				
+			delay延时                  
+				$('.box').animate({width:200}).delay(1000).animate({height:200});
+	
+			停止运动
+				stop()                     
+					$('.box').stop();停止当前运动的属性,继续下面的运动
+					$('.box').stop(true);//停止当前运动的属性,不继续下面的运动
+					$('.box').stop(true,true);//停止到当前运动属性的目标点
+				finish()                   
+					$('.box').finish();//停止到所有运动属性的目标点
+			
+			解析工具方法
+				$. parseJSON()   	将字符串转json    		var json1 =$.parseJSON(str);          
+				$. parseHTML()      解析成数组				var data1 = $.parseHTML(str1);		   
+				$. parseXML()       XML字符串解析成文档     var dataxml = $.parseXML(str2);
+				$. isXMLDoc()       xml文档判断     		$.isXMLDoc(dataxml)
+	
+			$.ajax()                  
+				url			地址
+				success		回调
+				type		类型get\post
+				data		带参请求
+				error		错误回调
+				dataType	请求数据的要求
+				async		异步
+	
+			例1:$('input').blur(function(){
+					$.ajax({
+						type:"get",
+						url:"user.php",
+						async:true,
+						data:{name:$('input').val()},
+						success:function(data){
+							alert(data);
+						}
+					});
+				});		
+			
+			例2:跨域请求,要配合服务端
+				$.ajax({
+					type:'GET',
+					url:"http://172.22.165.1:8080/myS/MyS",
+					async:true,
+					dataType:'jsonp',//请求类型是jsonp
+					jsonp:'callback',//给服务端获取的
+					jsonpCallback:'flightHandler',//callback的值,是一个方法名(可随意)
+					success:function(data){
+						console.log(data);
+					}
+				});
+
+			例3:利用cors(跨域资源共享)进行跨域,有严重缺点,容易受到攻击.
+				post跨域请求,主要设置服务端的web.xml,和引入cors-lib类库.
+				在web.xml倒数第二行加入以下代码:
+
+				<filter>
+				    <filter-name>CORS</filter-name>
+				    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+				    <init-param>
+				     <param-name>cors.allowOrigin</param-name>
+				        <param-value>*</param-value>
+				    </init-param>
+				    <init-param>
+				     <param-name>cors.supportedMethods</param-name>
+				        <param-value>GET, POST, HEAD, PUT, DELETE</param-value>
+				    </init-param>
+				    <init-param>
+				     <param-name>cors.supportedHeaders</param-name>
+				        <param-value>Accept, Origin, X-Requested-With, Content-Type, Last-Modified</param-value>
+				    </init-param>
+				    <init-param>
+				        <param-name>cors.exposedHeaders</param-name>
+				        <param-value>Set-Cookie</param-value>
+				    </init-param>
+				    <init-param>
+				        <param-name>cors.supportsCredentials</param-name>
+				        <param-value>true</param-value>
+				    </init-param>
+				</filter>
+				<filter-mapping>
+				    <filter-name>CORS</filter-name>
+				    <url-pattern>/*</url-pattern>
+				</filter-mapping>	
+
+				这是页面的代码:	
+				$.ajax({
+					type:"post",
+					url:"http://172.22.165.1:8080/myS2/MyS",
+					data:{
+						callback:'asdf',
+						userid:'zzZZzz',
+						psw:'123'
+					},
+					async:true,
+					success:function(data){
+						console.log(data);
+					}
+				});
+
+			$.get()         
+				例:$.get('data.php',{type:$('[type="text"]').val()},function(data){alert(data);});
+				
+			$.post() 
+				和上面差不多      
+			
+		Sizzle选择器  		第5行
+			基本筛选
+				:animated		动画		$('div:animated').css('background','blue');
+											$(':animated').css('background','blue');
+											所有的div标签是否执行动画	不写div直接,是所有标签
+				:eq()			下标
+				:even			偶数
+				:odd			奇数
+				:first			第一个
+				:last			最后一个
+				:gt()			列出 index 大于 3 的元素
+				:lt()			列出 index 小于 3 的元素
+				
+			内容筛选
+				:contains()		包含指定字符串的所有元素		$('li:contains(span)').css('background','red');
+				:empty			无子（元素）节点的所有元素		
+				:parent
+		
+			可见性筛选
+				:hidden			所有隐藏的 <li> 元素				$('li:hidden').css('background','red');
+				:visible		所有可见的 <li> 元素				$('li:visible').css('background','purple');
+
+			子元素筛选
+				:first-child
+				:last-child
+				:first-of-type
+				:last-of-type
+				:nth-child()
+				:nth-of-type()
+				:only-child
+				:only-of-type
+
+			表单筛选
+				:button				$('input:button').css('background','red');
+				:checkbox
+				:radio
+				:checked
+				:disabled
+				:enabled
+	
+			筛选方法                       
+				filter()   
+				not()		不包含类为box的div			$('div').not('.box').css('border','1px solid red');
+				has()		div中是否包含筛选的条件		$('div').has('.box').css('border','1px solid red');
+				is()		div中是否包含选择的box类	$('div').is($('.box'))
+
+	JQ触摸事件
+		touchstart
+		touchmove
+		touchend
+		
+		$('.a').on('touchstart',function(e){
+			e.originalEvent.targetTouches[0]; //获取位置
+		})
+	
+	
+	
+	
+	
+	

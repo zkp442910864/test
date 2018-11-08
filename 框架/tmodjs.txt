@@ -1,0 +1,123 @@
+
+
+
+TmodJS（原名atc）是一个简单易用的前端模板预编译工具。
+它通过预编译技术让前端模板突破浏览器限制，实现后端模板一样的同步“文件”加载能力。
+它采用目录来组织维护前端模板，从而让前端模板实现工程化管理，最终保证前端模板在复杂单页 web 应用下的可维护性。同时预编译输出的代码经过多层优化，能够在最大程度节省客户端资源消耗。
+
+
+
+安装
+	使用 NodeJS 附带的npm命令，执行：	npm install -g tmodjs
+
+
+编写模板
+	TmodJS 的前端模板不再耦合在业务页面中，而是和后端模板一样有专门的目录管理	
+	完全支持 artTemplate 的简洁语法
+
+在模板中嵌套模板用
+	{{include 路径}}	{{include './header'}}
+	例子:
+		名:    	header.html	
+		内容:	<div id="header">我是头部</div>
+
+		名:		footer.html
+		内容:	<div id="footer">我是底部</div>
+
+		名:		xxx.html
+		内容:	{{include './header'}}
+				<p class="date"><span>{{week}} {{time_slot}}{{=hour}}:{{=min}}</span></p>
+				{{include './footer'}}
+
+步骤:
+	1.在项目里建tpl文件夹-->public文件夹 (这里放模板，一个模板对应一个html)
+	2.在public创建配置文件package.json
+		配置详情查看 https://github.com/aui/tmodjs/
+		内容:
+			{
+			    "name": "template",
+			    "version": "1.0.1",
+			    "dependencies": {
+			        "tmodjs": "1.0.4"
+			    },
+			    "tmodjs-config": {
+			        "output": "../build",	//输出的路径
+			        "charset": "utf-8",
+			        "syntax": "simple",
+			        "helpers": null,
+			        "escape": true,
+			        "compress": false,
+			        "type": "default",
+			        "runtime": "template.js",
+			        "combo": true,
+			        "minify": true,
+			        "cache": false,
+			        "verbose": true
+			    }
+			}
+	3.在public的路径栏输入cmd，打开控制台，输入tmod，就会生成一个js文件，在页面引入该js就可以调用模板了。		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
