@@ -1,8 +1,4 @@
-
 window.screen.width>1200?'':document.body.style.fontSize = parseInt(window.screen.width/320 * 12) + 'px';//移动适配
-console.log(123);
-
-
 
 //checkbox 复选框的全选
 function fun2(father,son){
