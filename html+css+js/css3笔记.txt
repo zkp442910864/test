@@ -1,5 +1,5 @@
 ﻿
-
+pointer-events: none; 可以屏蔽掉所有事件
 
 
 css3
