@@ -278,6 +278,22 @@ ES6:
       let {proxy, revoke} = Proxy.revocable({}, {});
       revoke() // 执行后取消proxy的实例
 
+    this 问题
+      目标对象内部的this关键字会指向 Proxy 代理
+
+      此外，有些原生对象的内部属性，只有通过正确的this才能拿到，所以 Proxy 也无法代理这些原生对象的属性。
+      this绑定原始对象，就可以解决这个问题。
+        const target = new Date('2015-01-01');
+        const handler = {
+          get(target, prop) {
+            if (prop === 'getDate') {
+              return target.getDate.bind(target);
+            }
+            return Reflect.get(target, prop);
+          }
+        };
+        const proxy = new Proxy(target, handler);
+        proxy.getDate() // 1
      
 
 

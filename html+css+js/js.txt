@@ -1,5 +1,5 @@
 
-window.parent.document  在iframe里可以获取到当前的iframe
+
 
 js
 	常用
@@ -53,6 +53,15 @@ js
 			onscroll			当文档被滚动时发生的事件。  scrollTo(0,0)返回顶部
 				document.documentElement.scrollTop 获取滚动距离
 
+		技巧
+			in 
+				判断对象是否包含key 如：'d' in obj
+				判断数组是否包含index 如：0 in arr
+				返回true，false
+
+			window.parent.document  在iframe里可以获取到父窗口
+			window.parent.document.getElementsByTagName('iframe')[0]   在iframe里可以获取到当前iframe
+		
 		当下面的自带方法不满足时，可以通过prototype原型来给对象添加方法		
 		方法
 			Array 数组

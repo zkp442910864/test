@@ -1,8 +1,11 @@
 ﻿
-pointer-events: none; 可以屏蔽掉所有事件
 
 
 css3
+	技巧
+		pointer-events: none; 可以屏蔽掉所有事件
+		
+
 	单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。
 	如果你的网站只需要兼容webkit、firefox、opera等浏览器，建议对于伪元素采用双冒号的写法，如果不得不兼容IE浏览器，还是用CSS2的单冒号写法比较安全。
 
