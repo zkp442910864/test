@@ -295,8 +295,76 @@ ES6:
         const proxy = new Proxy(target, handler);
         proxy.getDate() // 1
      
+  Reflect
+    http://es6.ruanyifeng.com/#docs/reflect
+    Reflect对象与Proxy对象一样，也是 ES6 为了操作对象而提供的新 API。Reflect对象的设计目的有这样几个。
+    1.将Object对象的一些明显属于语言内部的方法
+    2.修改某些Object方法的返回结果，让其变得更合理。
+    3.让Object操作都变成函数行为
+    4.Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。
+      这就让Proxy对象可以方便地调用对应的Reflect方法，完成默认行为，作为修改行为的基础
+      也就是说，不管Proxy怎么修改默认行为，你总可以在Reflect上获取默认行为。
 
+    Reflect.has(obj, 'assign')  判断对象里是否有这键
+      等于 'a' in obj
 
+    Reflect.defineProperty(obj, 'asdff', {value: 12333333})  修改或新增键值
+      等于 Object.defineProperty
+      https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
 
+    Reflect.set 它采用Reflect.set方法将值赋值给对象的属性，确保完成原有的行为，然后再部署额外的功能,配合着Proxy
+    Reflect.get
 
+    每一个Proxy对象的拦截操作（get、delete、has），内部都调用对应的Reflect方法，保证原生行为能够正常执行。
+    添加的工作，就是将每一个操作输出一行日志。
+  
+    Reflect对象一共有 13 个静态方法。
+      Reflect.apply(target, thisArg, args)
+      Reflect.construct(target, args)
+      Reflect.get(target, name, receiver) // 第三个参数把指向从target变到receiver
+      Reflect.set(target, name, value, receiver)
+      Reflect.defineProperty(target, name, desc)
+      Reflect.deleteProperty(target, name)
+      Reflect.has(target, name)
+      Reflect.ownKeys(target)
+      Reflect.isExtensible(target)
+      Reflect.preventExtensions(target)
+      Reflect.getOwnPropertyDescriptor(target, name)
+      Reflect.getPrototypeOf(target)
+      Reflect.setPrototypeOf(target, prototype) 
+      上面这些方法的作用，大部分与Object对象的同名方法的作用都是相同的，而且它与Proxy对象的方法是一一对应的
 
+    实例：使用 Proxy 实现观察者模式
+      const queuedObservers = new Set();
+      const observe = fn => queuedObservers.add(fn);
+      const observable = obj => new Proxy(obj, {set});
+      function set(target, key, value, receiver) {
+        const result = Reflect.set(target, key, value, receiver);
+        queuedObservers.forEach(observer => observer());
+        return result;
+      }
+
+      const person = observable({
+        name: '张三',
+        age: 20
+      });
+      function print() {
+        console.log(`${person.name}, ${person.age}`)
+      }
+      observe(print);
+      person.name = '李四';
+
+  Promise
+    Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
+
+    该函数的两个参数分别是 resolve 和 reject ,它们是两个函数，由 JavaScript 引擎提供，不用自己部署。
+
+    有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。
+      从pending变为fulfilled和从pending变为rejected
+
+    Promise 新建后立即执行, 然后，then方法指定的回调函数，将在当前脚本所有同步任务执行完才会执行
+
+    new Promise 当多层嵌套(new Promise)后，会返回最里面一层的数据，以最里面的 resolve, reject 为准.
+      最里面一层先执行
+
+    调用resolve或reject并不会终结 Promise 的参数函数的执行。所以，最好在它们前面加上return语句，这样就不会有意外。
