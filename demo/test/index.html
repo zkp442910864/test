@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+	<title>首页</title>
+	<link rel="stylesheet" href="/PublicMob/css/vant_index.css">
+	<link rel="stylesheet" href="/PublicMob/css/style_house.css">
+	<script src="/PublicMob/js/quote/require.js"></script>
+	<script src="/PublicMob/js/require.config.js"></script>
+
+	<style>
+		
+	</style>
+</head>
+<body>
+	
+
+	<div id="app">
+		<template>
+			<div class="bottom_button flex">
+				<a class="f-width50 cur" href="/HouseIndex/index/sid/31.html"><i class="fa fa-home"></i>预订</a>
+				<a class="f-width50" href="/HouseUser/index/sid/31.html"><i class="fa fa-user-o"></i>我</a>
+			</div>
+			<div class="content">
+				<!-- <slider :value-fun="sliderVal" :min="0" :max="100"></slider> -->
+			</div>
+		</template>
+	</div>
+
+	<script>
+		// 'vueSlider'
+		require(['common'], (common) => {
+			// console.log(vueSlider);
+			// Vue.component('slider', vueSlider.default);
+		
+			new Vue({
+				el: '#app',
+				data () {
+					return {
+						/* max: 100,
+						min: 0 */
+					}
+				},
+				methods: {
+					/* sliderVal (min, max ,total) {
+						console.log(min, max, total);
+					} */
+				},
+				
+			})
+		});
+	</script>
+</body>
+</html>
