@@ -1,19 +1,23 @@
 // var str = 'distJs' || 'js';
 
-// var vueUrl = '/quote/vue.min';
+
 var urlArgs = 'v=2';
-/* if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  vueUrl = 'js/quote/vue.dev';
+
+var baseUrl = '/web笔记/demo/test/PublicMob/js/';
+
+var vueUrl = baseUrl + '/quote/vue.min';
+
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  vueUrl = baseUrl + '/quote/vue';
   urlArgs = 'v=' + parseInt(Math.random() * 10000);
-} */
-var baseUrl = '/PublicMob/js/';
+}
 requirejs.config({
   // baseUrl: '/PublicMob/js',
   urlArgs: urlArgs, // 加版本号
   paths: {
     // vue: 'js/quote/vue',
     // vue: 'js/quote/vue.dev',
-    vue: baseUrl + '/quote/vue.min',
+    vue: vueUrl,
     vant: baseUrl + '/quote/vant.min',
     jq: baseUrl + '/quote/jquery.min',
 

@@ -356,33 +356,6 @@ var calendar = function(){
 	return calendar;
 }
 
-//置顶按钮
-/* var top_button = function(){
-	var height = window.screen.height;
-	var scroll_top = document.getElementById('scroll_top');
-	if(scroll_top == null){
-		return;
-	}
-	scroll_top.addEventListener('webkitTransitionEnd',function(){
-		if(!this.classList.contains('show')){
-			scroll_top.style.display = 'none';
-		}
-	},false)
-
-	window.onscroll = function(){
-		if(this.scrollY > height && this.pageYOffset > height){
-			scroll_top.style.display = 'block';
-			setTimeout(function(){
-				scroll_top.classList.add('show');
-			}, 1);
-		}else{
-			scroll_top.classList.remove('show');
-		}
-	}
-}
-top_button(); */
-
-
 define([
 	'vue',
 	'vant',

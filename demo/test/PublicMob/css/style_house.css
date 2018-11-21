@@ -978,7 +978,7 @@ h5.titile::after {
 	border-bottom: 1px solid #ccc;
 }
 
-img.icon,i.icon {
+/* img.icon,i.icon {
 	width: 1.8em;
 	text-align: center;
 }
@@ -1001,7 +1001,7 @@ img.code {
 	min-height: 2em;
 	width: 10em;
 	background-color: #ccc
-}
+} */
 
 label.form_label {
 	min-width: 6em;
