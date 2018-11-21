@@ -3,7 +3,7 @@
 
 var urlArgs = 'v=2';
 
-var baseUrl = '/web笔记/demo/test/PublicMob/js/';
+var baseUrl = '/demo/test/PublicMob/js/';
 
 var vueUrl = baseUrl + '/quote/vue.min';
 

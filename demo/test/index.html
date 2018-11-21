@@ -5,143 +5,13 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 	<title>首页</title>
-	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/vant_index.css">
-	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/style_house.css">
-	<script src="/web笔记/demo/test/PublicMob/js/quote/require.js"></script>
-	<script src="/web笔记/demo/test/PublicMob/js/require.config.js"></script>
+	<link rel="stylesheet" href="/demo/test/PublicMob/css/vant_index.css">
+	<link rel="stylesheet" href="/demo/test/PublicMob/css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<script src="/demo/test/PublicMob/js/quote/require.js"></script>
+	<script src="/demo/test/PublicMob/js/require.config.js"></script>
 
 	<style>
 		#app{background-color: #000;}
-		.icon{background: url('/web笔记/demo/test/PublicMob/img/css_sprites.png') no-repeat center;display: inline-block;}
-		.icon.level1{
-			width: 50px;
-			height: 57px;
-			background-position: -12px -10px;
-		}
-		.icon.my2{
-			width: 36px;
-			height: 44px;
-			background-position: -90px -12px;
-		}
-		.icon.my1{
-			width: 36px;
-			height: 44px;
-			background-position: -10px -213px;
-		}
-		.icon.home1{
-			width: 38px;
-			height: 39px;
-			background-position: -157px -14px;
-		}
-		.icon.cz{
-			width: 34px;
-			height: 25px;
-			background-position: -223px -17px;
-		}
-		.icon.user{
-			width: 28px;
-			height: 34px;
-			background-position: -280px -10px;
-		}
-		.icon.jtr1{
-			width: 13px;
-			height: 24px;
-			background-position: -328px -10px;
-		}
-		.icon.jtr2{
-			width: 12px;
-			height: 22px;
-			background-position: -361px -111px;
-		}
-		.icon.jtr3{
-			width: 13px;
-			height: 24px;
-			background-position: -143px -162px;
-		}
-		.icon.wz1{
-			width: 15px;
-			height: 21px;
-			background-position: -361px -10px;
-		}
-		.icon.wz2{
-			width: 32px;
-			height: 32px;
-			background-position: -228px -214px;
-		}
-		.icon.wz3{
-			width: 29px;
-			height: 38px;
-			background-position: -225px -71px;
-		}
-		.icon.fdj1{
-			width: 28px;
-			height: 29px;
-			background-position: -280px -64px;
-		}
-		.icon.fdj2{
-			width: 28px;
-			height: 29px;
-			background-position: -280px -113px;
-		}
-		.icon.img{
-			width: 25px;
-			height: 22px;
-			background-position: -280px -162px;
-		}
-		.icon.hx{
-			width: 22px;
-			height: 22px;
-			background-position: -279px -204px;
-		}
-		.icon.fx{
-			width: 22px;
-			height: 22px;
-			background-position: -60px -276px;
-		}
-		.icon.zk1{
-			width: 12px;
-			height: 10px;
-			background-position: -361px -179px;
-		}
-		/* .icon.zk2{
-			transform: rotate(-180deg);
-			width: 12px;
-			height: 10px;
-			background-position: -361px -179px;
-		} */
-		.icon.zk3{
-			width: 12px;
-			height: 10px;
-			background-position: -361px -151px;
-		}
-		/* .icon.zk4{
-			transform: rotate(-180deg);
-			width: 12px;
-			height: 10px;
-			background-position: -361px -151px;
-		} */
-		.icon.zkl1{
-			width: 19px;
-			height: 10px;
-			background-position: -280px -244px;
-		}
-		/* .icon.zkl2{
-			transform: rotate(-180deg);
-			width: 19px;
-			height: 10px;
-			background-position: -280px -244px;
-		} */
-		.icon.gou{
-			width: 24px;
-			height: 18px;
-			background-position: -100px -275px;
-		}
-		.icon.call{
-			width: 34px;
-			height: 33px;
-			background-position: -174px -214px;
-		}
-		
 		.my-sort{font-size:1em;}
 		.s-btn .btn{
 			background: #ddd;
@@ -152,7 +22,7 @@
 		}
 		.s-btn .btn.close{min-width:7em;background:#999;}
 		.s-btn .btn.yes{background:#3982F6;}
-		
+
 		.my-swipe{height: 15em;position: relative;width:100%;}
 		.van-swipe{height: 100%;}
 		.van-swipe-item{background:#eee;}
@@ -170,31 +40,31 @@
 			</div>
 			<div class="content">
 				<!-- <slider :value-fun="sliderVal" :min="0" :max="100"></slider> -->
-				<i class="icon level1"></i>
-				<i class="icon my2"></i>
-				<i class="icon my1"></i>
-				<i class="icon home1"></i>
-				<i class="icon cz"></i>
-				<i class="icon user"></i>
-				<i class="icon jtr1"></i>
-				<i class="icon jtr2"></i>
-				<i class="icon jtr3"></i>
-				<i class="icon wz1"></i>
-				<i class="icon wz2"></i>
-				<i class="icon wz3"></i>
-				<i class="icon fdj1"></i>
-				<i class="icon fdj2"></i>
-				<i class="icon img"></i>
-				<i class="icon hx"></i>
-				<i class="icon fx"></i>
-				<i class="icon zk1"></i>
-				<!-- <i class="icon zk2"></i> -->
-				<i class="icon zk3"></i>
-				<!-- <i class="icon zk4"></i> -->
-				<i class="icon zkl1"></i>
-				<!-- <i class="icon zkl2"></i> -->
-				<i class="icon gou"></i>
-				<i class="icon call"></i>
+				<i class="my-icon level1"></i>
+				<i class="my-icon my2"></i>
+				<i class="my-icon my1"></i>
+				<i class="my-icon home1"></i>
+				<i class="my-icon cz"></i>
+				<i class="my-icon user"></i>
+				<i class="my-icon jtr1"></i>
+				<i class="my-icon jtr2"></i>
+				<i class="my-icon jtr3"></i>
+				<i class="my-icon wz1"></i>
+				<i class="my-icon wz2"></i>
+				<i class="my-icon wz3"></i>
+				<i class="my-icon fdj1"></i>
+				<i class="my-icon fdj2"></i>
+				<i class="my-icon img"></i>
+				<i class="my-icon hx"></i>
+				<i class="my-icon fx"></i>
+				<i class="my-icon zk1"></i>
+				<!-- <i class="my-icon zk2"></i> -->
+				<i class="my-icon zk3"></i>
+				<!-- <i class="my-icon zk4"></i> -->
+				<i class="my-icon zkl1"></i>
+				<!-- <i class="my-icon zkl2"></i> -->
+				<i class="my-icon gou"></i>
+				<i class="my-icon call"></i>
 				
 			</div>
 			<van-popup v-model="show2" position="top" >
