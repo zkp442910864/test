@@ -5,32 +5,12 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 	<title>首页</title>
-	<link rel="stylesheet" href="/demo/test/PublicMob/css/vant_index.css">
+	<link rel="stylesheet" href="/demo/test/PublicMob/css/vant_index.css?v=1">
 	<link rel="stylesheet" href="/demo/test/PublicMob/css/font-awesome-4.7.0/css/font-awesome.min.css">
 	<script src="/demo/test/PublicMob/js/quote/require.js"></script>
-	<script src="/demo/test/PublicMob/js/require.config.js"></script>
-
-	<style>
-		#app{background-color: #000;}
-		.my-sort{font-size:1em;}
-		.s-btn .btn{
-			background: #ddd;
-			border-radius: 0;
-			font-size: 1.1em;
-			letter-spacing: .2em;
-			padding:1em;
-		}
-		.s-btn .btn.close{min-width:7em;background:#999;}
-		.s-btn .btn.yes{background:#3982F6;}
-
-		.my-swipe{height: 15em;position: relative;width:100%;}
-		.van-swipe{height: 100%;}
-		.van-swipe-item{background:#eee;}
-		.custom-indicator{position: absolute;bottom:.5em;left:.5em;}
-	</style>
+	<script src="/demo/test/PublicMob/js/require.config.js?v=1"></script>
 </head>
 <body>
-	
 
 	<div id="app">
 		<template>
@@ -91,34 +71,11 @@
 			</div>
 		</template>
 	</div>
-
+	
+	<!-- <link rel="stylesheet" href="/demo/test/PublicMob/css/page/index.css"> -->
+	<!-- <script src="/demo/test/PublicMob/js/page/index.js"></script> -->
 	<script>
-		// 'vueSlider'
-		require(['common'], (common) => {
-			// console.log(vueSlider);
-			// Vue.component('slider', vueSlider.default);
-		
-			new Vue({
-				el: '#app',
-				data () {
-					const self = this;
-					return {
-						/* max: 100,
-						min: 0 */
-						show2: false,
-						show3: false,
-						swipe: {
-							current: 0,
-							onChange (index) {
-								self.swipe.current = index;
-							} 
-						}
-					}
-				},
-				methods: {},
-				mounted () {}
-			});
-		});
+		require(['css!' + config.cssBaseUrl + 'index.css', config.jsBaseUrl + 'index.js']);
 	</script>
 </body>
 </html>

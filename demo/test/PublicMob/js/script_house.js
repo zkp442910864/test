@@ -359,7 +359,7 @@ var calendar = function(){
 define([
 	'vue',
 	'vant',
-	'jq'
+	'jq',
 ], function (vue, Vant, $) {
 	window.Vue = vue;
 	window.Vant = Vant;
@@ -428,7 +428,10 @@ define([
 			}
 		},
 		calendar,
-		manage_date
+		manage_date,
+		copyObj (o) {
+			return JSON.parse(JSON.stringify(o));
+		}
 	}
 
 	return common;

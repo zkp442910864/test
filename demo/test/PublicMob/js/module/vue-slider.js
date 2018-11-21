@@ -1,19 +1,18 @@
 define([
   'vue'
 ], function(Vue) {
-  var white = '/PublicMob/img/white.png', orange = '/PublicMob/img/orange.png';
   Vue.component('slider', {
     template: `
       <div class="slider" ref="mySlider">
         <div class="left-btn" @touchstart.prevent="btnFun(2)">
-          <img v-if="myPosition.isBtn==2" :src="orange" />
-          <img v-else :src="white" />
+          <span class="text">{{maxT}}</span>
+          <span class="s-sliderBlock"></span>
         </div>
         <div class="propo"></div>
         <div class="propo-bg"></div>
         <div class="right-btn" @touchstart.prevent="btnFun(1)">
-          <img v-if="myPosition.isBtn==1" :src="orange" />
-          <img v-else :src="white" />
+          <span class="text">{{minT}}</span>
+          <span class="s-sliderBlock"></span>
         </div>
       </div>
     `,
@@ -29,6 +28,14 @@ define([
       "min": {
         type: Number,
         default: 0
+      },
+      "maxText": {
+        type: String,
+        default: '100'
+      },
+      "minText": {
+        type: String,
+        default: '0'
       }
     },
     data () {
@@ -41,9 +48,13 @@ define([
           propoWidth: 0
         },
         myDefault: null,
-        white,
-        orange,
+        minT: 0,
+        maxT: 100
       }
+    },
+    created () {
+      this.minT = this.minText;
+      this.maxT = this.maxText;
     },
     mounted() {
       //滑块
@@ -53,10 +64,16 @@ define([
       let rightBtn = mySlider.children[3]
       let leftBtn = mySlider.children[0]
       let myWidth = 0
+      const multiple = Number(this.maxText)/100;
 
       const elementLeft = (e) => { //计算x坐标
         var offset = e.offsetLeft;
-        if (e.offsetParent != null) offset += elementLeft(e.offsetParent);
+        
+        if (e.offsetParent != null) {
+          if (!e.offsetParent.classList.contains('van-popup')) {
+            offset += elementLeft(e.offsetParent);
+          }
+        }
         return offset;
       }
 
@@ -65,17 +82,23 @@ define([
           this.myPosition.propoWidth = this.myPosition.right - this.myPosition.left
           propo.style.width = this.myPosition.propoWidth + '%'
           propo.style.left = this.myPosition.left + '%'
-          this.valueFun(parseInt(this.myPosition.left), parseInt(this.myPosition.right), parseInt(this.myPosition.propoWidth))
+          this.minT = parseInt(this.myPosition.left) * multiple
+          this.maxT = parseInt(this.myPosition.right) * multiple
+          this.valueFun(parseInt(this.myPosition.left) * multiple, parseInt(this.myPosition.right) * multiple, parseInt(this.myPosition.propoWidth) * multiple)
         } else if (this.myPosition.right < this.myPosition.left) {
           this.myPosition.propoWidth = this.myPosition.left - this.myPosition.right
           propo.style.width = this.myPosition.propoWidth + '%'
           propo.style.left = this.myPosition.right + '%'
-          this.valueFun(parseInt(this.myPosition.right), parseInt(this.myPosition.left), parseInt(this.myPosition.propoWidth))
+          this.minT = parseInt(this.myPosition.left) * multiple
+          this.maxT = parseInt(this.myPosition.right) * multiple
+          this.valueFun(parseInt(this.myPosition.right) * multiple, parseInt(this.myPosition.left) * multiple, parseInt(this.myPosition.propoWidth) * multiple)
         } else if (this.myPosition.right == this.myPosition.left) {//按钮位置滑到最大值或者最小值
           this.myPosition.propoWidth = this.myPosition.left - this.myPosition.right
           propo.style.width = this.myPosition.propoWidth + '%'
           propo.style.left = this.myPosition.right + '%'
-          this.valueFun(parseInt(this.myPosition.right), parseInt(this.myPosition.left), parseInt(this.myPosition.propoWidth))
+          this.minT = parseInt(this.myPosition.left) * multiple
+          this.maxT = parseInt(this.myPosition.right) * multiple
+          this.valueFun(parseInt(this.myPosition.right) * multiple, parseInt(this.myPosition.left) * multiple, parseInt(this.myPosition.propoWidth) * multiple)
         }
 
       }
@@ -95,7 +118,9 @@ define([
         propo.style.width = this.myPosition.propoWidth + '%'
         leftBtn.style.left = this.myPosition.right + '%'
         rightBtn.style.left = this.myPosition.left + '%'
-        this.valueFun(this.myPosition.left, this.myPosition.right, this.myPosition.propoWidth)
+        this.minT = parseInt(this.myPosition.left) * multiple
+        this.maxT = parseInt(this.myPosition.right) * multiple
+        this.valueFun(this.myPosition.left * multiple, this.myPosition.right * multiple, this.myPosition.propoWidth * multiple)
       }
 
       let mySliderX = elementLeft(mySlider) //滑动块x坐标
@@ -121,7 +146,7 @@ define([
       })
 
       mySlider.addEventListener('touchstart', (e) => {//屏幕触摸事件
-        let touchX = e.touches[0].pageX - mySliderX
+        let touchX = e.touches[0].pageX - mySliderX;
         let btnWidth = (leftBtn.offsetWidth / mySlider.offsetWidth) / 2 * 100 //计算按钮宽度
         this.myPosition.now = (touchX / mySlider.offsetWidth) * 100
         mySliderX = elementLeft(mySlider) //滑动块x坐标

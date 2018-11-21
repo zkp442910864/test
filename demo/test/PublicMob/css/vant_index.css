@@ -46,7 +46,7 @@ body {
 	position: relative;
 }
 
-input[type="text"],input[type="number"],textarea,input[type="password"] {
+/* input[type="text"],input[type="number"],textarea,input[type="password"] {
 	height: 2.5em;
 	border: 1px solid #ccc;
 	border-radius: .3em;
@@ -54,13 +54,13 @@ input[type="text"],input[type="number"],textarea,input[type="password"] {
 	box-sizing: border-box;
 	display: block;
 	padding: 0 .8em;
-}
+} */
 
 textarea {
 	resize: none;
 }
 
-button {
+/* button {
 	display: block;
 	height: 2.5em;
 	border: 1px solid #ccc;
@@ -69,7 +69,7 @@ button {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
+} */
 
 button:disabled {
 	background-color: #ff8c8c !important;
@@ -147,11 +147,6 @@ h5 {
 h6 {
 	color: #333;
 	font-size: .9em;
-}
-
-p {
-	color: #888;
-	font-size: .8em;
 }
 
 @media only screen and (min-width: 320px) {
@@ -349,37 +344,6 @@ p {
 	transform: scale(0);
 }
 
-/* 
-
-	<label class="z_switch_box">
-
-		<input type="checkbox">
-
-		<div class="z_switch"><span></span><i></i></div>
-
-	</label> 
-
-*/
-
-/* 开关按钮 */
-
-
-
-
-
-/* 	#F7AD0E -> #F7AD0E 背景
-
-			   #f0c568
-
-	#ddd 边框 
-
-	#888 #ccc  灰色字体*/
-
-
-
-
-
-
 
 #app {
 	max-width: 600px;
@@ -391,239 +355,6 @@ p {
 	background-color: #eee;
 	position: relative;
 }
-
-/* .top{height:16em;overflow:hidden;background-color: #222;}375*224 1.67*1
-
-.top img{width: 100%;display: block;}
-
-
-
-.top{height:16em;}
-
-.top+#app{margin-top: -16em;padding-top:16em;}
-
-.top2{height:10em;z-index: 1;}
-
-.top2+#app{margin-top: -10em;padding-top:10em;}
-
-.top3{position: relative;}
-
-.top3 img{bottom:0;left:0;right:0;position: absolute;} */
-
-
-
-.bottom_button {
-	height: 4em;
-	text-align: center;
-	position: absolute;
-	width: 100%;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	border-top: 1px solid #ddd;
-	background-color: #fff;
-	/* z-index: 99999; */
-}
-
-.bottom_button a.cur {
-	color: #F7AD0E;
-}
-
-.bottom_button i {
-	display: block;
-	font-size: 1.5em;
-	margin: .2em 0;
-}
-
-.slide {
-	height: 8em
-}
-
-.top_bg {
-	height: 16em;
-	overflow: hidden;
-	background: url('../images/kyriad_1_banner.png') no-repeat center;
-	background-size: cover;
-}/*375*224 1.67*1 */
-
-.top_bg img {
-	width: 50%;
-	display: block;
-	margin: 1em auto;
-}
-
-.top_bg2 {
-	background-image: url('../images/top_bg.png');
-	height: 10em;
-}
-
-.fun {
-	text-align: center;
-	background-color: #fff;
-	position: relative;
-}
-
-.fun i {
-	font-size: 1.3em;
-}
-
-.fun p {
-	margin-top: .6em;
-}
-
-.fun>div {
-	flex-basis: 33.333333%;
-	-webkit-flex-basis: 33.333333%;
-	padding: 1em 0;
-}
-
-.fun::before {
-	content: '';
-	display: block;
-	border-left: 1px solid #ddd;
-	height: 1.5em;
-	position: absolute;
-	left: 33.333333%;
-}
-
-.fun::after {
-	content: '';
-	display: block;
-	border-left: 1px solid #ddd;
-	height: 1.5em;
-	position: absolute;
-	left: 66.666666%;
-}
-
-.fun2::before {
-	height: 0;
-}
-
-.fun2::after {
-	left: 50%;
-}
-
-.neg_top {
-	background-color: #fff;
-	border-radius: .2em;
-	padding: 1em;
-	position: relative;
-	margin: 1em;
-}
-
-.neg_top_pm1 {
-	margin: -4.3em 1em 4.3em 1em;
-	padding: 1em 1em 3em 1em;
-}
-
-.neg_top_pm2 {
-	margin-top: -4em;
-	box-shadow: 0px 1px 15px rgba(255, 174, 0, 0.2);
-}
-
-.neg_top_pm3 {
-	margin-top: -2em;
-	box-shadow: 0px 1px 15px rgba(255, 174, 0, 0.2);
-}
-
-.box>div {
-	border-bottom: 1px solid #ddd;
-	margin-bottom: 1em;
-}
-
-
-
-/* 会员等级 */
-
-.grade_1 {
-	background: url('../images/dj.png') no-repeat 1.38em 0;
-	display: block;
-	height: 1.6em;
-	background-size: 80%;
-}
-
-.grade_2 {
-	background: url('../images/dj.png') no-repeat 1.38em -2.76em;
-	display: block;
-	height: 1.6em;
-	background-size: 80%;
-}
-
-.grade_3 {
-	background: url('../images/dj.png') no-repeat 1.38em -5.62em;
-	display: block;
-	height: 1.6em;
-	background-size: 80%;
-}
-
-.grade_4 {
-	background: url('../images/dj.png') no-repeat 1.1em -8.4em;
-	display: block;
-	height: 1.6em;
-	background-size: 80%;
-}
-
-.grade_5 {
-	background: url('../images/dj.png') no-repeat 1.1em -11.28em;
-	display: block;
-	height: 1.6em;
-	background-size: 80%;
-}
-
-.grade_6 {
-	background: url('../images/dj.png') no-repeat center -14.14em;
-	display: block;
-	height: 1.6em;
-	background-size: 80%;
-}
-
-/* 会员等级 */
-
-
-
-/* 加载 */
-
-.loding img {
-	display: block;
-	margin: 2em auto;
-	height: auto;
-	width: 8em;
-}
-
-.loding h1 {
-	text-align: center;
-	font-size: 1em;
-	padding: 1em;
-}
-
-.float_loding {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0,0,0,.3);
-	z-index: 99999999;
-}
-
-.float_loding img {
-	animation: 1s infinite linear rotate;
-}
-
-@-webkit-keyframes rotate {
-
-	from {
-		transform: rotate(0);
-	}
-
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-/* 加载 */
-
-
 
 /* 头部选项卡 */
 
@@ -1207,9 +938,7 @@ button.getcode span {
 
 .slider .left-btn,.slider .right-btn{
 	position: absolute;
-	top: 0.04rem;
 	transform:translate(-50%,0);
-	padding: 0 0.3rem 0.3rem 0.3rem;
 	
 
 }
@@ -1227,7 +956,6 @@ button.getcode span {
 }
 .slider .propo-bg{
 	background: #B6B6B6;
-	border-radius: 0.04rem;
 	height: .5em;
 	width:100%;
 	position: absolute;
@@ -1379,4 +1107,48 @@ button.getcode span {
   height: 33px;
   background-position: -174px -214px;
 }
+
+.z-btn1{
+  background:linear-gradient(0deg,rgba(77,86,254,1),rgba(78,144,237,1));
+  border-radius:.3em;
+  border:none;
+  display: block;width: 80%;
+  margin:0 auto;
+  color:#fff;
+  font-size:1.1em;
+  padding:.9em 0;
+  letter-spacing: .2em;
+}
+
+.my-sort{font-size:1em;}
+.s-top{min-height: 5em;width: 100%;}
+.s-btn .btn{
+  background: #ddd;
+  border-radius: 0;
+  font-size: 1.1em;
+  letter-spacing: .2em;
+  padding:1em;
+}
+.s-btn .btn.close{min-width:6.5em;background:#fff;color:#333;border-top:1px solid #E8E8E8;}
+.s-btn .btn.yes{background:#3982F6;border-top:1px solid #3982F6;}
+.s-sliderBlock{
+  background:rgba(255,255,255,1);
+  box-shadow:0px 5px 14px 1px rgba(122,154,204,0.4);
+  border-radius:50%;
+  display: inline-block;
+  width: 2.2em;
+  height:2.2em;
+}
+
+.slider{
+  height: 2.2em;
+  margin: auto;
+  width: 80%;
+}
+.sliderBox{padding:2em 0;}
+.slider .propo-bg,.slider .propo{top: 1em;height: .2em}
+.slider .left-btn, .slider .right-btn{z-index: 3;}
+.slider .propo{background-color:#3982F6;}
+.slider .left-btn .text{position: absolute;left:0;right:0;top:-1.3em;color:#999;text-align: center;font-size:.8em;}
+.slider .right-btn .text{position: absolute;left:0;right:0;top:-1.3em;color:#999;text-align: center;font-size:.8em;}
 
