@@ -206,7 +206,7 @@
 					</div>
 				</div>
 			</van-popup>
-			<div class="van-modal flex f-v" v-if="show3">
+			<div class="van-modal flex f-v" :style="{'z-index': show3 ? 9999 : -1}">
 				<div class="my-swipe">
 					<van-swipe @change="swipe.onChange" :show-indicators="false">
 						<van-swipe-item>1</van-swipe-item>
@@ -243,16 +243,11 @@
 								self.swipe.current = index;
 							} 
 						}
-						
 					}
 				},
-				methods: {
-					/* sliderVal (min, max ,total) {
-						console.log(min, max, total);
-					} */
-				},
-				
-			})
+				methods: {},
+				mounted () {}
+			});
 		});
 	</script>
 </body>

@@ -362,6 +362,7 @@ define([
 	'jq'
 ], function (vue, Vant, $) {
 	window.Vue = vue;
+	window.Vant = Vant;
 	window.$ = $;
 	Vue.use(Vant);
 	// console.log(Vant);
