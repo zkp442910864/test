@@ -4,6 +4,7 @@ html,body {
 	font-size: 12px;
 	font: bold 12px Arial, Helvetica, sans-serif;
 	height: 100%;
+	color:#333;
 }
 
 body,p,ul,ol,h1,h2,h3,h4,h5,h6,dt,dd,dl {
@@ -117,6 +118,7 @@ input[type="checkbox"]:checked::before {
 
 div {
 	position: relative;
+	color:#333;
 }
 
 h1 {
@@ -231,6 +233,12 @@ h6 {
 	min-width: 30%;
 }
 
+.f-width33 {
+	flex-basis: 33.333333%;
+	-webkit-flex-basis: 33.333333%;
+	min-width: 33.333333%;
+}
+
 .f-width40 {
 	flex-basis: 30%;
 	-webkit-flex-basis: 40%;
@@ -241,6 +249,12 @@ h6 {
 	flex-basis: 20%;
 	-webkit-flex-basis: 20%;
 	min-width: 20%;
+}
+
+.f-width25 {
+	flex-basis: 25%;
+	-webkit-flex-basis: 25%;
+	min-width: 25%;
 }
 
 .f-width60 {
@@ -978,7 +992,7 @@ button.getcode span {
 }
 
 
-.my-icon{background: url('/demo/test/PublicMob/img/css_sprites.png') no-repeat center;display: inline-block;}
+.my-icon{background: url('/web笔记/demo/test/PublicMob/img/css_sprites.png') no-repeat center;display: inline-block;}
 .my-icon.level1{
   width: 50px;
   height: 57px;
@@ -1152,3 +1166,43 @@ button.getcode span {
 .slider .left-btn .text{position: absolute;left:0;right:0;top:-1.3em;color:#999;text-align: center;font-size:.8em;}
 .slider .right-btn .text{position: absolute;left:0;right:0;top:-1.3em;color:#999;text-align: center;font-size:.8em;}
 
+
+.bottom_button {
+	height: 4em;
+	text-align: center;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-top: 1px solid #ddd;
+	background-color: #fff;
+	/* z-index: 99999; */
+}
+
+.bottom_button a.cur {
+	color: #F7AD0E;
+}
+
+.bottom_button i {
+	display: block;
+	font-size: 1.5em;
+	margin: .2em 0;
+}
+
+.z-nav{font-size:1.1em;background:#fff;height:3.5em;;}
+.z-nav>span{width:1em;padding:.5em;font-size:1.5em;}
+.z-nav>div{font-size:1.1em;}
+
+.s-top ul{padding:1em;}
+.s-top ul li{
+  background:rgba(244,245,248,1);
+  border-radius:.2em;
+  padding:.8em;
+  margin-right: .5em;
+  margin-bottom:.5em;
+  min-width:4em;
+  text-align: center;
+}
+.s-top h3{padding:1em 1em 0;}
+.s-top ul li.cur{background: #E5F5FF;color:#3982F6;}
