@@ -3,16 +3,16 @@
 var config = {
   urlArgs: 'v=1',
   vueUrl: 'quote/vue.min',
-  jsBaseUrl: '/web笔记/demo/test/PublicMob/js/dist/',
-  cssBaseUrl: '/web笔记/demo/test/PublicMob/css/dist/',
-  rqBaseUrl: '/web笔记/demo/test/PublicMob/js'
+  jsBaseUrl: '/demo/test/PublicMob/js/dist/',
+  cssBaseUrl: '/demo/test/PublicMob/css/dist/',
+  rqBaseUrl: '/demo/test/PublicMob/js'
 }
 
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
   config.vueUrl = 'quote/vue';
   config.urlArgs = 'v=' + parseInt(Math.random() * 10000);
-  config.jsBaseUrl = '/web笔记/demo/test/PublicMob/js/page/';
-  config.cssBaseUrl = '/web笔记/demo/test/PublicMob/css/page/';
+  config.jsBaseUrl = '/demo/test/PublicMob/js/page/';
+  config.cssBaseUrl = '/demo/test/PublicMob/css/page/';
 }
 
 requirejs.config({
