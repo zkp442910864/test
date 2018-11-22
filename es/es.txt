@@ -326,7 +326,7 @@ ES6:
       Reflect.defineProperty(target, name, desc)
       Reflect.deleteProperty(target, name)
       Reflect.has(target, name)
-      Reflect.ownKeys(target)
+      Reflect.ownKeys(target)   // 获取到更多的键值，包括Symbol
       Reflect.isExtensible(target)
       Reflect.preventExtensions(target)
       Reflect.getOwnPropertyDescriptor(target, name)
@@ -422,3 +422,29 @@ ES6:
       换言之，Generator 函数是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行。
       
     yield 表达式
+      由于 Generator 函数返回的遍历器对象，只有调用next方法才会遍历下一个内部状态，所以其实提供了一种可以暂停执行的函数。yield表达式就是暂停标志。
+      （1）遇到yield表达式，就暂停执行后面的操作，并将紧跟在yield后面的那个表达式的值，作为返回的对象的value属性值。
+      （2）下一次调用next方法时，再继续往下执行，直到遇到下一个yield表达式。
+      （3）如果没有再遇到新的yield表达式，就一直运行到函数结束，直到return语句为止，并将return语句后面的表达式的值，作为返回的对象的value属性值。
+      （4）如果该函数没有return语句，则返回的对象的value属性值为undefined。
+      另外，yield表达式如果用在另一个表达式之中，必须放在圆括号里面。
+
+    next 方法的参数
+      next方法的参数表示上一个yield表达式的返回值,所以在第一次使用next方法时，传递参数是无效的。
+
+    for...of 循环
+      for...of语句时不需要使用next方法
+      Generator函数用for...of循环，注意
+        一旦next方法的返回对象的done属性为true，for...of循环就会中止，且不包含该返回对象
+        function* foo() {
+          yield 1;
+          yield 2;
+          yield 3;
+          yield 4;
+          yield 5;
+          return 6;
+        }
+        for (let v of foo()) {
+          console.log(v);
+        }
+        // 1 2 3 4 5
