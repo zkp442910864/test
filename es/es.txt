@@ -448,3 +448,55 @@ ES6:
           console.log(v);
         }
         // 1 2 3 4 5
+
+    Generator.prototype.throw(), Generator.prototype.return()
+      function* gen() {
+        yield 1;
+      }
+      var g = gen();
+      g.throw('抛出错误')
+      g.return('不再执行')
+
+    yield* 表达式
+      用来在一个 Generator 函数里面执行另一个 Generator 函数。
+      从语法角度看，如果yield表达式后面跟的是一个遍历器对象，需要在yield表达式后面加上星号，表明它返回的是一个遍历器对象。这被称为yield*表达式。
+      任何数据结构只要有 Iterator 接口，就可以被yield*遍历。
+
+      yield* iter1;
+      // 等同于
+      for (var value of iter1) {
+        yield value;
+      }
+
+    作为对象属性的 Generator 函数
+      let obj = {
+        * myGeneratorMethod() {
+          ···
+        }
+      };
+      let obj = {
+        myGeneratorMethod: function* () {
+          // ···
+        }
+      };
+
+    Generator 函数的this
+      Generator 函数 没有this对象
+      可以通过call方法绑定 Generator 函数内部的this
+        function* F() {
+          this.a = 1;
+          yield this.b = 2;
+          yield this.c = 3;
+        }
+        var obj = {};
+        var f = F.call(obj);
+
+        f.next();  // Object {value: 2, done: false}
+        f.next();  // Object {value: 3, done: false}
+        f.next();  // Object {value: undefined, done: true}
+
+        obj.a // 1
+        obj.b // 2
+        obj.c // 3
+  Generator 函数的异步应用
+    http://es6.ruanyifeng.com/#docs/generator-async
