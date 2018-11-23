@@ -1,0 +1,45 @@
+.z-topInfo{margin:1em;background:#fff;border-radius:.5em;box-shadow:0px 7px 17px 4px rgba(42,99,172,0.1);padding:1em;position: relative;}
+.z-topInfo .z-bgimg{width:6em;height:6em;background:url('/web笔记/demo/test/PublicMob/img/lbg2.png') no-repeat center;background-size:cover;margin-right:1em;border-radius:.3em;}
+.z-topInfo .z-text p:nth-child(2){margin-top:.5em;}
+.z-topInfo .z-text p{color:#666666;padding-top:.3em;font-size:.9em;}
+.z-form{padding:0 1em;background:#fff;}
+.z-form li{padding:1em 0;}
+.z-form li:not(:last-child){border-bottom:1px solid #E8E8E8;}
+.z-form li label{min-width:6em;color:#666666;}
+.date{color:#3982F6;}
+.del,.add{border:1px solid #3982F6;color:#3982F6;border-radius:50%;width:1.3em;height:1.3em;}
+.del i,.add i{font-size:1.2em;}
+.count{margin:0 1em;}
+.hui{border-color:#CCCCCC;color:#CCCCCC;}
+.z-color2{color:#999999;}
+.preferential{margin:.5em 0;}
+.preferential p.flex{color:#FF6633;}
+.preferential p.flex span{color:#fff;background:#FF6633;padding: .1em .5em;font-size:.8em;margin-left:1em;}
+/* .preferential{border-top:1em solid #eee;border-bottom:1em solid #eee;} */
+.z-price{color:#FF6633;margin-right:.8em;}
+.z-price sub{margin-top: auto;margin-bottom: .2em;margin-right:.2em;}
+.z-price span{font-size:1.8em;}
+.z-btn2{height:100%;border-radius:0;width:9em;padding:0;font-size:1.1em}
+.bottom_button .f-all-width{padding:0 .5em;}
+.z-detail{font-size:.9em;}
+.z-detail i{margin-left:.5em;color:#666;}
+.z-bgtop{height:8em;background:#3982F6;margin-bottom:-4.5em;}
+.z-nav{background:transparent;color:#fff;}
+.detailBox .z-color{color:#999999;}
+.detailBox .z-tr{text-align:right;}
+.detailBox>div{padding:1em;border-bottom:1px solid #E8E8E8;}
+.detailBox dl{padding:0 1em;}
+.detailBox dd{border-bottom:1px solid #E8E8E8;}
+.detailBox dd, .detailBox dt{padding:1em 0;}
+.vp-detailBox{z-index: 1998 !important;bottom:4em;}
+.my-vm{z-index: 1997 !important;bottom:4em;}
+.bottom_button{z-index: 1999;}
+.timeBox h3 p{color:#666666;font-size:.8em;margin-top:.3em;}
+.inBox h3{padding:.8em;color:#666666;text-align:center;}
+.inBox .van-icon-success{width:4em;text-align: center;color:#fff;}
+.inBox .van-icon-edit{width:4em;text-align: center;color:#B7B8BC;font-size:1.2em;}
+.inBox li{padding:1em 0;border-top:1px solid #E5E5E5;}
+.inBox li p{font-size:.9em;color:#999999;margin-top:.5em;}
+.inBox li .z-name{font-size:1.2em}
+.inBox li.cur .z-name{color:#3982F6;}
+.inBox li.cur .van-icon-success{color:#3982F6;}

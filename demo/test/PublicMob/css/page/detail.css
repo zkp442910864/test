@@ -1,0 +1,45 @@
+.topbg{background:url('/web笔记/demo/test/PublicMob/img/tbg.png') no-repeat center;background-size:cover;height: 18em;}
+.z-nav{background: transparent;}
+.z-nav span{color:#000;}
+.detailBox{margin:-5em 1em 1em;background:#fff;border-radius:.5em;box-shadow:0px 7px 17px 4px rgba(42,99,172,0.1);padding:1em;position: relative;}
+.detailBox .z-fs{font-size:1.2em;}
+.detailBox .z-fs2{font-size:.8em;}
+.detailBox .z-color2{color: #999;}
+.detailBox .z-color1{color: #B3B3B3;}
+.detailBox .z-link{min-width: 6em;}
+.detailBox .z-link span:last-child{margin-left:.5em;}
+.imglist{position: absolute;top:-2.5em;left:.5em;background:rgba(0,0,0,.4);color:#fff;
+  font-size: .9em;
+  border-radius: .3em;
+  padding: .1em .4em 0 0;
+}
+.imglist i{transform: scale(.6)}
+.detailBox .z-info>div{margin-top:.8em;padding-top:.8em;border-top:1px solid #E8E8E8;}
+.setDate{padding:1em;}
+.setDate{}
+.setDate .f-width33 span{color:#999999;margin-right:.5em;}
+.setDate .f-width20 {}
+.vertical_bar{position: relative;}
+.vertical_bar::after{height:1.5em;width:1px;background:#F2F2F2;content:'';display: block;position:absolute;top:-.75em;left:50%;}
+.setDate .f-jc-r{min-width:4em;}
+.setDate .f-jc-r span:first-child{color:#3982F6;}
+.setDate .f-jc-r span:last-child{color:#999999;margin-left:.5em;}
+.listBox{}
+.listBox{background:#fff;}
+.listBox>ul>li{border-top:1px solid #E8E8E8;}
+.listBox>ul>li>div{padding:.8em 1em;}
+.z-listInfo{}
+.z-listInfo p{color:#999999;font-size:.9em;margin-top:.3em;}
+.z-bgimg{width:6em;height:6em;background:url('/web笔记/demo/test/PublicMob/img/lbg2.png') no-repeat center;background-size:cover;margin-right:1em;}
+.z-price>div{color:#FF6633;margin-right:.8em;}
+.z-price>div sub{vertical-align: middle;margin-right:.2em;}
+.z-price>div span{font-size:1.8em;}
+.z-price>div i{color:#999;margin-left:.1em;font-size:.8em;}
+.z-price>div p{color:#999;font-size:.8em;}
+.z-price>span{color:#666;}
+.z-price2>div span{font-size:1.3em;}
+.z-price2>p{color:#999999;font-size:.8em;}
+.z-name span{border:1px solid #FF6633;color:#FF6633;margin:0 .5em;font-size:.6em;border-radius:.2em;padding:0 .5em;}
+.z-name p{color:#999999;font-size:.8em;margin-top:.3em;}
+.chirdList{background:#F8F9FB;}
+.chirdList li{padding:.8em 1em;border-top:1px solid #fff;}

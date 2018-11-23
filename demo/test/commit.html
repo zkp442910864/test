@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+	<title>提交订单</title>
+	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/vant_index.css?v=1">
+	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<script src="/web笔记/demo/test/PublicMob/js/quote/require.js"></script>
+	<script src="/web笔记/demo/test/PublicMob/js/require.config.js?v=1"></script>
+</head>
+<body>
+
+	<div id="app">
+		<template>
+			<div class="bottom_button flex">
+				<div class="f-all-width f-jc-sb flex">
+					<div class="z-price flex"><sub>&yen;</sub><span>288</span></div>
+					<div class="z-detail flex"
+						@click="detailBox.open ? $set(detailBox, 'open', false) : $set(detailBox, 'open', true)"
+					>明细 <i class="fa" :class="{'fa-caret-up': !detailBox.open, 'fa-caret-down': detailBox.open}"></i></div>
+				</div>
+				<div class="z-btn2 flex f-v">提交订单</div>
+			</div>
+			<div class="content">
+				<div class="z-bgtop">
+					<div class="z-nav flex f-jc-sb">
+						<span class="van-icon van-icon-arrow van-nav-bar__arrow" onclick="window.history.go(-1)"></span>
+						<div>提交订单</div>
+						<span></span>
+					</div>
+				</div>
+				<div class="flex f-jc-l z-topInfo">
+					<div class="z-bgimg"></div>
+					<div class="z-text">
+						<h3>豪华双人房</h3>
+						<p>22m²-28m²有窗/1.8m大床</p>
+						<p>赠早·限时取消</p>
+					</div>
+				</div>
+				<ul class="z-form">
+					<li class="flex f-jc-sb">
+						<div class="flex f-jc-l">
+							<label>入离时间</label>
+							<p>11月20日-11月23日</p>
+						</div>
+						<span class="date">共2晚</span>
+					</li>
+					<li class="flex f-jc-sb">
+						<div class="flex f-jc-l">
+							<label>房间数</label>
+							<div class="flex">
+								<span class="del flex f-v hui"><i>-</i></span>
+								<span class="count">2 间</span>
+								<span class="add flex f-v"><i>+</i></span>
+							</div>
+						</div>
+						<span></span>
+					</li>
+					<li class="flex f-jc-sb">
+						<div class="flex f-jc-l">
+							<label>入住人</label>
+							<p>周小姐</p>
+						</div>
+						<span></span>
+					</li>
+					<li class="flex f-jc-sb">
+						<div class="flex f-jc-l">
+							<label>联系手机</label>
+							<p>1880777****</p>
+						</div>
+						<span></span>
+					</li>
+					<li class="flex f-jc-sb">
+						<div class="flex f-jc-l">
+							<label>预计到店</label>
+							<p>19:00（房间整晚保留）</p>
+						</div>
+						<span class="fa fa-angle-right z-color2"></span>
+					</li>
+				</ul>
+				<ul class="z-form preferential">
+					<li class="flex f-jc-sb">
+						<div class="flex f-jc-l">
+							<label>抵用券</label>
+							<div>
+								<p class="flex">-¥10 <span>最大优惠</span></p>
+								<!-- <p class="z-color2">无优惠</p> -->
+							</div>
+						</div>
+						<span class="fa fa-angle-right z-color2"></span>
+					</li>
+				</ul>
+				<ul class="z-form invoice">
+					<li class="flex f-jc-sb">
+						<div class="flex f-jc-l">
+							<label>发票</label>
+							<p>如需发票，请先与酒店确认可开</p>
+						</div>
+						<span></span>
+					</li>
+				</ul>
+			</div>
+
+			<van-popup v-model="detailBox.open" position="bottom" class="vp-detailBox" overlay-class="my-vm">
+				<div class="my-sort detailBox">
+					<div class="z-color">明细</div>
+					<dl>
+						<dd class="flex f-jc-sb" v-for="(item, index) in detailBox.list">
+							<div>
+								<div>房费</div>
+								<p class="z-color">2018-11-19不含早</p>
+							</div>
+							<div>
+								<div class="z-tr">¥288</div>
+								<p class="z-color">1 x ¥288</p>
+							</div>
+						</dd>
+						<dt class="flex f-jc-sb">
+							<span>总价</span>
+							<span>¥288.00</span>
+						</dt>
+					</dl>
+				</div>
+			</van-popup>
+
+			<van-popup v-model="timeBox.open" position="bottom">
+				<div class="my-sort timeBox">
+					<div class="s-top">
+						<h3>
+							预计到店
+							<p>房间整晚保留，12:00前到店可能需要等房</p>
+						</h3>
+						<ul class="flex f-w f-jc-l">
+							<li v-for="(item, index) in timeBox.list"
+								:key="index"
+								:class="{cur: timeBox.cur === item.value}"
+								@click="$set(timeBox, 'cur', item.value)"
+							>{{item.text}}</li>
+						</ul>
+					</div>
+				</div>
+			</van-popup>
+
+			<van-popup v-model="inBox.open" position="bottom">
+				<div class="my-sort inBox">
+					<div class="">
+						<h3>
+							预计到店
+						</h3>
+						<ul class="">
+							<li v-for="(item, index) in inBox.list"
+								:key="index"
+								:class="{cur: inBox.cur === item.value}"
+								@click="$set(inBox, 'cur', item.value)"
+								class="flex f-jc-sb"
+							>
+								<div class="flex">
+									<span class="van-icon van-icon-success"></span>
+									<div>
+										<div class="z-name">周小军</div>
+										<p>手机号86 188 0777 ****</p>
+									</div>
+								</div>
+								<span class="van-icon van-icon-edit"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</van-popup>
+		</template>
+	</div>
+	
+	<!-- <link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/page/commit.css"> -->
+	<!-- <script src="/web笔记/demo/test/PublicMob/js/page/commit.js"></script> -->
+	<script>
+		require(['css!' + config.cssBaseUrl + 'commit.css', config.jsBaseUrl + 'commit.js']);
+	</script>
+</body>
+</html>

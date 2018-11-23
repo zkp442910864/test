@@ -19,7 +19,7 @@
 .listbox{position: absolute;overflow: auto;top:11.2em;left:0;right:0;bottom:0;}
 
 .hotel{padding:1em;background:#fff;border-bottom:1px solid #E8E8E8;position: relative;font-size: .9em;}
-.z-bgimg{width:8em;height:8em;background:url('/demo/test/PublicMob/img/lbg1.png') no-repeat center;background-size:cover;border-radius:.3em;margin-right:1em;}
+.z-bgimg{width:8em;height:8em;background:url('/web笔记/demo/test/PublicMob/img/lbg1.png') no-repeat center;background-size:cover;border-radius:.3em;margin-right:1em;}
 .z-info .bigSize{font-size:1.2em;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .z-info i{color:#999999;margin-right:.5em;}
 .z-info .my-icon{transform: scale(.7);margin-left:-.1em;}

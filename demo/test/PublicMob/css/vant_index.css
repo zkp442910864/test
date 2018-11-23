@@ -996,7 +996,7 @@ button.getcode span {
 }
 
 
-.my-icon{background: url('/demo/test/PublicMob/img/css_sprites.png') no-repeat center;display: inline-block;}
+.my-icon{background: url('/web笔记/demo/test/PublicMob/img/css_sprites.png') no-repeat center;display: inline-block;}
 .my-icon.level1{
   width: 50px;
   height: 57px;
@@ -1210,3 +1210,36 @@ button.getcode span {
 }
 .s-top h3{padding:1em 1em 0;}
 .s-top ul li.cur{background: #E5F5FF;color:#3982F6;}
+
+
+.z-btn2{
+	background:linear-gradient(-90deg,rgba(57,130,246,1),rgba(57,162,247,1));
+	border-radius:.2em;
+	color:#fff;
+	padding:.4em .4em;
+	font-size:.9em;
+	min-width:3em;
+	text-align: center;
+}
+.z-btn3{
+	background:linear-gradient(-90deg,rgba(57,130,246,1),rgba(57,162,247,1));
+	border-radius:.2em;
+	color:#fff;
+	font-size:.9em;
+	padding:1px;
+}
+.z-btn3 span:first-child{padding:.2em .4em;}
+.z-btn3 span:last-child{padding:.2em .4em;background: #fff;color:#3982F6;}
+
+.mg-l2{margin-left:.2em}
+.mg-t5{margin-top:.5em}
+.mg-b5{margin-bottom:.5em}
+
+.z-btn4{
+	border:1px solid #FF9C1A;
+	color:#FF9C1A;
+	border-radius:.3em;
+	padding:.3em;
+	min-width:4.5em;
+	text-align:center;
+}

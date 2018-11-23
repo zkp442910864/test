@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+	<title>首页</title>
+	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/vant_index.css?v=1">
+	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<script src="/web笔记/demo/test/PublicMob/js/quote/require.js"></script>
+	<script src="/web笔记/demo/test/PublicMob/js/require.config.js?v=1"></script>
+	<style>
+		.hotel{position: relative;padding:1em;background:#fff;}
+		.hotel:not(:last-child){border-bottom:1px solid #E8E8E8;}
+		.z-bgimg{margin-bottom:auto;width:4em;height:4em;background:url('/web笔记/demo/test/PublicMob/img/lbg1.png') no-repeat center;background-size:cover;border-radius:.3em;margin-right:1em;}
+		.z-info h3 span:first-child{}
+		.z-info h3 span:last-child{color:#3982F6;min-width:3em;font-size:.8em;}
+		.z-info p{color:#999999;margin-top:.5em;font-size:.9em;}
+		.z-btn4{
+			position: absolute;
+			right:1em;bottom:1em;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="app">
+		<template>
+			<div class="content">
+				<div class="listbox">
+					<van-list
+						v-model="loading"
+						:finished="finished"
+						@load="onLoad"
+					>
+						<div v-for="(item, index) in list" :key="index" :title="item" class="flex f-jc-sb hotel">
+							<div class="z-bgimg" ></div>
+							<div class="z-info f-all-width">
+								<h3 class="flex f-jc-sb">
+									<span class="f-all-width">凯里亚德酒店（深圳新洲店）</span>
+									<span>待付款</span>
+								</h3>
+								<p>数量：1</p>
+								<p>支付金额：¥201</p>
+								<p>请在29分50秒内完成付款</p>
+							</div>
+							<div class="z-btn4">付款</div>
+						</div>
+					</van-list>
+				</div>
+			</div>
+		</template>
+	</div>
+	
+	<!-- <link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/page/order_list.css"> -->
+	<!-- <script src="/web笔记/demo/test/PublicMob/js/page/order_list.js"></script> -->
+	<script>
+		require(['css!' + config.cssBaseUrl + 'order_list.css', config.jsBaseUrl + 'order_list.js']);
+	</script>
+</body>
+</html>
