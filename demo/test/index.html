@@ -5,76 +5,57 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 	<title>首页</title>
-	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/vant_index.css?v=1">
-	<link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/font-awesome-4.7.0/css/font-awesome.min.css">
-	<script src="/web笔记/demo/test/PublicMob/js/quote/require.js"></script>
-	<script src="/web笔记/demo/test/PublicMob/js/require.config.js?v=1"></script>
+	<link rel="stylesheet" href="/demo/test/PublicMob/css/vant_index.css?v=1">
+	<link rel="stylesheet" href="/demo/test/PublicMob/css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<script src="/demo/test/PublicMob/js/quote/require.js"></script>
+	<script src="/demo/test/PublicMob/js/require.config.js?v=1"></script>
+	<style>
+		.zsinfo{text-align: center;color:#fff;}
+		.z-title{margin-top:5em;}
+		.z-title h1{color:#fff;font-size:1.8em;}
+		.z-title p{color:#fff;font-size:.8em;margin-top:.8em;}
+		.z-search{font-size:1.3em;margin-top:5em;}
+		.z-search i{margin-right:.5em;margin-left:-.5em;}
+		.z-search>div:last-child{
+			/* background:linear-gradient(90deg, rgb(255, 255, 255, 0) 10%, rgb(255, 255, 255, 1) 50%, rgb(255, 255, 255, 0) 10%); */
+			background: linear-gradient(90deg, rgb(255, 255, 255, 0) 5%, #fff 50%, rgb(255, 255, 255, 0) 95%);
+			height:1px;
+			margin-top:.5em;
+		}
+		.z-zspp{width: 100%;}
+		.z-zspp img{width: 100%;display: block;margin:1em 0;}
+		/* .z-zspp>div{background: url('/demo/test/PublicMob/img/bottombg.png') no-repeat center;height:4em;background-size:cover;} */
+	</style>
 </head>
 <body>
 
 	<div id="app">
 		<template>
 			<div class="bottom_button flex">
-				<a class="f-width50 cur" href="/HouseIndex/index/sid/31.html"><i class="fa fa-home"></i>预订</a>
-				<a class="f-width50" href="/HouseUser/index/sid/31.html"><i class="fa fa-user-o"></i>我</a>
+				<a class="f-width50 flex f-v cur" href="/HouseIndex/index/sid/31.html"><i class="my-icon home2"></i>预订</a>
+				<a class="f-width50 flex f-v" href="/HouseUser/index/sid/31.html"><i class="my-icon my1"></i>我</a>
 			</div>
-			<div class="content">
-				<i class="van-icon van-icon-aim"><!----></i>
-				<!-- <slider :value-fun="sliderVal" :min="0" :max="100"></slider> -->
-				<i class="my-icon level1"></i>
-				<i class="my-icon my2"></i>
-				<i class="my-icon my1"></i>
-				<i class="my-icon home1"></i>
-				<i class="my-icon cz"></i>
-				<i class="my-icon user"></i>
-				<i class="my-icon jtr1"></i>
-				<i class="my-icon jtr2"></i>
-				<i class="my-icon jtr3"></i>
-				<i class="my-icon wz1"></i>
-				<i class="my-icon wz2"></i>
-				<i class="my-icon wz3"></i>
-				<i class="my-icon fdj1"></i>
-				<i class="my-icon fdj2"></i>
-				<i class="my-icon img"></i>
-				<i class="my-icon hx"></i>
-				<i class="my-icon fx"></i>
-				<i class="my-icon zk1"></i>
-				<!-- <i class="my-icon zk2"></i> -->
-				<i class="my-icon zk3"></i>
-				<!-- <i class="my-icon zk4"></i> -->
-				<i class="my-icon zkl1"></i>
-				<!-- <i class="my-icon zkl2"></i> -->
-				<i class="my-icon gou"></i>
-				<i class="my-icon call"></i>
-				
-			</div>
-			<van-popup v-model="show2" position="top" >
-				<div class="my-sort">
-					<div class="s-top">显示</div>
-					<div class="s-footer s-btn flex">
-						<div class="btn close">重置</div>
-						<div class="btn yes f-all-width">确定</div>
+			<div class="content flex f-v f-jc-sb zsinfo">
+				<div class="">
+					<div class="z-title">
+						<h1>欢迎光临凯里亚德</h1>
+						<p>WELCOME TO KYRIAD MARVELOUS HOTEL</p>
+					</div>
+					<div class="z-search">
+						<div class="flex"><i class="van-icon van-icon-search"></i>从这里搜索酒店</div>
+						<div></div>
 					</div>
 				</div>
-			</van-popup>
-			<div class="van-modal flex f-v" :style="{'z-index': show3 ? 9999 : -1}">
-				<div class="my-swipe">
-					<van-swipe @change="swipe.onChange" :show-indicators="false">
-						<van-swipe-item>1</van-swipe-item>
-						<van-swipe-item>2</van-swipe-item>
-						<van-swipe-item>3</van-swipe-item>
-						<van-swipe-item>4</van-swipe-item>
-					</van-swipe>
-					<div class="custom-indicator">
-						{{ swipe.current + 1 }}/4
-					</div>
+				<div class="z-zspp">
+					<p>卢浮酒店集团旗下品牌</p>
+					<img src="/demo/test/PublicMob/img/bottombg.png" alt="">
 				</div>
 			</div>
 		</template>
 	</div>
 	
-	<!-- <link rel="stylesheet" href="/web笔记/demo/test/PublicMob/css/page/index.css"> -->
-	<!-- <script src="/web笔记/demo/test/PublicMob/js/page/index.js"></script> -->
+	<!-- <link rel="stylesheet" href="/demo/test/PublicMob/css/page/index.css"> -->
+	<!-- <script src="/demo/test/PublicMob/js/page/index.js"></script> -->
 	<script>
 		require(['css!' + config.cssBaseUrl + 'index.css', config.jsBaseUrl + 'index.js']);
 	</script>

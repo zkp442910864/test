@@ -1,5 +1,5 @@
 .z-topInfo{margin:1em;background:#fff;border-radius:.5em;box-shadow:0px 7px 17px 4px rgba(42,99,172,0.1);padding:1em;position: relative;}
-.z-topInfo .z-bgimg{width:6em;height:6em;background:url('/web笔记/demo/test/PublicMob/img/lbg2.png') no-repeat center;background-size:cover;margin-right:1em;border-radius:.3em;}
+.z-topInfo .z-bgimg{width:6em;height:6em;background:url('/demo/test/PublicMob/img/lbg2.png') no-repeat center;background-size:cover;margin-right:1em;border-radius:.3em;}
 .z-topInfo .z-text p:nth-child(2){margin-top:.5em;}
 .z-topInfo .z-text p{color:#666666;padding-top:.3em;font-size:.9em;}
 .z-form{padding:0 1em;background:#fff;}

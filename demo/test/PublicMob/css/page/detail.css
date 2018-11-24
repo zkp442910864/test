@@ -1,4 +1,4 @@
-.topbg{background:url('/web笔记/demo/test/PublicMob/img/tbg.png') no-repeat center;background-size:cover;height: 18em;}
+.topbg{background:url('/demo/test/PublicMob/img/tbg.png') no-repeat center;background-size:cover;height: 18em;}
 .z-nav{background: transparent;}
 .z-nav span{color:#000;}
 .detailBox{margin:-5em 1em 1em;background:#fff;border-radius:.5em;box-shadow:0px 7px 17px 4px rgba(42,99,172,0.1);padding:1em;position: relative;}
@@ -30,7 +30,7 @@
 .listBox>ul>li>div{padding:.8em 1em;}
 .z-listInfo{}
 .z-listInfo p{color:#999999;font-size:.9em;margin-top:.3em;}
-.z-bgimg{width:6em;height:6em;background:url('/web笔记/demo/test/PublicMob/img/lbg2.png') no-repeat center;background-size:cover;margin-right:1em;}
+.z-bgimg{width:6em;height:6em;background:url('/demo/test/PublicMob/img/lbg2.png') no-repeat center;background-size:cover;margin-right:1em;}
 .z-price>div{color:#FF6633;margin-right:.8em;}
 .z-price>div sub{vertical-align: middle;margin-right:.2em;}
 .z-price>div span{font-size:1.8em;}

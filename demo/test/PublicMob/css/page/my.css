@@ -1,0 +1,20 @@
+.z-nav {background:transparent;color:#fff;}
+.z-topbc{
+  background:linear-gradient(0deg,rgba(19,26,51,1),rgba(93,101,126,1));
+  box-shadow:42px -60px 76px 0px rgba(0, 0, 0, 0.27);
+}
+.z-topbg{font-size:1.1em;margin:0 1.5em;background:url('/demo/test/PublicMob/img/level_bg.png') no-repeat center;background-size:cover;min-height: 7em;border-top-left-radius:.5em;border-top-right-radius:.5em;padding:1em 0 1em 1em;color:#fff;}
+.z-topbg .level1{transform: scale(.5) translateX(-1.5em);}
+.z-topbg .van-icon-exchange{font-size:.8em;margin-right:.5em;}
+.curLevel{background:#998561;color:#fff;padding:.2em .2em .2em .5em;border-top-left-radius:3em;border-bottom-left-radius:3em;font-size:.8em;}
+.z-state {}
+.z-state i{transform: scale(.6)}
+.z-state {text-align: center;color:#fff;background:#353C55;padding:0 1em;}
+.z-state li{padding:1em 0;position: relative;}
+.z-state li:not(:first-child)::after{content:'';display:block;position: absolute;left:0;height:1.5em;width:1px;background:#E5E5E5;top:50%;margin-top:-.75em;}
+.menuList{padding:0 1em;background:#fff;margin-top:1.5em;}
+.menuList{}
+.menuList li{padding:1em 0;}
+.menuList li:not(:last-child){border-bottom:1px solid #E8E8E8;}
+.menuList .my-icon{transform:scale(.6);margin-right:.5em;}
+.content{padding-bottom:1em;}

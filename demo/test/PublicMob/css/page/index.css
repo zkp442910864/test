@@ -1,7 +1,4 @@
-#app{background-color: #000;}
-
-
-.my-swipe{height: 15em;position: relative;width:100%;}
-.van-swipe{height: 100%;}
-.van-swipe-item{background:#eee;}
-.custom-indicator{position: absolute;bottom:.5em;left:.5em;}
+.content{
+  background: url('/demo/test/PublicMob/img/bg2.png') no-repeat center;
+  background-size:cover;
+}

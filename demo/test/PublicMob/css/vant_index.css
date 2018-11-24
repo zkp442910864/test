@@ -996,7 +996,7 @@ button.getcode span {
 }
 
 
-.my-icon{background: url('/web笔记/demo/test/PublicMob/img/css_sprites.png') no-repeat center;display: inline-block;}
+.my-icon{background: url('/demo/test/PublicMob/img/css_sprites3.png') no-repeat center;display: inline-block;}
 .my-icon.level1{
   width: 50px;
   height: 57px;
@@ -1126,6 +1126,59 @@ button.getcode span {
   background-position: -174px -214px;
 }
 
+.my-icon.home2{
+  width: 38px;
+  height: 39px;
+  background-position: -15px -329px;
+}
+.my-icon.czlk{
+  width: 36px;
+  height: 29px;
+  background-position: -136px -96px;
+}
+.my-icon.wdsc{
+  width: 36px;
+  height: 33px;
+  background-position: -204px -387px;
+}
+.my-icon.fpxx{
+  width: 30px;
+  height: 32px;
+  background-position: -15px -460px;
+}
+.my-icon.dzgl{
+  width: 29px;
+  height: 38px;
+  background-position: -75px -457px;
+}
+.my-icon.yhk{
+  width: 34px;
+  height: 25px;
+  background-position: -145px -331px;
+}
+.my-icon.cxj{
+  width: 30px;
+  height: 30px;
+  background-position: -207px -329px;
+}
+
+.my-icon.qbdd{
+  width: 34px;
+  height: 39px;
+  background-position: -78px -393px;
+}
+.my-icon.drz{
+  width: 32px;
+  height: 43px;
+  background-position: -84px -324px;
+}
+.my-icon.yhj{
+  width: 31px;
+  height: 40px;
+  background-position: -16px -394px;
+}
+
+
 .z-btn1{
   background:linear-gradient(0deg,rgba(77,86,254,1),rgba(78,144,237,1));
   border-radius:.3em;
@@ -1181,18 +1234,18 @@ button.getcode span {
 	right: 0;
 	border-top: 1px solid #ddd;
 	background-color: #fff;
-	/* z-index: 99999; */
+	z-index: 1;
 }
 
 .bottom_button a.cur {
-	color: #F7AD0E;
+	color: #3982F6;
 }
 
-.bottom_button i {
+/* .bottom_button i {
 	display: block;
 	font-size: 1.5em;
 	margin: .2em 0;
-}
+} */
 
 .z-nav{font-size:1.1em;background:#fff;height:3.5em;;}
 .z-nav>span{width:1em;padding:.5em;font-size:1.5em;}
@@ -1243,3 +1296,5 @@ button.getcode span {
 	min-width:4.5em;
 	text-align:center;
 }
+
+.bottom_button .my-icon{transform: scale(.5);margin-bottom:-.3em;}
