@@ -90,6 +90,7 @@ ES6:
 
       '12'.padStart(10, 'YYYY-MM-DD') // "YYYY-MM-12"
       '09-12'.padStart(10, 'YYYY-MM-DD') // "YYYY-09-12"
+
   数值的扩展
     Number.isFinite()
       Number.isFinite(15); // true
@@ -169,6 +170,24 @@ ES6:
         99 ** 99
         // 3.697296376497268e+197
 
+  对象
+    属性的赋值器（setter）和取值器（getter）
+      const cart = {
+        _wheels: 4,
+
+        get wheels () {
+          return this._wheels;
+        },
+
+        set wheels (value) {
+          if (value < this._wheels) {
+            throw new Error('数值太小了！');
+          }
+          this._wheels = value;
+        }
+      }
+      cart3.wheels = 2 // 执行 set wheels (value)
+      cart3.wheels // 执行 get wheels ()
   Map
     它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键
     const m = new Map();
@@ -500,3 +519,100 @@ ES6:
         obj.c // 3
   Generator 函数的异步应用
     http://es6.ruanyifeng.com/#docs/generator-async
+
+  async 函数
+    async 异步
+    await 等待，同步
+    async 表示函数里有异步操作，await 表示紧跟在后面的表达式需要等待结果。
+    async函数就是将 Generator 函数的星号（*）替换成async，将yield替换成await，仅此而已。
+
+    async函数返回一个 Promise 对象
+      async函数内部return语句返回的值，会成为then方法回调函数的参数。
+      async函数内部抛出错误，会导致返回的 Promise 对象变为reject状态。抛出的错误对象会被catch方法回调函数接收到。
+
+    Promise 对象的状态变化
+      async函数返回的 Promise 对象，必须等到内部所有 await 命令后面的 Promise 对象执行完，才会发生状态改变，除非遇到return语句或者抛出错误。
+      也就是说，只有async函数内部的异步操作执行完，才会执行then方法指定的回调函数。
+
+    await 命令
+      * await 后面跟的是 Promise 对象
+      * 正常情况下，await命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。
+
+      await 和 return 有点类似，但不会使函数结束， 但 await 后面抛出错误会停止执行。
+      可以将第一个await放在try...catch结构里面，这样不管这个异步操作是否成功，第二个await都会执行。
+      另一种方法是await后面的 Promise 对象再跟一个catch方法，处理前面可能出现的错误。
+        async function f() {
+          await Promise.reject('出错了');
+          await Promise.resolve('hello world'); // 不会执行
+        }
+    
+    使用注意点
+      第一点，前面已经说过，await命令后面的Promise对象，运行结果可能是rejected，所以最好把await命令放在try...catch代码块中。
+      第二点，多个await命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。
+      第三点，await命令只能用在async函数之中，如果用在普通函数，就会报错。
+
+    await命令用于将外部操作产生的值输入函数内部，yield命令用于将函数内部的值输出
+
+  Class 的基本语法
+    this关键字则代表实例对象
+
+    constructor 方法
+      这就是构造方法
+      constructor方法是类的默认方法，通过new命令生成对象实例时，自动调用该方法。一个类必须有constructor方法，如果没有显式定义，一个空的constructor方法会被默认添加
+
+    采用 Class 表达式，可以写出立即执行的 Class
+      就是子调函数
+      new class {
+          constructor(name){
+              this.name = name;
+          }
+          sayName () {
+              console.log(this.name);
+          }
+      }('xxxx')
+
+    this 的指向
+      类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。
+      this.printName.bind(this); 在构造函数里把类的方法把函数绑定this
+
+    Class 的取值函数（getter）和存值函数（setter）
+      使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为。
+
+    Class 的 Generator 方法
+      如果某个方法之前加上星号（*），就表示该方法是一个 Generator 函数。
+      class Foo {
+        constructor(...args) {
+          this.args = args;
+        }
+        * [Symbol.iterator]() {
+          for (let arg of this.args) {
+            yield arg;
+          }
+        }
+      }
+
+      for (let x of new Foo('hello', 'world')) {
+        console.log(x);
+      }
+
+      上面代码中，Foo类的Symbol.iterator方法前有一个星号，表示该方法是一个 Generator 函数。
+      Symbol.iterator方法返回一个Foo类的默认遍历器，for...of循环会自动调用这个遍历器。
+
+    Class 的静态方法
+      如果在一个方法前，加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。
+      静态方法可以与非静态方法重名。
+      父类的静态方法，可以被子类继承。静态方法也是可以从super对象上调用的。
+
+    Class 的静态属性和实例属性
+      貌似现在只是提案
+      静态属性 只能通过 创建类， 点属性 赋值
+        class Foo {}
+        Foo.prop = 1;
+      实例属性 只能在构造函数里，通过this创建
+
+    new.target 属性
+      在构造函数里使用，返回的是 当前被 实例化的类
+      思路1：可以创建必须继承的类
+
+  Class 的继承
+    Class 可以通过extends关键字实现继承
