@@ -616,3 +616,27 @@ ES6:
 
   Class 的继承
     Class 可以通过extends关键字实现继承
+    子类必须在constructor方法中调用super方法，否则新建实例时会报错
+    在子类的构造函数中，只有调用super之后，才可以使用this关键字
+
+    Object.getPrototypeOf()
+      Object.getPrototypeOf方法可以用来从子类上获取父类。
+      因此，可以使用这个方法判断，一个类是否继承了另一个类。
+
+    super 关键字
+      super这个关键字，既可以当作函数使用，也可以当作对象使用。在这两种情况下，它的用法完全不同。
+        第一种情况，super作为函数调用时，代表父类的构造函数。 // 父类A,子类B super()在这里相当于A.prototype.constructor.call(this)。
+          super()只能用在子类的构造函数之中，用在其他地方就会报错。
+        第二种情况，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
+          父类A,子类B super在子类B的普通方法之中，指向A.prototype，所以super.p()就相当于A.prototype.p()。
+          不要对 super 某个属性进行赋值
+          如果super作为对象，用在静态方法之中，这时super将指向父类，而不是父类的原型对象。
+          子类的静态方法中通过super调用父类的方法时，方法内部的 this 指向当前的子类，而不是子类的实例。
+
+      最后，由于对象总是继承其他对象的，所以可以在任意一个对象中，使用super关键字。
+
+    类的 prototype 属性和__proto__属性
+      子类的__proto__属性，表示构造函数的继承，总是指向父类。
+      子类prototype属性的__proto__属性，表示方法的继承，总是指向父类的prototype属性。
+    
+    实例的 __proto__ 属性
