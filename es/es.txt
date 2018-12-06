@@ -1,4 +1,5 @@
 ES6:
+  http://es6.ruanyifeng.com/
 
   ES6 声明变量的六种方法
     ES5 只有两种声明变量的方法：var命令和function命令。
@@ -171,6 +172,16 @@ ES6:
         // 3.697296376497268e+197
 
   对象
+    属性的简洁表示法
+      const foo = 'bar';
+      const baz = {
+        foo,
+        // 函数
+        method() {
+          return "Hello!";
+        }
+      };
+
     属性的赋值器（setter）和取值器（getter）
       const cart = {
         _wheels: 4,
@@ -188,6 +199,141 @@ ES6:
       }
       cart3.wheels = 2 // 执行 set wheels (value)
       cart3.wheels // 执行 get wheels ()
+
+    属性名表达式
+      以方括号的形式来定义变量键值
+      let obj = {
+        [propKey]: true,
+        ['a' + 'bc']: 123
+      };
+
+    方法的 name 属性
+      函数的 name 属性，返回 函数名。对象方法也是函数，因此也有 name 属性
+        const person = {sayName() {console.log('hello!')}};
+        person.sayName.name   // "sayName"
+      
+      有两种特殊情况：bind方法创造的函数，name属性返回bound加上原函数的名字；Function构造函数创造的函数，name属性返回anonymous。
+        (new Function()).name // "anonymous"
+        var doSomething = function() {};
+        doSomething.bind().name // "bound doSomething"
+
+      用 Symbol 做值的函数，输出的函数名带方括号(可以当做私有属性用)
+        const key1 = Symbol('description');
+        let obj = {[key1]() {}};
+        obj[key1].name // "[description]"
+
+    属性的可枚举性和遍历
+      对象的每个属性都有一个描述对象（Descriptor），用来控制该属性的行为。Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象
+        Object.getOwnPropertyDescriptor(对象参数, 对象的键值参数)
+        Object.getOwnPropertyDescriptor({ foo: 123 }, 'foo')
+        //  {
+        //    value: 123,
+        //    writable: true,
+        //    enumerable: true,
+        //    configurable: true
+        //  }
+
+      enumerable属性，称为”可枚举性“，如果该属性为false，就表示某些操作会忽略当前属性。(一般都是循环中忽略该属性)
+        for...in循环：只遍历对象自身的和继承的可枚举的属性。
+        Object.keys()：返回对象自身的所有可枚举的属性的键名。
+        JSON.stringify()：只串行化对象自身的可枚举的属性。
+        Object.assign()： 忽略enumerable为false的属性，只拷贝对象自身的可枚举的属性。
+
+    super 关键字
+      this关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字super，指向当前对象的原型对象。
+      super关键字表示原型对象时，只能用在对象的方法之中，用在其他地方都会报错。
+        Object.setPrototypeOf(); 可以给对象设置原型对象
+        Object.getPrototypeOf(); 获取对象的原型
+          const proto = {foo: 'hello'};
+          const obj = {
+            foo: 'world',
+            find() {
+              return super.foo;
+            }
+          };
+          Object.setPrototypeOf(obj, proto);
+          obj.find() // "hello"
+          Object.getPrototypeOf(obj); // {foo: 'hello'}
+
+    对象的扩展运算符
+      const o = {a: 1, b: 2}
+      {...o}
+
+  对象的新增方法
+    http://es6.ruanyifeng.com/#docs/object-methods
+    Object.is()
+    Object.assign()
+      注意
+        （1）浅拷贝
+        （2）同名属性的替换
+        （3）数组的处理
+        （4）取值函数的处理
+
+      常见用途 
+        （1）为对象添加属性 Object.assign(this, {x, y});
+        （2）为对象添加方法
+        （3）克隆对象 Object.assign({}, origin);
+        （4）合并多个对象 Object.assign(target, ...sources);
+        （5）为属性指定默认值
+    Object.getOwnPropertyDescriptor() es5的 参数是对象、键，返回键的描述
+    Object.getOwnPropertyDescriptors() es6的 参数是一个对象，返回对象下所有的描述
+    Object.defineProperties()
+      Object.defineProperties({}, Object.getOwnPropertyDescriptors({a: 1, b: 2}}));
+    Object.create() （生成操作）
+    Object.setPrototypeOf() （写操作）
+    Object.getPrototypeOf() （读操作）
+    Object.keys()
+    Object.values()
+    Object.entries() 方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值对数组。
+    Object.fromEntries() Object.fromEntries()方法是Object.entries()的逆操作，用于将一个键值对数组转为对象。
+      Object.fromEntries([['foo', 'bar'],['baz', 42]])
+      // { foo: "bar", baz: 42 }
+
+  Symbol
+    http://es6.ruanyifeng.com/#docs/symbol
+    Symbol 值通过Symbol函数生成。这就是说，对象的属性名现在可以有两种类型，一种是原来就有的字符串，另一种就是新增的 Symbol 类型。
+    凡是属性名属于 Symbol 类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。
+
+    作为属性名的 Symbol
+      let mySymbol = Symbol();
+      let a = {[mySymbol]: 'Hello!'};
+
+    实例：消除魔术字符串
+      就是把对象里多次使用的属性或方法 名提取出来 做变量键
+
+    属性名的遍历
+      Object.getOwnPropertySymbols()
+        返回一个数组，成员是当前对象的 所有用作属性名的 Symbol 键。
+      Object.getOwnPropertyNames()
+        返回一个数组，成员是当前对象的所有 用字符串做属性名的键。
+
+    Symbol.for()
+      有时，我们希望重新使用同一个 Symbol 值，Symbol.for方法可以做到这一点。
+      会被登记在全局环境中供搜索,不会每次调用就返回一个新的 Symbol 类型的值，而是会先检查给定的key是否已经存在，如果不存在才会新建一个值。
+        let s1 = Symbol.for('foo');
+        let s2 = Symbol.for('foo');
+        s1 === s2 // true
+    Symbol.keyFor()
+      Symbol.keyFor方法返回一个已登记的 Symbol 类型值的key。只有在 Symbol.for 登记的才能查到
+      Symbol.for为 Symbol 值登记的名字，是全局环境的，可以在不同的 iframe 或 service worker 中取到同一个值。
+
+    内置的 Symbol 值 
+      Symbol.hasInstance
+        当其他对象使用instanceof运算符，判断是否为该对象的实例时，会调用这个方法。比如，foo instanceof Foo在语言内部，实际调用的是Foo[Symbol.hasInstance](foo)。
+          class MyClass {[Symbol.hasInstance](foo) {return foo instanceof Array;}}
+          [1, 2, 3] instanceof new MyClass() // true
+      
+      Symbol.isConcatSpreadable
+      Symbol.species 对象的Symbol.species属性，指向一个构造函数。创建衍生对象时，会使用该属性。
+      Symbol.match
+      Symbol.replace
+      Symbol.search
+      Symbol.split
+      Symbol.iterator
+      Symbol.toPrimitive
+      Symbol.toStringTag
+      Symbol.unscopables
+
   Map
     它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键
     const m = new Map();
@@ -642,12 +788,87 @@ ES6:
     实例的 __proto__ 属性
 
   修饰器
+    http://es6.ruanyifeng.com/#docs/decorator
+    注意，修饰器对类的行为的改变，是代码编译时发生的，而不是在运行时。这意味着，修饰器能在编译阶段运行代码。也就是说，修饰器本质就是编译时执行的函数。
+
     @testable
     class MyTestableClass {}
     function testable(target) {target.isTestable = true;}
     MyTestableClass.isTestable // true
+    添加静态属性，直接在 目标类target 上操作
+
+    @testable
+    class MyTestableClass {}
+    function testable(target) {target.prototype.isTestable = true;}
+    new MyTestableClass().isTestable // true
+    添加实例属性，可以通过目标类的 prototype 对象操作。
+
+    修饰器不仅可以修饰类，还可以修饰类的属性。
+      class Person {
+        @readonly
+        name() { return `${this.first} ${this.last}` }
+      }
+      修饰器函数readonly一共可以接受三个参数
+        function readonly(target, name, descriptor){
+          target.first = 1;
+          target.last = 2;
+          console.log(name);
+          console.log(descriptor);
+          // descriptor对象原来的值如下
+          // {
+          //   value: specifiedFunction,
+          //   enumerable: false,
+          //   configurable: true,
+          //   writable: true
+          // };
+          // descriptor.writable = false;
+          // return descriptor;
+        }
+        第一个参数 本意是要“修饰”类的实例，但是这个时候实例还没生成，所以只能去修饰原型(target参数指的是类本身)
+        第二个参数是所要修饰的属性名
+        第三个参数是该属性的描述对象
+        可以通过修改 descriptor 来进行些其他操作
+      如果同一个方法有多个修饰器，会像剥洋葱一样，先从外到内进入，然后由内向外执行。
+        function dec(id){
+          console.log('evaluated', id);
+          return (target, property, descriptor) => console.log('executed', id);
+        }
+        class Example {
+          @dec(1)
+          @dec(2)
+          method(){}
+        }
+        // evaluated 1
+        // evaluated 2
+        // executed 2
+        // executed 1
+
+      core-decorators.js是一个第三方模块，提供了几个常见的修饰器，通过它可以更好地理解修饰器。
+      @autobind 修饰器使得方法中的this对象，绑定原始对象。
+      @readonly 修饰器使得属性或方法不可写。
+      @override 修饰器检查子类的方法，是否正确覆盖了父类的同名方法，如果不正确会报错。正确的(父类和子类必须同一个函数名，参数必须一样)
+      @deprecate (别名@deprecated) 修饰器在控制台显示一条警告，表示该方法将废除。
+      @suppressWarnings 修饰器抑制deprecated修饰器导致的console.warn()调用。但是，异步代码发出的调用除外。
+
+    使用修饰器实现自动发布事件
+
+    Mixin
+      Mixin模式，就是对象继承的一种替代方案，中文译为“混入”（mix in），意为在一个对象之中混入另外一个对象的方法。
+
+    Trait
+      Trait 也是一种修饰器，效果与 Mixin 类似，但是提供更多功能，比如防止同名方法的冲突、排除混入某些方法、为混入的方法起别名等等。
+      traits-decorator 这个第三方模块。这个模块提供的traits修饰器，不仅可以接受对象，还可以接受 ES6 类作为参数。
+
+      @traits 通过traits修饰器可以在类中混入多个类，但不允许“混入”同名方法。
+      @traits(TFoo, TBar::excludes('foo'))  使用绑定运算符（::）在TBar上排除foo方法，混入时就不会报错了。
+
+      @traits(TFoo, TBar::alias({foo: 'aliasFoo'}))
+      @traits(TExample::excludes('foo','bar')::alias({baz:'exampleBaz'}))
+      excludes 貌似做排除作用
+      alias 貌似做定义别名作用
 
     目前浏览器还不支持，可以自己去配置webpack环境，运行
+      babel > 7.0 ? '@babel/plugin-proposal-decorators' : 'babel-plugin-transform-decorators'
       package.json
         "@babel/core": "^7.0.0-beta.42",
         "@babel/plugin-proposal-class-properties": "^7.0.0-beta.42",
@@ -683,4 +904,150 @@ ES6:
           ]
         }
 
+  Module 的语法
+    http://es6.ruanyifeng.com/#docs/module
+    在 ES6 之前,模块加载方案  运行时加载
+    ES6 模块的设计思想是尽量的静态化  编译时加载 或者 静态加载
     
+    严格模式
+      ES6 的模块自动采用严格模式，不管你有没有在模块头部加上"use strict"
+
+      严格模式主要有以下限制。
+        变量必须声明后再使用
+        函数的参数不能有同名属性，否则报错
+        不能使用with语句
+        不能对只读属性赋值，否则报错
+        不能使用前缀 0 表示八进制数，否则报错
+        不能删除不可删除的属性，否则报错
+        不能删除变量delete prop，会报错，只能删除属性delete global[prop]
+        eval不会在它的外层作用域引入变量
+        eval和arguments不能被重新赋值
+        arguments不会自动反映函数参数的变化
+        不能使用arguments.callee
+        不能使用arguments.caller
+        禁止this指向全局对象
+        不能使用fn.caller和fn.arguments获取函数调用的堆栈
+        增加了保留字（比如protected、static和interface）
+
+    export 命令
+      模块功能主要由两个命令构成：export和import。
+      export命令用于规定模块的对外接口
+      import命令用于输入其他模块提供的功能
+
+      一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。如果你希望外部能够读取模块内部的某个变量，就必须使用export关键字输出该变量。
+        export输出的变量就是本来的名字，但是可以使用as关键字重命名。
+        export命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。(就是内部定义的函数、类、变量，要抛出去必须要有花括号包着,不然就看下面1，2点)
+        最后，export命令可以出现在模块的任何位置，只要处于模块顶层就可以。如果处于块级作用域内，就会报错,import命令也是如此.
+        1.export var firstName = 'Michael';
+        2.export function multiply(x, y) {return x * y;};
+        3.var firstName = 'Michael';var lastName = 'Jackson';var year = 1958;function v1() {};
+          export {firstName, lastName, year, v1 as streamV1};
+          (优先考虑使用这种写法)
+
+    import 命令
+      import命令加载模块。
+
+      import命令接受一对大括号，里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（xxx.js）对外接口的名称相同。
+      import命令要使用as关键字，将输入的变量重命名。
+      import命令输入的变量都是只读的，因为它的本质是输入接口。也就是说，不允许在加载模块的脚本里面，改写接口。但是，如果是一个对象，改写属性是允许的。
+      import后面的from指定模块文件的位置，可以是相对路径，也可以是绝对路径，.js后缀可以省略。如果只是模块名，不带有路径，那么必须有配置文件，告诉 JavaScript 引擎该模块的位置。
+        import {firstName as surname, lastName, year} from './xxx.js';
+        import 'lodash'; // import语句会执行所加载的模块,仅仅执行lodash模块，但是不输入任何值。
+        注意：
+          import命令具有提升效果，会提升到整个模块的头部，首先执行。
+          由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。
+          目前阶段，通过 Babel 转码，CommonJS 模块的 require 命令和 ES6 模块的 import 命令，可以写在同一个模块里面，但是最好不要这样做。因为import在静态解析阶段执行，所以它是一个模块之中最早执行的。
+            import 优先于 require
+
+    模块的整体加载
+      即用星号（*）指定一个对象，所有输出值都加载在这个对象上面。
+      import * as circle from './...';
+        注意，模块整体加载所在的那个对象（上例是circle），应该是可以静态分析的，所以不允许运行时改变。下面的写法都是不允许的。
+
+    export default 命令
+      export default命令，为模块指定默认输出。import语句不需要使用大括号
+      一个模块只能有一个默认输出
+      export default 和 export 的情况相反
+        // xxx.js
+        export default function () {console.log('foo');}
+        //
+        import xxx from 'xxx.js';
+
+      如果想在一条 import 语句中，同时输入默认方法和其他接口，可以写成下面这样。
+        import _default, { each, forEach } from 'lodash';
+
+    export 与 import 的复合写法
+      export *命令会忽略circle模块的default方法
+      如果在一个模块之中，先输入后输出同一个模块，import语句可以与export语句写在一起。
+        export { foo, bar } from 'my_module';
+        // 可以简单理解为
+        import { foo, bar } from 'my_module';
+        export { foo, bar };
+        注意
+          写成一行以后，foo和bar实际上并没有被导入当前模块，只是相当于对外转发了这两个接口，导致当前模块不能直接使用foo和bar。
+
+    模块的继承
+    跨模块常量
+    import()
+      动态加载
+      import()返回一个 Promise 对象
+        import(`./section-modules/xxx.js`)
+          .then(module => {})
+          .catch(err => {});
+
+      import()的一些适用场合。
+        （1）按需加载。
+        （2）条件加载
+        （3）动态的模块路径
+      
+      注意
+        import()加载模块成功以后，这个模块会作为一个对象，当作then方法的参数。因此，可以使用对象解构赋值的语法，获取输出接口。
+
+  Module 的加载实现
+    http://es6.ruanyifeng.com/#docs/module-loader
+
+    ES6 模块与 CommonJS 模块的差异
+      CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
+      CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
+
+      ES6 输入的模块变量是只读的
+
+      CommonJS
+        require() // 加载模块
+        module.exports // 抛出默认模块
+
+      ES6
+        import xx from 'xx' // 加载模块
+        export default // 抛出默认模块
+
+    ES6 模块的转码
+      浏览器目前还不支持 ES6 模块，为了现在就能使用，可以将转为 ES5 的写法。除了 Babel 可以用来转码之外，还有以下两个方法，也可以用来转码。
+        ES6 module transpiler
+           square 公司开源的一个转码器，可以将 ES6 模块转为 CommonJS 模块或 AMD 模块的写法，从而在浏览器中使用。
+           $ npm install -g es6-module-transpiler
+        
+        SystemJS
+          使用 SystemJS。它是一个垫片库（polyfill），可以在浏览器内加载 ES6 模块、AMD 模块和 CommonJS 模块，将其转为 ES5 格式。它在后台调用的是 Google 的 Traceur 转码器。
+  
+  编程风格
+    http://es6.ruanyifeng.com/#docs/style
+
+  读懂 ECMAScript 规格
+    http://es6.ruanyifeng.com/#docs/spec
+
+  ArrayBuffer
+    http://es6.ruanyifeng.com/#docs/arraybuffer
+    没看
+    ArrayBuffer对象、TypedArray视图和DataView视图是 JavaScript 操作二进制数据的一个接口。
+    二进制数组由三类对象组成
+      1）ArrayBuffer对象：代表内存之中的一段二进制数据，可以通过“视图”进行操作。“视图”部署了数组接口，这意味着，可以用数组的方法操作内存。
+      2）TypedArray视图：共包括 9 种类型的视图，比如Uint8Array（无符号 8 位整数）数组视图, Int16Array（16 位整数）数组视图, Float32Array（32 位浮点数）数组视图等等。
+      3）DataView视图：可以自定义复合格式的视图，比如第一个字节是 Uint8（无符号 8 位整数）、第二、三个字节是 Int16（16 位整数）、第四个字节开始是 Float32（32 位浮点数）等等，此外还可以自定义字节序。
+
+  最新提案
+    http://es6.ruanyifeng.com/#docs/proposals
+  
+  参考链接
+    http://es6.ruanyifeng.com/#docs/reference
+
+
