@@ -1,0 +1,36 @@
+用 create-react-app 创建单页面应用，基于node
+
+	所有组件 "首字母大写"
+
+  react 生命周期
+    setState // 用来更新视图
+
+    constructor // 构造函数，唯一能够初始化 this.state 的地方。
+    componentWillMount // 第一次加载组件时执行，在 render 前执行
+    render // 渲染视图,通过 setState 修改参数会触发 render 更新
+    componentDidMount  // 第一次加载组件时执行，在 render 执行完之后执行
+    componentWillUnmount // 在组件被销毁时执行
+
+	事件处理
+		绑定事件要注意 this 对象指向
+			1.在构造函数里给函数绑定 this。 // this.myf = this.myf.bind(this);
+			2.回调函数中使用 箭头函数  // onClick={(e) => this.handleClick(e)}
+			3.初始化器语法,在类里使用的
+				/* myf4 = (e) => {
+					//这个语法确保' This '被绑定在handleClick中。
+					//警告:这是“实验性”语法。
+					e.preventDefault();
+					console.log('this is:', this);
+				} */
+			4.onClick={this.myf2.bind(this)}
+
+		e.preventDefault 只能使用这个组织默认事件
+		用 bind 时，参数 e 会被排在最后
+
+	通过 setState 修改
+		1. 	this.setState({value: e.target.value}) 	改变input之类控件的值,貌似只能用这方法
+		2. 	this.setState((state, props) => {
+					return {
+						value: e.target.value
+					}
+				});
