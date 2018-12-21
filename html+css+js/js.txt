@@ -61,6 +61,10 @@ js
 
 			window.parent.document  在iframe里可以获取到父窗口
 			window.parent.document.getElementsByTagName('iframe')[0]   在iframe里可以获取到当前iframe
+
+			isNaN() 判断能否转成数值，true 不能， false 可以
+
+			Number()、parseInt()、parseFloat() 把非数值转换为数值
 		
 		当下面的自带方法不满足时，可以通过prototype原型来给对象添加方法		
 		方法
