@@ -741,6 +741,86 @@ js
 				decodeURIComponent()		对应 encodeURIComponent()，把编码转回原样
 
 			eval()			解析字符串的JavaScript (要小心代码注入)
+		
+		Object 对象
+			对象的高级操作
+				属性类型
+					1.数据属性，4个属性描述符
+						configurable 		判断 能否使用 delete 删除，默认 ture，(设置为 false，严格模式下进行删除会报错)(设置为 false 后，其它的描述符不能在进行修改)
+						enumerable	 		判断 是否循环改属性，默认 true
+						writable			判断 能否修改改属性，默认 true，(设置为 false，严格模式下进行修改会报错)
+						value				属性值，读取写入都是对改描述进行操作，默认 undefined
+
+						使用 Object.defineProperty(a, b, c) 可以进行修改，a 对象、b Key值、c 要修改的描述符对象 (ie8 不要使用)
+							var person = { name: 'Nicholas' };
+							Object.defineProperty(person, 'name', { writable: false });
+					
+					2.访问器属性
+						一对 getter 和 setter 函数 (不必要的，要做拦截操作可以定义来处理数据，严格模式下必须一对一起定义)
+						对取值时调用 getter
+						修改值时调用 setter
+						4个描述符
+							configurable		同上
+							enumerable			同上
+							get					在读取属性时调用的函数，默认值为undefined
+							set					在写入属性时调用的函数，默认值为undefined
+
+							同样必须用 Object.defineProperty() 来定义
+								Object.defineProperty(person, 'name', {
+									get () {...},
+									set (nVal) {...}
+								});
+						
+						ie9 才实现，旧的使用 __defineGetter__() 和 __defineSetter__()
+							person.__defineGetter__('name', function () {})
+							person.__defineSetter__('name', function (nVal) {})
+
+				定义多个属性
+					为对象定义多个属性的可能性很大，又定义了一个 Object.defineProperties(a, b) 方法，利用这个方法可以通过描述符一次定义多个属性。
+					var person = {};
+					Object.defineProperties(person, {
+						name: { value: 'abc' },
+						name2: { value: 'abc' },
+						name3: {
+							get () {},
+							set (nVal) {}
+						}
+					})
+
+				读取属性的特性
+					Object.getOwnPropertyDescriptor(a, b) 读取对象里属性的描述，a 对象， b 对象里的Key (ie9 以上可使用)
+						var person = {name: 'asdf'}
+						Object.getOwnPropertyDescriptor(person, 'name')
+			
+			模式 (设计模式)
+				工厂模式 (我的理解：就是封装公共的部分)
+					function createPerson(name, age, job){
+						var o = new Object();
+						o.name = name;o.age = age;o.job = job;
+						o.sayName = function(){
+							alert(this.name);
+						};
+						return o;
+					}
+
+				构造函数模式
+					相当于 java 的类
+					function Person(name, age, job){
+						this.name = name;this.age = age;this.job = job;
+						this.sayName = function(){
+							alert(this.name);
+						};
+					}
+					var p = new Person("Greg", 27, "Doctor");
+
+					p 有一个 constructor（构造函数）属性，该属性指向 Person
+					对象的 constructor 属性最初是用来标识对象类型的，但是 instanceof 操作符要更可靠一些
+
+					所有创建的对象既是 Object 的实例
+					也是实例者(Person)的对象，是因为所有对象均继承自 Object
+
+				原型模式
+
 
 
 
