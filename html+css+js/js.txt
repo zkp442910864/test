@@ -2,244 +2,24 @@
 
 
 js
-	常用
-		获取节点
-			getElementById() 				通过id获取
-			getElementsByName()				通过name值获取，返回的是数组
-			getElementsByTagName()			通过标签名获取，返回的是数组
-			getAttributeNode()				返回指定的属性节点。
-			querySelector()					返回匹配指定 CSS 选择器元素的第一个子元素
-			querySelectorAll()				返回匹配指定 CSS 选择器元素的所有子元素节点列表
+	技巧
+		in 
+			判断对象是否包含key 如：'d' in obj
+			判断数组是否包含index 如：0 in arr
+			返回true，false
 
-		节点操作
-			childNodes				返回元素子节点的 NodeList。是个数组包括文本节点
-			children				返回元素子节点,没有其他多余节点
-			firstChild				返回元素的首个子。
-			lastChild				返回元素的最后一个子元素。
-			parentNode				返回元素的父节点。
-			removeChild				从元素中移除子节点。
+		window.parent.document  在iframe里可以获取到父窗口
+		window.parent.document.getElementsByTagName('iframe')[0]   在iframe里可以获取到当前iframe
 
-			nodeName				返回元素的名称。
-			nodeType				返回元素的节点类型。
-			nodeValue				设置或返回元素值。
+		isNaN() 判断能否转成数值，true 不能， false 可以
 
-			appendChild				向元素添加新的子节点，作为最后一个子节点。
-			nextSibling				返回位于相同节点树层级的下一个节点。
-			previousSibling			返回位于相同节点树层级的前一个元素。
-			insertBefore			在指定的已有的子节点之前插入新节点。
-			replaceChild			替换元素中的子节点。
+		Number()、parseInt()、parseFloat() 把非数值转换为数值
 
-			getAttribute			返回元素节点的指定属性值。
-			setAttribute			把指定属性设置或更改为指定值。
-			removeAttribute			从元素中移除指定属性。
+		document.documentElement.scrollTop 获取滚动距离
 
-			className				设置或返回元素的 class 属性。
-			classList				返回元素的类名，作为 DOMTokenList 对象。
-				add(c1,c2)				在元素中添加一个或多个类名。
-				contains()				返回布尔值，判断指定的类名是否存在。
-				remove(c1,c2)			移除元素中一个或多个类名。
-				toggle(c)				在元素中切换类名。
+		当内置的对象自带方法不满足时，可以通过 prototype 原型来给对象添加方法
 
-		框架/对象（Frame/Object）事件(页面事件，生命周期)
-			onabort				图像的加载被中断。
-			onerror				在加载文档或图像时发生错误。
-			onload 				一张页面或一幅图像完成加载。
-			onpageshow			该事件在用户访问页面时触发
-			onpagehide			该事件在用户离开当前网页跳转到另外一个页面时触发
-			onunload			用户退出页面。
-			onbeforeunload		该事件在即将离开页面（刷新或关闭）时触发
-			onhashchange		该事件在当前 URL 的锚部分发生修改时触发。
-			onresize			窗口或框架被重新调整大小。
-			onscroll			当文档被滚动时发生的事件。  scrollTo(0,0)返回顶部
-				document.documentElement.scrollTop 获取滚动距离
-
-		技巧
-			in 
-				判断对象是否包含key 如：'d' in obj
-				判断数组是否包含index 如：0 in arr
-				返回true，false
-
-			window.parent.document  在iframe里可以获取到父窗口
-			window.parent.document.getElementsByTagName('iframe')[0]   在iframe里可以获取到当前iframe
-
-			isNaN() 判断能否转成数值，true 不能， false 可以
-
-			Number()、parseInt()、parseFloat() 把非数值转换为数值
-		
-		当下面的自带方法不满足时，可以通过prototype原型来给对象添加方法		
-		方法
-			Array 数组
-				Array.isArray(val) 判断 val值 是否数组
-				forEach()				数组每个元素都执行一次回调函数。方法用于调用数组的每个元素，并将元素传递给回调函数。例：arr.forEach(function(item,index){console.log(item)})
-				concat()				连接两个或更多的数组，并返回结果
-				join()					把数组的所有元素放入一个字符串，以逗号隔开。例：arr.join();
-
-				indexOf()				搜索数组中的元素，并返回它所在的位置。返回指定值首次出现的索引。例：arr.indexOf("Apple");有则返回索引，否则-1
-				lastIndexOf()			基本同上，这是从后面开始。
-
-				pop()					删除数组的最后一个元素并返回删除的元素。
-				push()					向数组的末尾添加一个或更多元素，并返回新的长度。
-
-				shift()					删除并返回数组的第一个元素。
-				unshift()				向数组的开头添加一个或更多元素，并返回新的长度。
-				reverse()				反转数组的元素顺序。
-
-				splice()				从数组中添加或删除元素,返回一个数组。
-					array.splice(index,howmany,item1,.....,itemX)
-					index插入的位置，必需
-					howmany是否删除当前位置的值，不0，是1，必需
-					item1插入的值，可多个，可选
-
-				es6
-					from 				方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
-						Array.from(arrayLike, x => x * x)
-						// 等同于
-						Array.from(arrayLike).map(x => x * x)
-						Array.from([1, 2, 3], (x) => x * x)
-
-						Array.from({ length: 2 }, () => 'jack')
-						// ['jack', 'jack'] 关键在length的长度
-					
-					of
-						Array.of方法用于将一组值，转换为数组。
-						Array.of() // []
-						Array.of(undefined) // [undefined]
-						Array.of(1) // [1]
-						Array.of(1, 2) // [1, 2]
-
-					数组实例的 copyWithin()
-						数组实例的copyWithin方法，在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。也就是说，使用这个方法，会修改当前数组。
-						Array.prototype.copyWithin(target, start = 0, end = this.length)
-							target（必需）：从该位置开始替换数据。如果为负值，表示倒数。
-							start（可选）：从该位置开始读取数据，默认为 0。如果为负值，表示倒数。
-							end（可选）：到该位置前停止读取数据，默认等于数组长度。如果为负值，表示倒数。
-
-						[1, 2, 3, 4, 5].copyWithin(0, 3)
-						// [4, 5, 3, 4, 5]
-
-						// -2相当于3号位，-1相当于4号位,注意：好像要反过来
-						[1, 2, 3, 4, 5].copyWithin(0, -2, -1)
-						// [4, 2, 3, 4, 5]
-					
-					数组实例的 fill()
-						fill方法使用给定值，填充一个数组, 注意，如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
-							['a', 'b', 'c'].fill(7)
-							// [7, 7, 7]
-							new Array(3).fill(7)
-							// [7, 7, 7]
-
-							fill方法还可以接受第二个和第三个参数，用于指定填充的起始位置和结束位置。
-							['a', 'b', 'c'].fill(7, 1, 2)
-							// ['a', 7, 'c']
-
-							注意，如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
-							let arr = new Array(3).fill([]);
-							arr[0].push(5);
-							arr
-							// [[5], [5], [5]]
-
-					数组实例的 entries()，keys() 和 values() 
-						ES6 提供三个新的方法——entries()，keys()和values()——用于遍历数组。
-						它们都返回一个遍历器对象（详见《Iterator》一章），可以用for...of循环进行遍历，唯一的区别是keys()是对键名的遍历、values()是对键值的遍历，entries()是对键值对的遍历。
-						for (let index of ['a', 'b'].keys()) {
-							console.log(index);
-						}
-						// 0
-						// 1
-
-						for (let elem of ['a', 'b'].values()) {
-							console.log(elem);
-						}
-						// 'a'
-						// 'b'
-
-						for (let [index, elem] of ['a', 'b'].entries()) {
-							console.log(index, elem);
-						}
-						// 0 "a"
-						// 1 "b"
-
-						如果不使用for...of循环，可以手动调用遍历器对象的next方法，进行遍历。
-						let letter = ['a', 'b', 'c'];
-						let entries = letter.entries();
-						console.log(entries.next().value); // [0, 'a']
-						console.log(entries.next().value); // [1, 'b']
-						console.log(entries.next().value); // [2, 'c']
-
-					数组实例的 includes()
-						Array.prototype.includes方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的includes方法类似。
-						[1, 2, 3].includes(2)     // true
-						[1, 2, 3].includes(4)     // false
-						[1, 2, NaN].includes(NaN) // true
-
-			Date 时间
-				toLocaleDateString() 	根据本地时间格式，把 Date 对象的日期部分转换为字符串。new Date().toLocaleDateString();输出：2017-4-26
-				toLocaleTimeString()	根据本地时间格式，把 Date 对象的时间部分转换为字符串。new Date().toLocaleTimeString();输出：14:25:10
-				toLocaleString()		据本地时间格式，把 Date 对象转换为字符串。输出：2017-4-26 14:25:12
-
-				getFullYear()			从 Date 对象以四位数字返回年份。
-				getMonth()				从 Date 对象返回月份 (0 ~ 11)。
-				getDate()				从 Date 对象返回一个月中的某一天 (1 ~ 31)。
-				getHours()				返回 Date 对象的小时 (0 ~ 23)。
-				getMinutes()			返回 Date 对象的分钟 (0 ~ 59)。
-				getMilliseconds()		返回 Date 对象的毫秒(0 ~ 999)。
-				setFullYear()			
-				setMonth()				
-				setDate()				
-				setHours()				
-				setMinutes()			
-				setMilliseconds()
-				setTime()
-				//自定义函数
-				new Date().Format('yyyy-MM-dd');这样就输出需要的格式
-				Date.prototype.Format = function(fmt){
-				    var o = {
-				        "M+": this.getMonth() + 1, //月份 
-				        "d+": this.getDate(), //日 
-				        "h+": this.getHours(), //小时 
-				        "m+": this.getMinutes(), //分 
-				        "s+": this.getSeconds(), //秒 
-				        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-				        "S": this.getMilliseconds() //毫秒 
-				    };
-				    //用正则匹配yyyy然后替换
-				    if (/(y+)/.test(fmt)) {
-				    	//RegExp.$1是代表第一个子匹配(以括号为标志)，如果有多个就RegExp.$2，RegExp.$3，..RegExp.$99以此类推，总共可以有99个匹配
-				    	fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-				    }
-				    //匹配其它字符进行替换，如果在o对象里找不到，就原意输出。
-				    for (var k in o){
-				    	if (new RegExp("(" + k + ")").test(fmt)){
-				    		fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-				    	}
-				    }
-				    return fmt;
-				}
-
-			Math 
-				abs(x)					返回 x 的绝对值。
-				ceil(x)					对数进行上舍入。
-				floor(x)				对 x 进行下舍入。
-				round(x)				把数四舍五入为最接近的整数。
-				random()				返回 0 ~ 1 之间的随机数。
-
-			Number 数字
-				toFixed(x)				指定小数为x位。
-				toExponential(x)		指定小数为x位,带e表示
-				toPrecision()
-
-			String 字符串
-				charAt()				返回在指定位置的字符。
-
-				toLowerCase()			把字符串转换为小写。
-				toUpperCase()			把字符串转换为大写。
-
-				trim()					去除字符串两边的空白
-				substr(s,e)				从起始索引号提取字符串中指定数目的字符。s、e可为负数，从后面开始。
-				split()					把字符串分割为字符串数组。
-
-				indexOf()
-				lastIndexOf()
+		Array.isArray(val) 判断 val值 是否数组
 	
 	语法
 		var 关键词来声明变量：var carname;
@@ -366,7 +146,7 @@ js
 					querySelector()					返回匹配指定 CSS 选择器元素的第一个子元素
 					querySelectorAll()				返回匹配指定 CSS 选择器元素的所有子元素节点列表
 
-			元素对象 就是获取到节点后的操作
+			元素对象 就是获取到节点后的操作 (节点操作)
 
 				scrollLeft				返回元素左边缘与视图之间的距离。
 				scrollTop				返回元素上边缘与视图之间的距离。
@@ -453,7 +233,7 @@ js
 					onkeypress			某个键盘按键被按下并松开。
 					onkeyup				某个键盘按键被松开。
 
-				框架/对象（Frame/Object）事件
+				框架/对象（Frame/Object）事件 (页面事件，生命周期)
 					onabort				图像的加载被中断。
 					onerror				在加载文档或图像时发生错误。
 					onload 				一张页面或一幅图像完成加载。
@@ -556,6 +336,91 @@ js
 				item1插入的值，可多个，可选
 			unshift()				向数组的开头添加一个或更多元素，并返回新的长度。
 
+			以下为 es6
+
+			from 				方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
+				Array.from(arrayLike, x => x * x)
+				// 等同于
+				Array.from(arrayLike).map(x => x * x)
+				Array.from([1, 2, 3], (x) => x * x)
+
+				Array.from({ length: 2 }, () => 'jack')
+				// ['jack', 'jack'] 关键在length的长度
+			
+			of
+				Array.of方法用于将一组值，转换为数组。
+				Array.of() // []
+				Array.of(undefined) // [undefined]
+				Array.of(1) // [1]
+				Array.of(1, 2) // [1, 2]
+
+			数组实例的 copyWithin()
+				数组实例的copyWithin方法，在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。也就是说，使用这个方法，会修改当前数组。
+				Array.prototype.copyWithin(target, start = 0, end = this.length)
+					target（必需）：从该位置开始替换数据。如果为负值，表示倒数。
+					start（可选）：从该位置开始读取数据，默认为 0。如果为负值，表示倒数。
+					end（可选）：到该位置前停止读取数据，默认等于数组长度。如果为负值，表示倒数。
+
+				[1, 2, 3, 4, 5].copyWithin(0, 3)
+				// [4, 5, 3, 4, 5]
+
+				// -2相当于3号位，-1相当于4号位,注意：好像要反过来
+				[1, 2, 3, 4, 5].copyWithin(0, -2, -1)
+				// [4, 2, 3, 4, 5]
+			
+			数组实例的 fill()
+				fill方法使用给定值，填充一个数组, 注意，如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
+					['a', 'b', 'c'].fill(7)
+					// [7, 7, 7]
+					new Array(3).fill(7)
+					// [7, 7, 7]
+
+					fill方法还可以接受第二个和第三个参数，用于指定填充的起始位置和结束位置。
+					['a', 'b', 'c'].fill(7, 1, 2)
+					// ['a', 7, 'c']
+
+					注意，如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
+					let arr = new Array(3).fill([]);
+					arr[0].push(5);
+					arr
+					// [[5], [5], [5]]
+
+			数组实例的 entries()，keys() 和 values() 
+				ES6 提供三个新的方法——entries()，keys()和values()——用于遍历数组。
+				它们都返回一个遍历器对象（详见《Iterator》一章），可以用for...of循环进行遍历，唯一的区别是keys()是对键名的遍历、values()是对键值的遍历，entries()是对键值对的遍历。
+				for (let index of ['a', 'b'].keys()) {
+					console.log(index);
+				}
+				// 0
+				// 1
+
+				for (let elem of ['a', 'b'].values()) {
+					console.log(elem);
+				}
+				// 'a'
+				// 'b'
+
+				for (let [index, elem] of ['a', 'b'].entries()) {
+					console.log(index, elem);
+				}
+				// 0 "a"
+				// 1 "b"
+
+				如果不使用for...of循环，可以手动调用遍历器对象的next方法，进行遍历。
+				let letter = ['a', 'b', 'c'];
+				let entries = letter.entries();
+				console.log(entries.next().value); // [0, 'a']
+				console.log(entries.next().value); // [1, 'b']
+				console.log(entries.next().value); // [2, 'c']
+
+			数组实例的 includes()
+				Array.prototype.includes方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的includes方法类似。
+				[1, 2, 3].includes(2)     // true
+				[1, 2, 3].includes(4)     // false
+				[1, 2, NaN].includes(NaN) // true
+
+		
+
 		Date 对象
 			静态方法
 				Date.parse()					接收一个表示日期的字符串参数，然后尝试根据这个字符串返回相应日期的毫秒数
@@ -577,6 +442,14 @@ js
 				toLocaleDateString() 	根据本地时间格式，把 Date 对象的日期部分转换为字符串。new Date().toLocaleDateString();
 				toLocaleTimeString()	根据本地时间格式，把 Date 对象的时间部分转换为字符串。new Date().toLocaleTimeString();
 				toLocaleString()		据本地时间格式，把 Date 对象转换为字符串。
+
+				setFullYear()			
+				setMonth()				
+				setDate()				
+				setHours()				
+				setMinutes()			
+				setMilliseconds()
+				setTime()
 
 		Math 对象
 			http://www.runoob.com/jsref/jsref-obj-math.html
@@ -617,6 +490,8 @@ js
 		Number 对象
 			http://www.runoob.com/jsref/jsref-obj-number.html
 			toFixed(x)				指定小数为x位。
+			toExponential(x)		指定小数为x位,带e表示
+			toPrecision()
 
 		String 对象
 			http://www.runoob.com/jsref/jsref-obj-string.html
