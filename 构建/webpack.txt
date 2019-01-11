@@ -2,6 +2,35 @@
 	https://www.jianshu.com/p/42e11515c10f
 	https://www.runoob.com/w3cnote/webpack-tutorial.html
 
+	注意：
+		module.rules
+			配置处理 css
+			{
+				test: /\.css$/,
+				use: [{
+					loader: MiniCssExtractPlugin.loader || 'style-loader',
+					options: {
+						publicPath: '../../' // 这个是修改样式文件里引用的路径
+					}
+				}, {
+					loader: 'css-loader'
+				}]
+			}
+
+		resolve.alias
+			配置快捷路径
+			{
+				'@file': path.resolve(__dirname, "../src/assets")
+			}
+			
+			js 中： @import "@file/style/theme"
+			css module 中： @import "~@file/style/theme"
+			css 属性中： background: url("~@file/assets/xxx.jpg")
+			html 标签中： <img src="~@file/assets/xxx.jpg" alt="alias">
+
+			https://www.jianshu.com/p/901c7eaed40f
+			https://wiki.zthxxx.me/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/Webpack-%E4%B8%AD-css-import-%E4%BD%BF%E7%94%A8-alias-%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84/
+
 	安装webpack
 		前提:环境需要支持 node.js
 		把 webpack 全局安装

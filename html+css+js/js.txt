@@ -695,10 +695,192 @@ js
 					也是实例者(Person)的对象，是因为所有对象均继承自 Object
 
 				原型模式
+					每个函数都有一个 prototype（原型）属性，是一个指针，指向一个对象。
+					用途是共享所有实例的属性和方法，这就解决了上面的设计模式存在的一个问题(通过 this 创建的引用类型，每次实例会产生新的内存空间)。
+						function Person () {}
+						Person.prototype.name = "Nicholas";
+						Person.prototype.age = 29;
+						Person.prototype.job = "Software Engineer";
+						Person.prototype.sayName = function(){ alert(this.name) };
+						var p = new Person();
 
+						更简单的原型语法
+						Person.prototype = {
+							name : "Nicholas",
+							age : 29,
+							job: "Software Engineer",
+							sayName : function () {
+								alert(this.name);
+							},
+							/* 这种字面量写法会导致 Person.prototype.constructor 指向 Object，这是解决方法
+							 * 缺点：导致它的 enumerable 描述符 被设置为true，可以使用 Object.defineProperty() 修改为false
+							*/
+							constructor : Person 
+						};
 
+					所有的实例对象都有一个 __proto__ 属性，指向实例函数的 prototype (也是构造函数的原型)
+					当读取对象的某个属性时，先从当前 对象 找，找不到再从 对象的原型 里面找。而这正是 多个对象实例 共享原型 所保存的属性和方法的基本原理。
+					原型的动态性(这里需要注意)
+						Person.prototype 是个指针
+						p.__proto__ 	 也是个指针
+						在实例化对象后可以对 prototype 进行修改，但不能使用 字面量方法赋值对象
 
+					isPrototypeOf()
+						用来确定对象之间是否存在关系
+						alert(Person.prototype.isPrototypeOf(p)); //true
+					
+					Object.getPrototypeOf() (ie9以上可用)
+						这个方法返回 __proto__ 的值
+						alert(Object.getPrototypeOf(p) === Person.prototype);
 
+					hasOwnProperty()
+						检测一个属性是存在于实例中，还是存在于原型中。在实例中返回 true
+						alert(p.hasOwnProperty("name")); //false
+
+					in 操作符
+						'name' in p // 不管属性名在实例或者原型中，只要有就返回 true
+						同时使用 hasOwnProperty() 方法和 in 操作符，就可以确定该属性到底是存在于对象中，还是存在于原型中。(因为 hasOwnProperty 在原型中找不到也是返回 false)
+						function hasPrototypeProperty (object, name) { return !object.hasOwnProperty(name) && (name in object) }
+
+					Object.keys()
+						返回一个包含所有可枚举属性的字符串数组
+						Object.keys(p)
+
+					Object.getOwnPropertyNames()
+						返回一个所有属性名的数组，无论它是否可枚举
+						Object.getOwnPropertyNames(Person.prototype)
+
+					原生对象的原型 (不推荐修改)
+						原型模式的重要性不仅体现在创建自定义类型方面，就连所有原生的引用类型，都是采用这种模式创建的。
+						原生引用类型(Object、Array、String，等等).prototype = function () {...}
+
+				组合使用 构造函数模式 和 原型模式 (用最广泛、认同度最高的一种创建自定义类型的方法)
+					构造函数实现 私有数据
+					原型模式实现 共享数据
+					function Person(name, age, job){
+						this.name = name;this.age = age;
+						this.job = job;this.friends = ["Shelby", "Court"];
+					}
+					Person.prototype = {
+						constructor : Person,
+						sayName : function () { alert(this.name) }
+					}
+
+				动态原型模式
+					function Person(name, age, job){
+						//属性
+						this.name = name;this.age = age;this.job = job;
+						//方法
+						if (typeof this.sayName != "function"){
+							Person.prototype.sayName = function(){ alert(this.name) };
+						}
+					}
+
+				寄生构造函数模式
+					function SpecialArray(){
+						//创建数组
+						var values = new Array();
+						//添加值
+						values.push.apply(values, arguments);
+						//添加方法
+						values.toPipedString = function(){ return this.join("|") };
+						//返回数组
+						return values;
+					}
+					var colors = new SpecialArray("red", "blue", "green");
+					alert(colors.toPipedString()); //"red|blue|green"
+				
+				稳妥构造函数模式
+					function Person(name, age, job){
+						//创建要返回的对象
+						var o = new Object();
+						//可以在这里定义私有变量和函数
+						...
+						//添加方法
+						o.sayName = function(){ alert(name) };
+						//返回对象
+						return o;
+					}
+					var friend = Person("Nicholas", 29, "Software Engineer");
+					friend.sayName(); //"Nicholas"
+					变量friend 中保存的是一个稳妥对象，而除了调用sayName()方法外，没有别的方式可以访问其数据成员。
+					稳妥构造函数模式提供的这种安全性，使得它非常适合在某些安全执行环境——例如，ADsafe（www.adsafe.org）和Caja（http://code.google.com/p/google-caja/）提供的环境——下使用。
+
+			继承
+				原型链
+					function SuperType(){ this.property = true }
+					function SubType(){ this.subproperty = false }
+					SubType.prototype = new SuperType()
+					...
+					实现的本质是重写原型对象，代之以一个新类型的实例。
+					换句话说，原来存在于 SuperType 的实例中的所有属性和方法，现在也存在于 SubType.prototype 中了。
+				
+					确定原型和实例的关系
+						instanceof 操作符
+						isPrototypeOf()方法
+						alert(instance instanceof Object); 		//true
+						alert(instance instanceof SuperType); 	//true
+						alert(instance instanceof SubType); 	//true
+						只要是原型链中出现过的原型，都可以说是该原型链所派生的实例的原型，所以都会返回 true
+
+					谨慎地定义方法
+						继承时，不管怎样，给原型添加方法的代码一定要放在替换原型的语句之后。
+						就是写在上面 原型链 (...) 的那部分
+
+					原型链的问题
+						继承的父级中存在引用类型值的问题
+						在创建子类型的实例时，不能向超类型的构造函数中传递参数
+				
+				借用构造函数
+					解决上面 原型链的问题
+					function SuperType(){ this.colors = ["red", "blue", "green"] }
+					function SubType(){
+						// 继承了SuperType
+						SuperType.call(this);
+					}
+					var instance1 = new SubType();
+
+					借用构造函数的问题
+						方法都在构造函数中定义，因此函数复用就无从谈起了。
+
+				组合继承
+					解决上面 原型链的问题 和 借用构造函数的问题
+
+					function SuperType(name){ this.name = name;this.colors = ["red", "blue", "green"] }
+					SuperType.prototype.sayName = function(){ alert(this.name) }
+					function SubType(name, age){
+						//继承属性
+						SuperType.call(this, name);
+						this.age = age;
+					}
+					//继承方法
+					SubType.prototype = new SuperType();
+					SubType.prototype.constructor = SubType;
+					SubType.prototype.sayAge = function(){ alert(this.age) };
+
+					组合继承避免了原型链和借用构造函数的缺陷，融合了它们的优点
+
+				原型式继承
+					Object.create(a, b) // a 是原型， b 是当前对象的值 (ie9以上可用)
+						注意 包含引用类型值的属性始终都会共享相应的值
+
+				寄生式继承
+					function createAnother(original){
+						var clone = object(original); //通过调用函数创建一个新对象
+						clone.sayHi = function(){ //以某种方式来增强这个对象
+							alert("hi");
+						};
+						return clone; //返回这个对象
+					}
+					var person = {
+						name: "Nicholas",
+						friends: ["Shelby", "Court", "Van"]
+					};
+					var anotherPerson = createAnother(person);
+					anotherPerson.sayHi(); //"hi"
+					统一给对象增加一样的 属性和方法
+
+				寄生组合式继承
 
 
 
