@@ -571,32 +571,35 @@ js
 		Function 对象
 			函数声明
 				率先读取函数声明，并使其在执行任何代码之前可用（可以访问）；(相当于var的提升作用域)
+					function f(){}
 
 			函数表达式
-				至于函数表达式，则必须等到解析器执行到它所在的代码行，才会真正被解释执行
+				至于函数表达式，则必须等到解析器执行到它所在的代码行，才会真正被解释执行 (匿名函数)
+					var f = function () {}
 
-			在函数内部，有两个特殊的对象：arguments 和this。
+			在函数内部，有两个特殊的对象：arguments 和 this (严格模式下不能使用)
 				arguments			包含所有参数的数组
 				arguments.callee	指向自身的函数
+					严格模式下 解决方案
+					(function () {}) 在括号里声明函数，不影响全局，一个闭包函数 (闭包不要用箭头函数)
+					var factorial = (function f (num) {
+						if (num <= 1) {
+							return 1;
+						} else {
+							return num * f(num-1);
+						}
+					});
 
-			caller	这个属性中保存着调用当前函数的函数的引用，如果是在全局作用域中调用当前函数，它的值为null
-				function outer(){inner()};function inner(){alert(inner.caller)};outer();
-
-			例子:function f(){}
-
-			每个JavaScript函数都会有很多附属的方法
-
-			关键字 arguments
-				代表一个参数对象，它只有一个代表长度(length)的属性类似于数组。
-
-			toString()
-
-			call()	
-				方法会用它的第一个参数 作为 当前调用call()函数的this指针  例子:var obj={} f.call(obj)
-
-			apply()
-				apply()和call()类似的，只是apply()要求第二个参数必须是一个数组。
-				这个数组会作为参数传递给目标函数，通过arguments数组来获取  例子:var obj={} f.apply(obj,['q','b','c'])
+			每个JavaScript函数都会有很多 附属 静态属性和方法
+				name 			获取当前函数的 方法名
+				caller			这个属性中保存着调用当前函数的函数的引用，如果是在全局作用域中调用当前函数，它的值为null
+					function outer(){inner()};function inner(){alert(inner.caller)};outer();
+					
+				toString()		获取当前函数体的 字符串
+				call()	 		方法会用它的第一个参数 作为 当前调用call()函数的this指针  例子:var obj={} f.call(obj)
+				apply() 		apply()和call()类似的，只是apply()要求第二个参数必须是一个数组。
+					这个数组会作为参数传递给目标函数，通过arguments数组来获取  例子:var obj={} f.apply(obj,['q','b','c'])
+				
 		
 		Global 对象
 			一个虚拟的对象，其实就是 window (自己的理解)
@@ -922,6 +925,61 @@ js
 
 				小结
 					原型链的构建是通过将一个类型的实例赋值给另一个构造函数的原型实现的。
+	
+	闭包 (有必要重看 7.2)
+		了解
+			1.执行环境
+				在每个函数调用的时候会创建一个 执行环境
+			2.作用域链
+				在创建 执行环境 后，会有对应的作用域，通过函数的 [[Scopes]] 指向 全局环境对象(this) 和 包含函数参数的 活动对象(arguments)
+				从函数里层向外扩展 0、1、2、3、4...
+				在 全局环境 中调用函数(指的是普通的函数)，函数位于 1 的位置
+			3.销毁
+				一般来讲，当函数执行完毕后，执行环境 和 局部活动对象 就会被销毁，内存中仅保存全局作用域（全局执行环境的变量对象）。
+		
+		当执行的函数，返回一个匿名函数时
+			function child () {
+				return function () {
+					...
+				}
+			}
+			var a = child();
+			a();
+			a = null;
+			会按上面的步骤走完，但在第三步时，执行完后 局部活动对象，因为返回 匿名函数 且被 a 引用，所以不会被销毁。 
+			当调用 a 函数时，在上面第二步的 作用域链 是这样的，闭包的活动对象、child 的活动对象、全局环境对象
+			设置为等于 null 解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其他作用域（除了全局作用域）也都可以安全地销毁了。
+
+		由于闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。
+		过度使用闭包可能会导致内存占用过多，我们建议读者只在绝对必要时再考虑使用闭包。
+		虽然像 V8 等优化后的 JavaScript 引擎会尝试回收被闭包占用的内存，但请大家还是要慎重使用闭包。
+
+		关于this对象
+
+		内存泄漏
+			由于IE9 之前的版本对JScript 对象和COM 对象使用不同的垃圾收集例程，因此闭包在IE 的这些版本中会导致一些特殊的问题。
+				function assignHandler(){
+					var element = document.getElementById("someElement");
+					element.onclick = function(){
+						alert(element.id);
+					};
+				}
+				因为函数中存在匿名函数，会导致匿名函数的活动对象不会被销毁，每次使用事件都会触发对 element 的引用
+
+				function assignHandler(){
+					var element = document.getElementById("someElement");
+					var id = element.id;
+					element.onclick = function(){
+						alert(id);
+					};
+					element = null;
+				}
+				这样修改后
+					1.赋值给变量后减少了对 element 的引用
+					2.然后 element 不使用后，赋值为 null
+					3.这样就能够解除对 DOM 对象的引用，顺利地减少其引用数，确保正常回收其占用的内存。
+
+		只要函数中存在匿名函数，并被使用着，这就是闭包。
 
 
 
