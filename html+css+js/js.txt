@@ -123,6 +123,218 @@ js
 					console.log(err);//打印的是empty
 				}
 
+	BOM (即 window 对象)
+		BOM（浏览器对象模型）
+		BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
+		就是浏览器
+		
+		window 对象
+			BOM 的核心对象是 window，它表示浏览器的一个实例。
+
+			全局作用域
+				凡是在全局作用域中声明的 变量、函数 都会变成 window 对象的属性和方法。
+				全局定义的变量和函数 即 window 上的属性和方法，不能通过 delete 删除，但是直接通过 window['key'] = '' 来定义的可以删除。
+					不能删除是因为 描述符configurable 被设置为 false 了。
+			
+			窗口关系及框架 （基本不用了）
+				<frameset rows="160,*">
+					<frame src="frame.htm" name="topFrame">
+					<frameset cols="50%,50%">
+						<frame src="anotherframe.htm" name="leftFrame">
+						<frame src="yetanotherframe.htm" name="rightFrame">
+					</frameset>
+				</frameset>
+				top.frames // 貌似被废弃了
+
+			窗口位置
+				确定浏览器的位置
+					Firefox 不支持下面这两个
+					window.screenLeft		浏览器窗口距离左边距离
+					window.screenTop		浏览器窗口距离顶部距离
+
+					Safari、Chrome、Firefox 支持一下 api
+					window.screenX
+					window.screenY
+
+					兼容写法
+					var leftPos = (typeof window.screenLeft == "number") ? window.screenLeft : window.screenX;
+					var topPos = (typeof window.screenTop == "number") ? window.screenTop : window.screenY;
+			
+			移动窗口
+				window.moveTo(x, y)		直接指定位置
+				window.moveBy(x, y)		相对位置移动
+
+				这两个方法可能会被浏览器禁用，而且只能对最外层的 window 对象使用。
+
+			窗口大小
+				innerWidth和innerHeight 显示的是视口的宽高，outerWidth和outerHeight 显示的是浏览器窗口的宽高 (老版本的chrome，outerWidth、outerHeight 与innerWidth、innerHeight 返回相同的值)
+
+				window.innerWidth
+				window.innerHeight
+				window.outerWidth
+				window.outerHeight
+
+				ie8之前的版本不支持这些属性，不过，它通过DOM 提供了页面可见区域的相关信息。
+				document.documentElement.clientWidth || document.body.clientWidth 		可见宽度
+				document.documentElement.clientHeight || document.body.clientHeight		可见高度
+
+				虽然最终无法确定浏览器窗口本身的大小，但却可以取得页面视口的大小
+				兼容例子
+					var pageWidth = window.innerWidth,
+						pageHeight = window.innerHeight;
+					if (typeof pageWidth != "number"){
+						if (document.compatMode == "CSS1Compat"){
+							pageWidth = document.documentElement.clientWidth;
+							pageHeight = document.documentElement.clientHeight;
+						} else {
+							pageWidth = document.body.clientWidth;
+							pageHeight = document.body.clientHeight;
+						}
+					}
+
+				window.resizeTo(x, y)	设置窗口大小（指定）
+				window.resizeBy(x, y)	设置窗口大小（相对）
+				这两个方法可能会被浏览器禁用，而且只能对最外层的 window 对象使用。
+
+			导航和打开窗口
+				window.open(a, b, c, d)			打开一个窗口
+					a：要打开的url
+					b：	_self、_parent、_top 		 这三个都是当前页打开
+						_blank						会打开新的窗口
+						还可以是框架（iframe）的名	  指定 iframe 打开这链接，必须同域名(安全策略的问题)
+
+					c：传递的第二个参数并不是一个已经存在的窗口或框架，可以设置一些属性来定义新开的窗口
+							fullscreen 	yes或no 	表示浏览器窗口是否最大化。仅限IE
+							height 		数值		表示新窗口的高度。不能小于100
+							left 		数值 		表示新窗口的左坐标。不能是负值
+							location 	yes或no 	表示是否在浏览器窗口中显示地址栏。不同浏览器的默认值不同。如果设置为no，地址栏可能会隐藏，也可能会被禁用（取决于浏览器）
+							menubar 	yes或no 	表示是否在浏览器窗口中显示菜单栏。默认值为no
+							resizable 	yes或no 	表示是否可以通过拖动浏览器窗口的边框改变其大小。默认值为no
+							scrollbars 	yes或no 	表示如果内容在视口中显示不下，是否允许滚动。默认值为no
+							status 		yes或no 	表示是否在浏览器窗口中显示状态栏。默认值为no
+							toolbar 	yes或no 	表示是否在浏览器窗口中显示工具栏。默认值为no
+							top 		数值 		表示新窗口的上坐标。不能是负值
+							width 		数值 		表示新窗口的宽度。不能小于100
+						var w = window.open("http://www.wrox.com/", "_blank", "height=400,width=400,top=10,left=10,resizable=no,scrollbars=no,status=no,toolbar=no,location=no,menubar=no");
+						这里面的属性有可能会被浏览器禁用
+					
+					调用后会返回当前窗口的对象，可以用来对这窗口进行一些操作
+					w.opener	指向创建这窗口的 window
+					w.close()	关闭这个创建的窗口
+					还可以使用上面的 移动窗口、窗口大小 来对它进行操作
+					必须同域名(安全策略的问题)
+
+				弹出窗口屏蔽程序
+					被屏蔽后调用 window.open() 会返回 null，但有些浏览器会报错
+					try {
+						var wroxWin = window.open("http://www.wrox.com", "_blank");
+						if (wroxWin == null){
+							blocked = true;
+						}
+					} catch (ex){
+						blocked = true;
+					}
+					if (blocked){
+						alert("The popup was blocked!");
+					}
+
+			间歇调用和超时调用
+				JavaScript 是一个单线程序的解释器，因此一定时间内只能执行一段代码
+				为了控制要执行的代码，就有一个JavaScript 任务队列，这些任务会按照将它们添加到队列的顺序执行。
+				定时器 到了后会把任务扔到队列中，如果队列是空的，那么添加的代码会立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。
+				定时器都有一个返回值，用来对它进行取消作用的
+
+				var t = window.setTimeout(function () {}, 1000) 	1秒后执行
+				window.clearTimeout(t)		在时间结束前，就能 取消超时调用
+
+				var t = window.setTimeout(function () {}, 1000)		每隔1秒，会执行这函数
+				window.clearInterval(t)		把这持续执行的定时器取消
+
+				定时器 里的函数都是在 全局作用域 中执行的，因此 this 指向 window (严格模式 下是 undefined)
+
+				建议用 超时定时器 来模拟 间歇定时器
+				原因是后一个 间歇 调用可能会在前一个 间歇 调用结束之前启动。而像示例中那样使用超时调用，则完全可以避免这一点。
+				var num = 0;
+				var max = 10;
+				function incrementNumber() {
+					num++;
+					//如果执行次数未达到max 设定的值，则设置另一次超时调用
+					if (num < max) {
+						setTimeout(incrementNumber, 500);
+					} else {
+						alert("Done");
+					}
+				}
+				setTimeout(incrementNumber, 500);
+			系统对话框
+				这几个弹窗外观由操作系统及（或）浏览器设置决定，而不是由CSS 决定。
+				显示这些对话框的时候代码会停止执行，而关掉这些对话框后代码又会恢复执行。
+
+				window.alert()			提示框
+				window.confirm()		警视框，需要确认进行下一步
+					if (confirm("Are you sure?")) {
+						alert("I'm so glad you're sure! ");
+					} else {
+						alert("I'm sorry to hear you're not sure. ");
+					}
+				window.prompt()			一个带文本域的弹窗
+					var result = prompt("What is your name? ", "");
+					if (result !== null) {
+						alert("Welcome, " + result);
+					}
+				chrome 引入了一种新特性，如果当前脚本在执行过程中会打开两个或多个对话框，那么从第二个对话框开始，每个对话框中都会显示一个复选框，以便用户阻止后续的对话框显示，除非用户刷新页面 (貌似只在移动端出现)
+
+				window.print()		显示“打印”对话框
+				window.find()		显示“查找”对话框
+				这两个对话框是异步显示的
+		
+		location 对象
+			location 对象是很特别的一个对象，因为它既是 window 对象的属性，也是 document 对象的属性
+			window.location === document.location
+			也可以直接 location 对象来使用
+				hash 		"#contents" 			返回URL中的hash（#号后跟零或多个字符），如果URL中不包含散列，则返回空字符串
+				host 		"www.wrox.com:80" 		返回服务器名称和端口号（如果有）
+				hostname 	"www.wrox.com" 			返回不带端口号的服务器名称
+				href 		"http:/www.wrox.com" 	返回当前加载页面的完整URL。而location对象的toString()方法也返回这个值
+				pathname 	"/WileyCDA/" 			返回URL中的目录和（或）文件名
+				port 		"8080" 					返回URL中指定的端口号。如果URL中不包含端口号，则这个属性返回空字符串
+				protocol 	"http:" 				返回页面使用的协议。通常是http:或https:
+				search 		"?q=javascript" 		返回URL的查询字符串。这个字符串以问号开头
+
+			查询字符串参数
+				尽管location.search 返回从问号到URL 末尾的所有内容，但却没有办法逐个访问其中的每个查询字符串参数。
+				为此，可以像下面这样创建一个函数，用以解析查询字符串，然后返回包含所有参数的一个对象
+				function getQueryStringArgs () {
+					//取得查询字符串并去掉开头的问号
+					const str = location.search;
+					const qs = str.length > 0 ? str.substr(1) : '';
+
+					//没有值就可以直接跳出了，但是为了不报错，就返回个空对象
+					if (!qs.length) {
+						return {};
+					}
+
+					//保存数据的对象
+					const args = {};
+
+					//取得每一项
+					const items = qs.split('&');
+
+					//逐个将每一项添加到 args 对象中
+					for (let i in items) {
+						const item = items[i].split('=');
+						const name = item[0];
+						(name && name.length) && (args[name] = item[1]);
+					}
+
+					return args;
+				}
+
+			位置操作
+				location.assign()		改变浏览器的链接
+
+
+
 	DOM (http://www.w3school.com.cn/jsref/dom_obj_all.asp)
 		改变 HTML 输出流
 			document.write() 可用于直接向 HTML 输出流写内容。
@@ -926,60 +1138,112 @@ js
 				小结
 					原型链的构建是通过将一个类型的实例赋值给另一个构造函数的原型实现的。
 	
-	闭包 (有必要重看 7.2)
-		了解
-			1.执行环境
-				在每个函数调用的时候会创建一个 执行环境
-			2.作用域链
-				在创建 执行环境 后，会有对应的作用域，通过函数的 [[Scopes]] 指向 全局环境对象(this) 和 包含函数参数的 活动对象(arguments)
-				从函数里层向外扩展 0、1、2、3、4...
-				在 全局环境 中调用函数(指的是普通的函数)，函数位于 1 的位置
-			3.销毁
-				一般来讲，当函数执行完毕后，执行环境 和 局部活动对象 就会被销毁，内存中仅保存全局作用域（全局执行环境的变量对象）。
-		
-		当执行的函数，返回一个匿名函数时
-			function child () {
-				return function () {
-					...
+	函数表达式
+		var f = function () {}
+		(function () {})
+		递归
+		闭包 (有必要重看 7.2)
+			了解
+				1.执行环境
+					在每个函数调用的时候会创建一个 执行环境
+				2.作用域链
+					在创建 执行环境 后，会有对应的作用域，通过函数的 [[Scopes]] 指向 全局环境对象(this) 和 包含函数参数的 活动对象(arguments)
+					从函数里层向外扩展 0、1、2、3、4...
+					在 全局环境 中调用函数(指的是普通的函数)，函数位于 1 的位置
+				3.销毁
+					一般来讲，当函数执行完毕后，执行环境 和 局部活动对象 就会被销毁，内存中仅保存全局作用域（全局执行环境的变量对象）。
+			
+			当执行的函数，返回一个匿名函数时
+				function child () {
+					return function () {
+						...
+					}
 				}
-			}
-			var a = child();
-			a();
-			a = null;
-			会按上面的步骤走完，但在第三步时，执行完后 局部活动对象，因为返回 匿名函数 且被 a 引用，所以不会被销毁。 
-			当调用 a 函数时，在上面第二步的 作用域链 是这样的，闭包的活动对象、child 的活动对象、全局环境对象
-			设置为等于 null 解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其他作用域（除了全局作用域）也都可以安全地销毁了。
+				var a = child();
+				a();
+				a = null;
+				会按上面的步骤走完，但在第三步时，执行完后 局部活动对象，因为返回 匿名函数 且被 a 引用，所以不会被销毁。 
+				当调用 a 函数时，在上面第二步的 作用域链 是这样的，闭包的活动对象、child 的活动对象、全局环境对象
+				设置为等于 null 解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其他作用域（除了全局作用域）也都可以安全地销毁了。
 
-		由于闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。
-		过度使用闭包可能会导致内存占用过多，我们建议读者只在绝对必要时再考虑使用闭包。
-		虽然像 V8 等优化后的 JavaScript 引擎会尝试回收被闭包占用的内存，但请大家还是要慎重使用闭包。
+			由于闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。
+			过度使用闭包可能会导致内存占用过多，我们建议读者只在绝对必要时再考虑使用闭包。
+			虽然像 V8 等优化后的 JavaScript 引擎会尝试回收被闭包占用的内存，但请大家还是要慎重使用闭包。
 
-		关于this对象
+			关于this对象
 
-		内存泄漏
-			由于IE9 之前的版本对JScript 对象和COM 对象使用不同的垃圾收集例程，因此闭包在IE 的这些版本中会导致一些特殊的问题。
-				function assignHandler(){
-					var element = document.getElementById("someElement");
-					element.onclick = function(){
-						alert(element.id);
-					};
+			内存泄漏
+				由于IE9 之前的版本对JScript 对象和COM 对象使用不同的垃圾收集例程，因此闭包在IE 的这些版本中会导致一些特殊的问题。
+					function assignHandler(){
+						var element = document.getElementById("someElement");
+						element.onclick = function(){
+							alert(element.id);
+						};
+					}
+					因为函数中存在匿名函数，会导致匿名函数的活动对象不会被销毁，每次使用事件都会触发对 element 的引用
+
+					function assignHandler(){
+						var element = document.getElementById("someElement");
+						var id = element.id;
+						element.onclick = function(){
+							alert(id);
+						};
+						element = null;
+					}
+					这样修改后
+						1.赋值给变量后减少了对 element 的引用
+						2.然后 element 不使用后，赋值为 null
+						3.这样就能够解除对 DOM 对象的引用，顺利地减少其引用数，确保正常回收其占用的内存。
+
+			只要函数中存在匿名函数，并被使用着，这就是闭包。
+
+		模仿块级作用域
+			对于 var 来说
+				JavaScript 没有块级作用域的概念
+				这意味着在块语句中定义的变量，实际上是在包含函数中而非语句中创建的。(就是 var 的提升作用域问题)
+					function outputNumbers(count){
+						for (var i=0; i < count; i++){
+							alert(i);
+						}
+						var i; //重新声明变量
+						alert(i); //计数
+					}
+					等于
+					function outputNumbers(count){
+						var i;
+						for (i=0; i < count; i++){
+							alert(i);
+						}
+						var i; //重新声明变量 (会被无视)
+						// var i = 10; 这种会被执行
+						alert(i); //计数
+					}
+				JavaScript 从来不会告诉你是否多次声明了同一个变量；遇到这种情况，它只会对后续的声明视而不见（不过，它会执行后续声明中的变量初始化）。
+
+			模拟块级作用域 (私有作用域) (解决多人开发明命冲突问题)
+				(function () {})()
+				把函数声明 转 函数表达式，只需在函数前后加对括号，之后只要在后面加对括号就马上执行了
+
+				这种做法可以减少闭包占用的内存问题，因为没有指向匿名函数的引用。只要函数执行完毕，就可以立即销毁其作用域链了。
+
+		私有变量
+			就是函数中可访问，外部不能访问。
+			但可以通过定义 特权方法，就是让内部参数能被外部访问。
+				function Person(name){
+					this.getName = function(){return name;};
+					this.setName = function (value) {name = value;};
 				}
-				因为函数中存在匿名函数，会导致匿名函数的活动对象不会被销毁，每次使用事件都会触发对 element 的引用
+				var person = new Person("Nicholas");
+				alert(person.getName()); //"Nicholas"
+				person.setName("Greg");
+				alert(person.getName()); //"Greg"
 
-				function assignHandler(){
-					var element = document.getElementById("someElement");
-					var id = element.id;
-					element.onclick = function(){
-						alert(id);
-					};
-					element = null;
-				}
-				这样修改后
-					1.赋值给变量后减少了对 element 的引用
-					2.然后 element 不使用后，赋值为 null
-					3.这样就能够解除对 DOM 对象的引用，顺利地减少其引用数，确保正常回收其占用的内存。
+				这样私有变量只能通过特权方法来进行操作。
 
-		只要函数中存在匿名函数，并被使用着，这就是闭包。
+			静态私有变量
+			模块模式
+			增强的模块模式
+
 
 
 
