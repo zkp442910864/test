@@ -3,6 +3,8 @@
 
 js
 	技巧
+		
+
 		in 
 			判断对象是否包含key 如：'d' in obj
 			判断数组是否包含index 如：0 in arr
@@ -137,6 +139,8 @@ js
 					不能删除是因为 描述符configurable 被设置为 false 了。
 			
 			窗口关系及框架 （基本不用了）
+				top 		对象始终指向最外围的框架，也就是整个浏览器窗口
+				parent 		对象表示包含当前框架的框架
 				<frameset rows="160,*">
 					<frame src="frame.htm" name="topFrame">
 					<frameset cols="50%,50%">
@@ -331,7 +335,75 @@ js
 				}
 
 			位置操作
-				location.assign()		改变浏览器的链接
+				location.replace('url')		改变浏览器的链接，不会在浏览器历史记录生成记录
+
+				location.reload()			重新加载当前页面，可以传入 true
+					例子
+					location.reload(); //重新加载（有可能从缓存中加载）
+					location.reload(true); //重新加载（从服务器重新加载）
+
+				以下的操作，浏览器的历史记录中就会生成一条新记录
+
+				location.assign('url')		改变浏览器的链接
+					将 location.href 或 window.location 设置为一个URL 值，也会以该值调用 assign() 方法
+
+				以下的属性可以进行修改
+				location.hash
+				location.search
+				location.hostname
+				location.pathname
+				location.port
+
+				例子
+					//假设初始URL 为http://www.wrox.com/WileyCDA/
+
+					//将URL 修改为"http://www.wrox.com/WileyCDA/#section1"
+					location.hash = "#section1";
+
+					//将URL 修改为"http://www.wrox.com/WileyCDA/?q=javascript"
+					location.search = "?q=javascript";
+
+					//将URL 修改为"http://www.yahoo.com/WileyCDA/"
+					location.hostname = "www.yahoo.com";
+
+					//将URL 修改为"http://www.yahoo.com/mydir/"
+					location.pathname = "mydir";
+
+					//将URL 修改为"http://www.yahoo.com:8080/WileyCDA/"
+					location.port = 8080;
+
+					每次修改location 的属性（hash 除外），页面都会以新URL 重新加载。
+
+					在IE8、Firefox 1、Safari 2+、Opera 9+和Chrome 中，修改hash 的值会在浏览器的历史记录中生成一条新记录。
+					在IE 的早期版本中，hash 属性不会在用户单击“后退”和“前进”按钮时被更新，而只会在用户单击包含hash 的URL 时才会被更新。
+
+		navigator 对象 (浏览器信息)
+			navigator.userAgent				浏览器的用户代理字符串，存在于所有浏览器中。
+			navigator.vendor				浏览器的品牌
+			navigator.appVersion			浏览器的版本。一般不与实际的浏览器版本对应
+			navigator.plugins				浏览器中安装的插件信息的数组
+			navigator.plugins.refresh()		刷新浏览器的插件列表，传 true 页面会刷新
+
+			检测插件
+			注册处理程序
+
+		screen 对象
+			screen 对象中保存着与客户端显示器有关的信息，这些信息一般只用于站点分析。
+
+		history 对象
+			history.go()		传负数后退，正数前进
+				history.go(-1)	//后退一页
+				history.go(1)	//前进一页
+				history.go(2)	//前进两页
+
+			history.back();		后退一页
+
+			history.forward()	前进一页
+
+			history.length		保存着历史记录的数量
+				if (history.length == 1){
+					//这应该是用户打开窗口后的第一个页面
+				}
 
 
 
@@ -1244,6 +1316,20 @@ js
 			模块模式
 			增强的模块模式
 
+	客户端检测 (js 浏览器兼容)
+		能力检测	 (根据功能来进行判断)
+		怪癖检测	 (检测浏览器的bug，来做特殊处理)
+		用户代理检测 (navigator.userAgent 根据这个来进行判断)
+
+		检测浏览器的能力使用 typeof 来进行判断
+
+		js 开发中应该对浏览器的能力进行检测来确定下一步的方案，不应该判断用户使用的浏览器
+
+		判断浏览器
+			(可以参考“JavaScript高级程序设计(第三版)” 9.3.3 ) 貌似需要做些改动
+
+		在决定使用哪种客户端检测方法时，一般应优先考虑使用能力检测。怪癖检测是确定应该如何处理代码的第二选择。
+		而用户代理检测则是客户端检测的最后一种方案，因为这种方法对用户代理字符串具有很强的依赖性。
 
 
 
