@@ -125,465 +125,11 @@ js
 					console.log(err);//打印的是empty
 				}
 
-	BOM (即 window 对象)
-		BOM（浏览器对象模型）
-		BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
-		就是浏览器
-		
-		window 对象
-			BOM 的核心对象是 window，它表示浏览器的一个实例。
-
-			全局作用域
-				凡是在全局作用域中声明的 变量、函数 都会变成 window 对象的属性和方法。
-				全局定义的变量和函数 即 window 上的属性和方法，不能通过 delete 删除，但是直接通过 window['key'] = '' 来定义的可以删除。
-					不能删除是因为 描述符configurable 被设置为 false 了。
-			
-			窗口关系及框架 （基本不用了）
-				top 		对象始终指向最外围的框架，也就是整个浏览器窗口
-				parent 		对象表示包含当前框架的框架
-				<frameset rows="160,*">
-					<frame src="frame.htm" name="topFrame">
-					<frameset cols="50%,50%">
-						<frame src="anotherframe.htm" name="leftFrame">
-						<frame src="yetanotherframe.htm" name="rightFrame">
-					</frameset>
-				</frameset>
-				top.frames // 貌似被废弃了
-
-			窗口位置
-				确定浏览器的位置
-					Firefox 不支持下面这两个
-					window.screenLeft		浏览器窗口距离左边距离
-					window.screenTop		浏览器窗口距离顶部距离
-
-					Safari、Chrome、Firefox 支持一下 api
-					window.screenX
-					window.screenY
-
-					兼容写法
-					var leftPos = (typeof window.screenLeft == "number") ? window.screenLeft : window.screenX;
-					var topPos = (typeof window.screenTop == "number") ? window.screenTop : window.screenY;
-			
-			移动窗口
-				window.moveTo(x, y)		直接指定位置
-				window.moveBy(x, y)		相对位置移动
-
-				这两个方法可能会被浏览器禁用，而且只能对最外层的 window 对象使用。
-
-			窗口大小
-				innerWidth和innerHeight 显示的是视口的宽高，outerWidth和outerHeight 显示的是浏览器窗口的宽高 (老版本的chrome，outerWidth、outerHeight 与innerWidth、innerHeight 返回相同的值)
-
-				window.innerWidth
-				window.innerHeight
-				window.outerWidth
-				window.outerHeight
-
-				ie8之前的版本不支持这些属性，不过，它通过DOM 提供了页面可见区域的相关信息。
-				document.documentElement.clientWidth || document.body.clientWidth 		可见宽度
-				document.documentElement.clientHeight || document.body.clientHeight		可见高度
-
-				虽然最终无法确定浏览器窗口本身的大小，但却可以取得页面视口的大小
-				兼容例子
-					var pageWidth = window.innerWidth,
-						pageHeight = window.innerHeight;
-					if (typeof pageWidth != "number"){
-						if (document.compatMode == "CSS1Compat"){
-							pageWidth = document.documentElement.clientWidth;
-							pageHeight = document.documentElement.clientHeight;
-						} else {
-							pageWidth = document.body.clientWidth;
-							pageHeight = document.body.clientHeight;
-						}
-					}
-
-				window.resizeTo(x, y)	设置窗口大小（指定）
-				window.resizeBy(x, y)	设置窗口大小（相对）
-				这两个方法可能会被浏览器禁用，而且只能对最外层的 window 对象使用。
-
-			导航和打开窗口
-				window.open(a, b, c, d)			打开一个窗口
-					a：要打开的url
-					b：	_self、_parent、_top 		 这三个都是当前页打开
-						_blank						会打开新的窗口
-						还可以是框架（iframe）的名	  指定 iframe 打开这链接，必须同域名(安全策略的问题)
-
-					c：传递的第二个参数并不是一个已经存在的窗口或框架，可以设置一些属性来定义新开的窗口
-							fullscreen 	yes或no 	表示浏览器窗口是否最大化。仅限IE
-							height 		数值		表示新窗口的高度。不能小于100
-							left 		数值 		表示新窗口的左坐标。不能是负值
-							location 	yes或no 	表示是否在浏览器窗口中显示地址栏。不同浏览器的默认值不同。如果设置为no，地址栏可能会隐藏，也可能会被禁用（取决于浏览器）
-							menubar 	yes或no 	表示是否在浏览器窗口中显示菜单栏。默认值为no
-							resizable 	yes或no 	表示是否可以通过拖动浏览器窗口的边框改变其大小。默认值为no
-							scrollbars 	yes或no 	表示如果内容在视口中显示不下，是否允许滚动。默认值为no
-							status 		yes或no 	表示是否在浏览器窗口中显示状态栏。默认值为no
-							toolbar 	yes或no 	表示是否在浏览器窗口中显示工具栏。默认值为no
-							top 		数值 		表示新窗口的上坐标。不能是负值
-							width 		数值 		表示新窗口的宽度。不能小于100
-						var w = window.open("http://www.wrox.com/", "_blank", "height=400,width=400,top=10,left=10,resizable=no,scrollbars=no,status=no,toolbar=no,location=no,menubar=no");
-						这里面的属性有可能会被浏览器禁用
-					
-					调用后会返回当前窗口的对象，可以用来对这窗口进行一些操作
-					w.opener	指向创建这窗口的 window
-					w.close()	关闭这个创建的窗口
-					还可以使用上面的 移动窗口、窗口大小 来对它进行操作
-					必须同域名(安全策略的问题)
-
-				弹出窗口屏蔽程序
-					被屏蔽后调用 window.open() 会返回 null，但有些浏览器会报错
-					try {
-						var wroxWin = window.open("http://www.wrox.com", "_blank");
-						if (wroxWin == null){
-							blocked = true;
-						}
-					} catch (ex){
-						blocked = true;
-					}
-					if (blocked){
-						alert("The popup was blocked!");
-					}
-
-			间歇调用和超时调用
-				JavaScript 是一个单线程序的解释器，因此一定时间内只能执行一段代码
-				为了控制要执行的代码，就有一个JavaScript 任务队列，这些任务会按照将它们添加到队列的顺序执行。
-				定时器 到了后会把任务扔到队列中，如果队列是空的，那么添加的代码会立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。
-				定时器都有一个返回值，用来对它进行取消作用的
-
-				var t = window.setTimeout(function () {}, 1000) 	1秒后执行
-				window.clearTimeout(t)		在时间结束前，就能 取消超时调用
-
-				var t = window.setTimeout(function () {}, 1000)		每隔1秒，会执行这函数
-				window.clearInterval(t)		把这持续执行的定时器取消
-
-				定时器 里的函数都是在 全局作用域 中执行的，因此 this 指向 window (严格模式 下是 undefined)
-
-				建议用 超时定时器 来模拟 间歇定时器
-				原因是后一个 间歇 调用可能会在前一个 间歇 调用结束之前启动。而像示例中那样使用超时调用，则完全可以避免这一点。
-				var num = 0;
-				var max = 10;
-				function incrementNumber() {
-					num++;
-					//如果执行次数未达到max 设定的值，则设置另一次超时调用
-					if (num < max) {
-						setTimeout(incrementNumber, 500);
-					} else {
-						alert("Done");
-					}
-				}
-				setTimeout(incrementNumber, 500);
-			系统对话框
-				这几个弹窗外观由操作系统及（或）浏览器设置决定，而不是由CSS 决定。
-				显示这些对话框的时候代码会停止执行，而关掉这些对话框后代码又会恢复执行。
-
-				window.alert()			提示框
-				window.confirm()		警视框，需要确认进行下一步
-					if (confirm("Are you sure?")) {
-						alert("I'm so glad you're sure! ");
-					} else {
-						alert("I'm sorry to hear you're not sure. ");
-					}
-				window.prompt()			一个带文本域的弹窗
-					var result = prompt("What is your name? ", "");
-					if (result !== null) {
-						alert("Welcome, " + result);
-					}
-				chrome 引入了一种新特性，如果当前脚本在执行过程中会打开两个或多个对话框，那么从第二个对话框开始，每个对话框中都会显示一个复选框，以便用户阻止后续的对话框显示，除非用户刷新页面 (貌似只在移动端出现)
-
-				window.print()		显示“打印”对话框
-				window.find()		显示“查找”对话框
-				这两个对话框是异步显示的
-		
-		location 对象
-			location 对象是很特别的一个对象，因为它既是 window 对象的属性，也是 document 对象的属性
-			window.location === document.location
-			也可以直接 location 对象来使用
-				hash 		"#contents" 			返回URL中的hash（#号后跟零或多个字符），如果URL中不包含散列，则返回空字符串
-				host 		"www.wrox.com:80" 		返回服务器名称和端口号（如果有）
-				hostname 	"www.wrox.com" 			返回不带端口号的服务器名称
-				href 		"http:/www.wrox.com" 	返回当前加载页面的完整URL。而location对象的toString()方法也返回这个值
-				pathname 	"/WileyCDA/" 			返回URL中的目录和（或）文件名
-				port 		"8080" 					返回URL中指定的端口号。如果URL中不包含端口号，则这个属性返回空字符串
-				protocol 	"http:" 				返回页面使用的协议。通常是http:或https:
-				search 		"?q=javascript" 		返回URL的查询字符串。这个字符串以问号开头
-
-			查询字符串参数
-				尽管location.search 返回从问号到URL 末尾的所有内容，但却没有办法逐个访问其中的每个查询字符串参数。
-				为此，可以像下面这样创建一个函数，用以解析查询字符串，然后返回包含所有参数的一个对象
-				function getQueryStringArgs () {
-					//取得查询字符串并去掉开头的问号
-					const str = location.search;
-					const qs = str.length > 0 ? str.substr(1) : '';
-
-					//没有值就可以直接跳出了，但是为了不报错，就返回个空对象
-					if (!qs.length) {
-						return {};
-					}
-
-					//保存数据的对象
-					const args = {};
-
-					//取得每一项
-					const items = qs.split('&');
-
-					//逐个将每一项添加到 args 对象中
-					for (let i in items) {
-						const item = items[i].split('=');
-						const name = item[0];
-						(name && name.length) && (args[name] = item[1]);
-					}
-
-					return args;
-				}
-
-			位置操作
-				location.replace('url')		改变浏览器的链接，不会在浏览器历史记录生成记录
-
-				location.reload()			重新加载当前页面，可以传入 true
-					例子
-					location.reload(); //重新加载（有可能从缓存中加载）
-					location.reload(true); //重新加载（从服务器重新加载）
-
-				以下的操作，浏览器的历史记录中就会生成一条新记录
-
-				location.assign('url')		改变浏览器的链接
-					将 location.href 或 window.location 设置为一个URL 值，也会以该值调用 assign() 方法
-
-				以下的属性可以进行修改
-				location.hash
-				location.search
-				location.hostname
-				location.pathname
-				location.port
-
-				例子
-					//假设初始URL 为http://www.wrox.com/WileyCDA/
-
-					//将URL 修改为"http://www.wrox.com/WileyCDA/#section1"
-					location.hash = "#section1";
-
-					//将URL 修改为"http://www.wrox.com/WileyCDA/?q=javascript"
-					location.search = "?q=javascript";
-
-					//将URL 修改为"http://www.yahoo.com/WileyCDA/"
-					location.hostname = "www.yahoo.com";
-
-					//将URL 修改为"http://www.yahoo.com/mydir/"
-					location.pathname = "mydir";
-
-					//将URL 修改为"http://www.yahoo.com:8080/WileyCDA/"
-					location.port = 8080;
-
-					每次修改location 的属性（hash 除外），页面都会以新URL 重新加载。
-
-					在IE8、Firefox 1、Safari 2+、Opera 9+和Chrome 中，修改hash 的值会在浏览器的历史记录中生成一条新记录。
-					在IE 的早期版本中，hash 属性不会在用户单击“后退”和“前进”按钮时被更新，而只会在用户单击包含hash 的URL 时才会被更新。
-
-		navigator 对象 (浏览器信息)
-			navigator.userAgent				浏览器的用户代理字符串，存在于所有浏览器中。
-			navigator.vendor				浏览器的品牌
-			navigator.appVersion			浏览器的版本。一般不与实际的浏览器版本对应
-			navigator.plugins				浏览器中安装的插件信息的数组
-			navigator.plugins.refresh()		刷新浏览器的插件列表，传 true 页面会刷新
-
-			检测插件
-			注册处理程序
-
-		screen 对象
-			screen 对象中保存着与客户端显示器有关的信息，这些信息一般只用于站点分析。
-
-		history 对象
-			history.go()		传负数后退，正数前进
-				history.go(-1)	//后退一页
-				history.go(1)	//前进一页
-				history.go(2)	//前进两页
-
-			history.back();		后退一页
-
-			history.forward()	前进一页
-
-			history.length		保存着历史记录的数量
-				if (history.length == 1){
-					//这应该是用户打开窗口后的第一个页面
-				}
-
-
-
-	DOM (http://www.w3school.com.cn/jsref/dom_obj_all.asp)
-		改变 HTML 输出流
-			document.write() 可用于直接向 HTML 输出流写内容。
-
-		改变 HTML 元素的样式
-			document.getElementById("p2").style.color="blue";
-
-		对象
-			document(文档)
-				创建新的 HTML 元素
-					var para=document.createElement("p");//创建p节点
-					var node=document.createTextNode("这是新段落。");//创建文本节点
-					para.appendChild(node);//向p里添加文本节点
-					parent.removeChild(child);//从父元素中删除子元素
-
-				获取节点
-					getElementById() 				通过id获取
-					getElementsByName()				通过name值获取，返回的是数组
-					getElementsByTagName()			通过标签名获取，返回的是数组
-					getAttributeNode()				返回指定的属性节点。
-					querySelector()					返回匹配指定 CSS 选择器元素的第一个子元素
-					querySelectorAll()				返回匹配指定 CSS 选择器元素的所有子元素节点列表
-
-			元素对象 就是获取到节点后的操作 (节点操作)
-
-				scrollLeft				返回元素左边缘与视图之间的距离。
-				scrollTop				返回元素上边缘与视图之间的距离。
-				offsetLeft				返回元素的水平偏移位置。
-				offsetTop				返回元素的垂直偏移位置。
-
-				clientHeight			返回元素的可见高度。
-				clientWidth				返回元素的可见宽度。
-				scrollHeight			返回元素的整体高度。
-				scrollWidth				返回元素的整体宽度。
-				offsetHeight			返回元素的高度。
-				offsetWidth				返回元素的宽度。
-				offsetParent			返回元素的偏移容器。
-				
-				hasAttribute			如果元素拥有指定属性，则返回true，否则返回 false。
-				hasAttributes			如果元素拥有属性，则返回 true，否则返回 false。
-				hasChildNodes			如果元素拥有子节点，则返回 true，否则 false。
-				getAttribute			返回元素节点的指定属性值。
-				getAttributeNode 		返回指定属性节点
-				setAttribute			把指定属性设置或更改为指定值。
-				setAttributeNode		设置或更改指定属性节点。
-				removeAttribute			从元素中移除指定属性。
-				removeAttributeNode		移除指定的属性节点，并返回被移除的节点。
-				
-				appendChild				向元素添加新的子节点，作为最后一个子节点。
-				nextSibling				返回位于相同节点树层级的下一个节点。
-				previousSibling			返回位于相同节点树层级的前一个元素。
-				insertBefore			在指定的已有的子节点之前插入新节点。
-				replaceChild			替换元素中的子节点。
-
-				childNodes				返回元素子节点的 NodeList。是个数组包括文本节点
-				children				返回元素子节点,没有其他多余节点
-				firstChild				返回元素的首个子。
-				lastChild				返回元素的最后一个子元素。
-				parentNode				返回元素的父节点。
-				removeChild				从元素中移除子节点。
-
-				nodeName				返回元素的标记名（大写）
-				nodeType				返回元素的节点类型。(1.元素,3.文本)
-				nodeValue				设置或返回元素值。
-
-				className				设置或返回元素的 class 属性。
-				classList				返回元素的类名，作为 DOMTokenList 对象。
-					add(c1,c2)				在元素中添加一个或多个类名。
-					contains()				返回布尔值，判断指定的类名是否存在。
-					remove(c1,c2)			移除元素中一个或多个类名。
-					toggle(c)				在元素中切换类名。
-				id 						设置或返回元素的 id。
-				innerHTML				设置或返回元素的内容。
-				style					设置或返回元素的 style 属性。
-				tabIndex				设置或返回元素的 tab 键控制次序。
-				tagName 				返回元素的标签名。
-				textContent				设置或返回节点及其后代的文本内容。
-				title					设置或返回元素的 title 属性。
-				tabIndex				设置或返回元素的标签顺序。
-				tagName 				作为一个字符串返回某个元素的标记名（大写）
-
-				cloneNode				克隆元素。
-
-			事件对象
-				鼠标事件
-					onclick 			当用户点击某个对象时调用的事件句柄。
-					ondblclick 			当用户双击某个对象时调用的事件句柄。
-					onmousedown			鼠标按钮被按下。
-					onmousemove			鼠标被移动。
-					onmouseout			鼠标从某元素移开。
-					onmouseover			鼠标移到某元素之上。
-					onmouseup			鼠标按键被松开。
-					onmouseenter		当鼠标指针移动到元素上时触发。
-					onmouseleave		当鼠标指针移出元素时触发
-					onhover
-
-					属性
-						screenX				返回当某个事件被触发时，鼠标指针的水平坐标。
-						screenY				返回当某个事件被触发时，鼠标指针的垂直坐标。
-						clientX				返回当事件被触发时，鼠标指针的水平坐标。
-						clientY				返回当事件被触发时，鼠标指针的垂直坐标。
-						key 				在按下按键时返回按键的标识符。
-						keyCode				返回键盘事件触发的键的值的字符代码
-						which				返回键盘事件触发的键的值的字符代码
-
-				键盘事件
-					onkeydown			某个键盘按键被按下
-					onkeypress			某个键盘按键被按下并松开。
-					onkeyup				某个键盘按键被松开。
-
-				框架/对象（Frame/Object）事件 (页面事件，生命周期)
-					onabort				图像的加载被中断。
-					onerror				在加载文档或图像时发生错误。
-					onload 				一张页面或一幅图像完成加载。
-					onpageshow			该事件在用户访问页面时触发
-					onpagehide			该事件在用户离开当前网页跳转到另外一个页面时触发
-					onunload			用户退出页面。
-					onbeforeunload		该事件在即将离开页面（刷新或关闭）时触发
-					onhashchange		该事件在当前 URL 的锚部分发生修改时触发。
-					onresize			窗口或框架被重新调整大小。
-					onscroll			当文档被滚动时发生的事件。  scrollTo(0,0)返回顶部
-
-				表单事件
-					onfocus				元素获得焦点。
-					onblur				元素失去焦点。
-					onchange			域的内容被改变。
-					onsubmit			确认按钮被点击。
-					oninput				元素获取用户输入时触发
-					onpropertychange	同上，兼容ie
-					onfocusin			元素即将获取焦点时触发
-					onfocusout			元素即将失去焦点时触发 
-					onsearch			用户向搜索域输入文本时触发 ( <input="search">)
-					onreset				表单重置时触发
-					onselect			用户选取文本时触发 ( <input> 和 <textarea>)
-
-				剪贴板事件
-					oncopy				该事件在用户拷贝元素内容时触发
-					oncut 				该事件在用户剪切元素内容时触发
-					onpaste				该事件在用户粘贴元素内容时触发
-				
-				打印事件
-					onafterprint		该事件在页面已经开始打印，或者打印窗口已经关闭时触发
-					onbeforeprint		该事件在页面即将开始打印时触发
-
-				拖动事件
-					ondrag 				该事件在元素正在拖动时触发
-					ondragend			该事件在用户完成元素的拖动时触发
-					ondragenter			该事件在拖动的元素进入放置目标时触发
-					ondragleave			该事件在拖动元素离开放置目标时触发
-					ondragover			该事件在拖动元素在放置目标上时触发
-					ondragstart			该事件在用户开始拖动元素时触发
-					ondrop				该事件在拖动元素放置在目标区域时触发
-
-				多媒体（Media）事件
-					http://www.runoob.com/jsref/dom-obj-event.html (搜：多媒体（Media）事件)
-
-				动画事件
-					animationend 		该事件在 CSS 动画结束播放时触发
-					animationiteration 	该事件在 CSS 动画重复播放时触发
-					animationstart 		该事件在 CSS 动画开始播放时触发
-
-				过渡事件
-					transitionend		该事件在 CSS 完成过渡后触发。
-
-				其他事件
-					onwheel				该事件在鼠标滚轮在元素上下滚动时触发
-					http://www.runoob.com/jsref/dom-obj-event.html (搜：其他事件)
-
-				方法
-					addEventListener() 		允许在目标事件中注册监听事件(IE8 = attachEvent())
-					removeEventListener()	运行一次注册在事件目标上的监听事件(IE8 = detachEvent())
-
-					阻止事件
-						preventDefault()	通知浏览器不要执行与事件关联的默认动作。
-						stopPropagation()	不再派发事件。
 			
 	JavaScript 对象
+		值类型 String、Number、Boolean、undefined、null
+		引用类型 Objec、Array、Date、RegExp、Function
+
 		Array 对象
 			prototype 				允许你向数组对象添加属性或方法。例：Array.prototype.aa = function(){}
 
@@ -1315,6 +861,286 @@ js
 			静态私有变量
 			模块模式
 			增强的模块模式
+	
+	BOM (即 window 对象)
+		BOM（浏览器对象模型）
+		BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
+		就是浏览器
+		
+		window 对象
+			BOM 的核心对象是 window，它表示浏览器的一个实例。
+
+			全局作用域
+				凡是在全局作用域中声明的 变量、函数 都会变成 window 对象的属性和方法。
+				全局定义的变量和函数 即 window 上的属性和方法，不能通过 delete 删除，但是直接通过 window['key'] = '' 来定义的可以删除。
+					不能删除是因为 描述符configurable 被设置为 false 了。
+			
+			窗口关系及框架 （基本不用了）
+				top 		对象始终指向最外围的框架，也就是整个浏览器窗口
+				parent 		对象表示包含当前框架的框架
+				<frameset rows="160,*">
+					<frame src="frame.htm" name="topFrame">
+					<frameset cols="50%,50%">
+						<frame src="anotherframe.htm" name="leftFrame">
+						<frame src="yetanotherframe.htm" name="rightFrame">
+					</frameset>
+				</frameset>
+				top.frames // 貌似被废弃了
+
+			窗口位置
+				确定浏览器的位置
+					Firefox 不支持下面这两个
+					window.screenLeft		浏览器窗口距离左边距离
+					window.screenTop		浏览器窗口距离顶部距离
+
+					Safari、Chrome、Firefox 支持一下 api
+					window.screenX
+					window.screenY
+
+					兼容写法
+					var leftPos = (typeof window.screenLeft == "number") ? window.screenLeft : window.screenX;
+					var topPos = (typeof window.screenTop == "number") ? window.screenTop : window.screenY;
+			
+			移动窗口
+				window.moveTo(x, y)		直接指定位置
+				window.moveBy(x, y)		相对位置移动
+
+				这两个方法可能会被浏览器禁用，而且只能对最外层的 window 对象使用。
+
+			窗口大小
+				innerWidth和innerHeight 显示的是视口的宽高，outerWidth和outerHeight 显示的是浏览器窗口的宽高 (老版本的chrome，outerWidth、outerHeight 与innerWidth、innerHeight 返回相同的值)
+
+				window.innerWidth
+				window.innerHeight
+				window.outerWidth
+				window.outerHeight
+
+				ie8之前的版本不支持这些属性，不过，它通过DOM 提供了页面可见区域的相关信息。
+				document.documentElement.clientWidth || document.body.clientWidth 		可见宽度
+				document.documentElement.clientHeight || document.body.clientHeight		可见高度
+
+				虽然最终无法确定浏览器窗口本身的大小，但却可以取得页面视口的大小
+				兼容例子
+					var pageWidth = window.innerWidth,
+						pageHeight = window.innerHeight;
+					if (typeof pageWidth != "number"){
+						if (document.compatMode == "CSS1Compat"){
+							pageWidth = document.documentElement.clientWidth;
+							pageHeight = document.documentElement.clientHeight;
+						} else {
+							pageWidth = document.body.clientWidth;
+							pageHeight = document.body.clientHeight;
+						}
+					}
+
+				window.resizeTo(x, y)	设置窗口大小（指定）
+				window.resizeBy(x, y)	设置窗口大小（相对）
+				这两个方法可能会被浏览器禁用，而且只能对最外层的 window 对象使用。
+
+			导航和打开窗口
+				window.open(a, b, c, d)			打开一个窗口
+					a：要打开的url
+					b：	_self、_parent、_top 		 这三个都是当前页打开
+						_blank						会打开新的窗口
+						还可以是框架（iframe）的名	  指定 iframe 打开这链接，必须同域名(安全策略的问题)
+
+					c：传递的第二个参数并不是一个已经存在的窗口或框架，可以设置一些属性来定义新开的窗口
+							fullscreen 	yes或no 	表示浏览器窗口是否最大化。仅限IE
+							height 		数值		表示新窗口的高度。不能小于100
+							left 		数值 		表示新窗口的左坐标。不能是负值
+							location 	yes或no 	表示是否在浏览器窗口中显示地址栏。不同浏览器的默认值不同。如果设置为no，地址栏可能会隐藏，也可能会被禁用（取决于浏览器）
+							menubar 	yes或no 	表示是否在浏览器窗口中显示菜单栏。默认值为no
+							resizable 	yes或no 	表示是否可以通过拖动浏览器窗口的边框改变其大小。默认值为no
+							scrollbars 	yes或no 	表示如果内容在视口中显示不下，是否允许滚动。默认值为no
+							status 		yes或no 	表示是否在浏览器窗口中显示状态栏。默认值为no
+							toolbar 	yes或no 	表示是否在浏览器窗口中显示工具栏。默认值为no
+							top 		数值 		表示新窗口的上坐标。不能是负值
+							width 		数值 		表示新窗口的宽度。不能小于100
+						var w = window.open("http://www.wrox.com/", "_blank", "height=400,width=400,top=10,left=10,resizable=no,scrollbars=no,status=no,toolbar=no,location=no,menubar=no");
+						这里面的属性有可能会被浏览器禁用
+					
+					调用后会返回当前窗口的对象，可以用来对这窗口进行一些操作
+					w.opener	指向创建这窗口的 window
+					w.close()	关闭这个创建的窗口
+					还可以使用上面的 移动窗口、窗口大小 来对它进行操作
+					必须同域名(安全策略的问题)
+
+				弹出窗口屏蔽程序
+					被屏蔽后调用 window.open() 会返回 null，但有些浏览器会报错
+					try {
+						var wroxWin = window.open("http://www.wrox.com", "_blank");
+						if (wroxWin == null){
+							blocked = true;
+						}
+					} catch (ex){
+						blocked = true;
+					}
+					if (blocked){
+						alert("The popup was blocked!");
+					}
+
+			间歇调用和超时调用
+				JavaScript 是一个单线程序的解释器，因此一定时间内只能执行一段代码
+				为了控制要执行的代码，就有一个JavaScript 任务队列，这些任务会按照将它们添加到队列的顺序执行。
+				定时器 到了后会把任务扔到队列中，如果队列是空的，那么添加的代码会立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。
+				定时器都有一个返回值，用来对它进行取消作用的
+
+				var t = window.setTimeout(function () {}, 1000) 	1秒后执行
+				window.clearTimeout(t)		在时间结束前，就能 取消超时调用
+
+				var t = window.setTimeout(function () {}, 1000)		每隔1秒，会执行这函数
+				window.clearInterval(t)		把这持续执行的定时器取消
+
+				定时器 里的函数都是在 全局作用域 中执行的，因此 this 指向 window (严格模式 下是 undefined)
+
+				建议用 超时定时器 来模拟 间歇定时器
+				原因是后一个 间歇 调用可能会在前一个 间歇 调用结束之前启动。而像示例中那样使用超时调用，则完全可以避免这一点。
+				var num = 0;
+				var max = 10;
+				function incrementNumber() {
+					num++;
+					//如果执行次数未达到max 设定的值，则设置另一次超时调用
+					if (num < max) {
+						setTimeout(incrementNumber, 500);
+					} else {
+						alert("Done");
+					}
+				}
+				setTimeout(incrementNumber, 500);
+			系统对话框
+				这几个弹窗外观由操作系统及（或）浏览器设置决定，而不是由CSS 决定。
+				显示这些对话框的时候代码会停止执行，而关掉这些对话框后代码又会恢复执行。
+
+				window.alert()			提示框
+				window.confirm()		警视框，需要确认进行下一步
+					if (confirm("Are you sure?")) {
+						alert("I'm so glad you're sure! ");
+					} else {
+						alert("I'm sorry to hear you're not sure. ");
+					}
+				window.prompt()			一个带文本域的弹窗
+					var result = prompt("What is your name? ", "");
+					if (result !== null) {
+						alert("Welcome, " + result);
+					}
+				chrome 引入了一种新特性，如果当前脚本在执行过程中会打开两个或多个对话框，那么从第二个对话框开始，每个对话框中都会显示一个复选框，以便用户阻止后续的对话框显示，除非用户刷新页面 (貌似只在移动端出现)
+
+				window.print()		显示“打印”对话框
+				window.find()		显示“查找”对话框
+				这两个对话框是异步显示的
+		
+		location 对象
+			location 对象是很特别的一个对象，因为它既是 window 对象的属性，也是 document 对象的属性
+			window.location === document.location
+			也可以直接 location 对象来使用
+				hash 		"#contents" 			返回URL中的hash（#号后跟零或多个字符），如果URL中不包含散列，则返回空字符串
+				host 		"www.wrox.com:80" 		返回服务器名称和端口号（如果有）
+				hostname 	"www.wrox.com" 			返回不带端口号的服务器名称
+				href 		"http:/www.wrox.com" 	返回当前加载页面的完整URL。而location对象的toString()方法也返回这个值
+				pathname 	"/WileyCDA/" 			返回URL中的目录和（或）文件名
+				port 		"8080" 					返回URL中指定的端口号。如果URL中不包含端口号，则这个属性返回空字符串
+				protocol 	"http:" 				返回页面使用的协议。通常是http:或https:
+				search 		"?q=javascript" 		返回URL的查询字符串。这个字符串以问号开头
+
+			查询字符串参数
+				尽管location.search 返回从问号到URL 末尾的所有内容，但却没有办法逐个访问其中的每个查询字符串参数。
+				为此，可以像下面这样创建一个函数，用以解析查询字符串，然后返回包含所有参数的一个对象
+				function getQueryStringArgs () {
+					//取得查询字符串并去掉开头的问号
+					const str = location.search;
+					const qs = str.length > 0 ? str.substr(1) : '';
+
+					//没有值就可以直接跳出了，但是为了不报错，就返回个空对象
+					if (!qs.length) {
+						return {};
+					}
+
+					//保存数据的对象
+					const args = {};
+
+					//取得每一项
+					const items = qs.split('&');
+
+					//逐个将每一项添加到 args 对象中
+					for (let i in items) {
+						const item = items[i].split('=');
+						const name = item[0];
+						(name && name.length) && (args[name] = item[1]);
+					}
+
+					return args;
+				}
+
+			位置操作
+				location.replace('url')		改变浏览器的链接，不会在浏览器历史记录生成记录
+
+				location.reload()			重新加载当前页面，可以传入 true
+					例子
+					location.reload(); //重新加载（有可能从缓存中加载）
+					location.reload(true); //重新加载（从服务器重新加载）
+
+				以下的操作，浏览器的历史记录中就会生成一条新记录
+
+				location.assign('url')		改变浏览器的链接
+					将 location.href 或 window.location 设置为一个URL 值，也会以该值调用 assign() 方法
+
+				以下的属性可以进行修改
+				location.hash
+				location.search
+				location.hostname
+				location.pathname
+				location.port
+
+				例子
+					//假设初始URL 为http://www.wrox.com/WileyCDA/
+
+					//将URL 修改为"http://www.wrox.com/WileyCDA/#section1"
+					location.hash = "#section1";
+
+					//将URL 修改为"http://www.wrox.com/WileyCDA/?q=javascript"
+					location.search = "?q=javascript";
+
+					//将URL 修改为"http://www.yahoo.com/WileyCDA/"
+					location.hostname = "www.yahoo.com";
+
+					//将URL 修改为"http://www.yahoo.com/mydir/"
+					location.pathname = "mydir";
+
+					//将URL 修改为"http://www.yahoo.com:8080/WileyCDA/"
+					location.port = 8080;
+
+					每次修改location 的属性（hash 除外），页面都会以新URL 重新加载。
+
+					在IE8、Firefox 1、Safari 2+、Opera 9+和Chrome 中，修改hash 的值会在浏览器的历史记录中生成一条新记录。
+					在IE 的早期版本中，hash 属性不会在用户单击“后退”和“前进”按钮时被更新，而只会在用户单击包含hash 的URL 时才会被更新。
+
+		navigator 对象 (浏览器信息)
+			navigator.userAgent				浏览器的用户代理字符串，存在于所有浏览器中。
+			navigator.vendor				浏览器的品牌
+			navigator.appVersion			浏览器的版本。一般不与实际的浏览器版本对应
+			navigator.plugins				浏览器中安装的插件信息的数组
+			navigator.plugins.refresh()		刷新浏览器的插件列表，传 true 页面会刷新
+
+			检测插件
+			注册处理程序
+
+		screen 对象
+			screen 对象中保存着与客户端显示器有关的信息，这些信息一般只用于站点分析。
+
+		history 对象
+			history.go()		传负数后退，正数前进
+				history.go(-1)	//后退一页
+				history.go(1)	//前进一页
+				history.go(2)	//前进两页
+
+			history.back();		后退一页
+
+			history.forward()	前进一页
+
+			history.length		保存着历史记录的数量
+				if (history.length == 1){
+					//这应该是用户打开窗口后的第一个页面
+				}
 
 	客户端检测 (js 浏览器兼容)
 		能力检测	 (根据功能来进行判断)
@@ -1331,7 +1157,230 @@ js
 		在决定使用哪种客户端检测方法时，一般应优先考虑使用能力检测。怪癖检测是确定应该如何处理代码的第二选择。
 		而用户代理检测则是客户端检测的最后一种方案，因为这种方法对用户代理字符串具有很强的依赖性。
 
+	DOM
+		document
+		var xxx = docuemnt.body
 
+		DOM（文档对象模型）描绘了一个层次化的节点树，允许开发人员添加、移除和修改页面的某一部分。
+
+		IE 中的所有DOM 对象都是以COM 对象的形式实现的。这意味着IE 中的DOM 对象与原生JavaScript 对象的行为或活动特点并不一致。(ie 要注意兼容)
+
+		document.hasChildNodes()	有问题
+		xxx.ownerDocument			每个节点都有这属性，指向 document。这意味着 任何节点都不能同时存在于两个或更多个文档中，
+
+		节点层次
+
+			Node类型
+				JavaScript 中的所有节点类型都继承自Node 类型，因此所有节点类型都共享着相同的基本属性和方法。(ie 除外)
+
+				每个节点都有一个nodeType 属性，用于表明节点的类型。
+					xxx.nodeType === Node.ELEMENT_NODE 		表示 xxx 为元素
+					xxx.nodeType === 1 						为了确保跨浏览器兼容，最好还是将nodeType 属性与数字值进行比较 （适用于所有浏览器）
+
+				xxx.nodeName		返回元素的标签名(大写)。最好在确定 （nodeType === 1） 时，进行获取。
+				xxx.nodeValue		返回 null （始终如此）
+
+				xxx.childNodes		返回所有子节点。一个类数组的 NodeList，可以像数组一样取值，也可以通过NodeList 的 item 方法获取
+					xxx.childNodes[1]			找不到返回 undefined
+					xxx.childNodes.item(1)		找不到返回 null
+
+				xxx.parentNode			返回父节点
+				xxx.previousSibling		返回同胞节点，上一个。找不到返回 null
+				xxx.nextSibling			返回同胞节点，下一个。找不到返回 null
+				xxx.firstChild			返回子节点(NodeList)中的第一个。找不到返回 null
+				xxx.lastChild			返回子节点(NodeList)中的最后一个。找不到返回 null
+
+				xxx.appendChild(a)			在NodeList 末尾添加一个元素
+				xxx.insertBefore(a, b)		在NodeList 中添加一个元素。a 要插入的节点，b 要插入位置的节点，当b 传null 时，效果同上（要注意 文本节点 ，这也是个位置）
+					xxx.insertBefore(document.createElement('a'), document.body.lastChild)
+				xxx.replaceChild(a, b)
+
+
+
+
+
+
+
+
+
+
+		改变 HTML 输出流
+			document.write() 可用于直接向 HTML 输出流写内容。
+
+		改变 HTML 元素的样式
+			document.getElementById("p2").style.color="blue";
+
+		对象
+			document(文档)
+				创建新的 HTML 元素
+					var para=document.createElement("p");//创建p节点
+					var node=document.createTextNode("这是新段落。");//创建文本节点
+					para.appendChild(node);//向p里添加文本节点
+					parent.removeChild(child);//从父元素中删除子元素
+
+				获取节点
+					getElementById() 				通过id获取
+					getElementsByName()				通过name值获取，返回的是数组
+					getElementsByTagName()			通过标签名获取，返回的是数组
+					getAttributeNode()				返回指定的属性节点。
+					querySelector()					返回匹配指定 CSS 选择器元素的第一个子元素
+					querySelectorAll()				返回匹配指定 CSS 选择器元素的所有子元素节点列表
+
+			元素对象 就是获取到节点后的操作 (节点操作)
+
+				scrollLeft				返回元素左边缘与视图之间的距离。
+				scrollTop				返回元素上边缘与视图之间的距离。
+				offsetLeft				返回元素的水平偏移位置。
+				offsetTop				返回元素的垂直偏移位置。
+
+				clientHeight			返回元素的可见高度。
+				clientWidth				返回元素的可见宽度。
+				scrollHeight			返回元素的整体高度。
+				scrollWidth				返回元素的整体宽度。
+				offsetHeight			返回元素的高度。
+				offsetWidth				返回元素的宽度。
+				offsetParent			返回元素的偏移容器。
+				
+				hasAttribute			如果元素拥有指定属性，则返回true，否则返回 false。
+				hasAttributes			如果元素拥有属性，则返回 true，否则返回 false。
+				hasChildNodes			如果元素拥有子节点，则返回 true，否则 false。
+				getAttribute			返回元素节点的指定属性值。
+				getAttributeNode 		返回指定属性节点
+				setAttribute			把指定属性设置或更改为指定值。
+				setAttributeNode		设置或更改指定属性节点。
+				removeAttribute			从元素中移除指定属性。
+				removeAttributeNode		移除指定的属性节点，并返回被移除的节点。
+				
+				appendChild				向元素添加新的子节点，作为最后一个子节点。
+				nextSibling				返回位于相同节点树层级的下一个节点。
+				previousSibling			返回位于相同节点树层级的前一个元素。
+				insertBefore			在指定的已有的子节点之前插入新节点。
+				replaceChild			替换元素中的子节点。
+
+				childNodes				返回元素子节点的 NodeList。是个数组包括文本节点
+				children				返回元素子节点,没有其他多余节点
+				firstChild				返回元素的首个子。
+				lastChild				返回元素的最后一个子元素。
+				parentNode				返回元素的父节点。
+				removeChild				从元素中移除子节点。
+
+				nodeName				返回元素的标记名（大写）
+				nodeType				返回元素的节点类型。(1.元素,3.文本)
+				nodeValue				设置或返回元素值。
+
+				className				设置或返回元素的 class 属性。
+				classList				返回元素的类名，作为 DOMTokenList 对象。
+					add(c1,c2)				在元素中添加一个或多个类名。
+					contains()				返回布尔值，判断指定的类名是否存在。
+					remove(c1,c2)			移除元素中一个或多个类名。
+					toggle(c)				在元素中切换类名。
+				id 						设置或返回元素的 id。
+				innerHTML				设置或返回元素的内容。
+				style					设置或返回元素的 style 属性。
+				tabIndex				设置或返回元素的 tab 键控制次序。
+				tagName 				返回元素的标签名。
+				textContent				设置或返回节点及其后代的文本内容。
+				title					设置或返回元素的 title 属性。
+				tabIndex				设置或返回元素的标签顺序。
+				tagName 				作为一个字符串返回某个元素的标记名（大写）
+
+				cloneNode				克隆元素。
+
+			事件对象
+				鼠标事件
+					onclick 			当用户点击某个对象时调用的事件句柄。
+					ondblclick 			当用户双击某个对象时调用的事件句柄。
+					onmousedown			鼠标按钮被按下。
+					onmousemove			鼠标被移动。
+					onmouseout			鼠标从某元素移开。
+					onmouseover			鼠标移到某元素之上。
+					onmouseup			鼠标按键被松开。
+					onmouseenter		当鼠标指针移动到元素上时触发。
+					onmouseleave		当鼠标指针移出元素时触发
+					onhover
+
+					属性
+						screenX				返回当某个事件被触发时，鼠标指针的水平坐标。
+						screenY				返回当某个事件被触发时，鼠标指针的垂直坐标。
+						clientX				返回当事件被触发时，鼠标指针的水平坐标。
+						clientY				返回当事件被触发时，鼠标指针的垂直坐标。
+						key 				在按下按键时返回按键的标识符。
+						keyCode				返回键盘事件触发的键的值的字符代码
+						which				返回键盘事件触发的键的值的字符代码
+
+				键盘事件
+					onkeydown			某个键盘按键被按下
+					onkeypress			某个键盘按键被按下并松开。
+					onkeyup				某个键盘按键被松开。
+
+				框架/对象（Frame/Object）事件 (页面事件，生命周期)
+					onabort				图像的加载被中断。
+					onerror				在加载文档或图像时发生错误。
+					onload 				一张页面或一幅图像完成加载。
+					onpageshow			该事件在用户访问页面时触发
+					onpagehide			该事件在用户离开当前网页跳转到另外一个页面时触发
+					onunload			用户退出页面。
+					onbeforeunload		该事件在即将离开页面（刷新或关闭）时触发
+					onhashchange		该事件在当前 URL 的锚部分发生修改时触发。
+					onresize			窗口或框架被重新调整大小。
+					onscroll			当文档被滚动时发生的事件。  scrollTo(0,0)返回顶部
+
+				表单事件
+					onfocus				元素获得焦点。
+					onblur				元素失去焦点。
+					onchange			域的内容被改变。
+					onsubmit			确认按钮被点击。
+					oninput				元素获取用户输入时触发
+					onpropertychange	同上，兼容ie
+					onfocusin			元素即将获取焦点时触发
+					onfocusout			元素即将失去焦点时触发 
+					onsearch			用户向搜索域输入文本时触发 ( <input="search">)
+					onreset				表单重置时触发
+					onselect			用户选取文本时触发 ( <input> 和 <textarea>)
+
+				剪贴板事件
+					oncopy				该事件在用户拷贝元素内容时触发
+					oncut 				该事件在用户剪切元素内容时触发
+					onpaste				该事件在用户粘贴元素内容时触发
+				
+				打印事件
+					onafterprint		该事件在页面已经开始打印，或者打印窗口已经关闭时触发
+					onbeforeprint		该事件在页面即将开始打印时触发
+
+				拖动事件
+					ondrag 				该事件在元素正在拖动时触发
+					ondragend			该事件在用户完成元素的拖动时触发
+					ondragenter			该事件在拖动的元素进入放置目标时触发
+					ondragleave			该事件在拖动元素离开放置目标时触发
+					ondragover			该事件在拖动元素在放置目标上时触发
+					ondragstart			该事件在用户开始拖动元素时触发
+					ondrop				该事件在拖动元素放置在目标区域时触发
+
+				多媒体（Media）事件
+					http://www.runoob.com/jsref/dom-obj-event.html (搜：多媒体（Media）事件)
+
+				动画事件
+					animationend 		该事件在 CSS 动画结束播放时触发
+					animationiteration 	该事件在 CSS 动画重复播放时触发
+					animationstart 		该事件在 CSS 动画开始播放时触发
+
+				过渡事件
+					transitionend		该事件在 CSS 完成过渡后触发。
+
+				其他事件
+					onwheel				该事件在鼠标滚轮在元素上下滚动时触发
+					http://www.runoob.com/jsref/dom-obj-event.html (搜：其他事件)
+
+				方法
+					addEventListener() 		允许在目标事件中注册监听事件(IE8 = attachEvent())
+					removeEventListener()	运行一次注册在事件目标上的监听事件(IE8 = detachEvent())
+
+					阻止事件
+						preventDefault()	通知浏览器不要执行与事件关联的默认动作。
+						stopPropagation()	不再派发事件。
+	
+
+	
 
 
 
