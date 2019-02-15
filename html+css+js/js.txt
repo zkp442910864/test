@@ -1161,266 +1161,607 @@ js
 		document
 		var xxx = docuemnt.body
 
+		在操作节点的函数中，大部分适用于Document、DocumentFragment 和Element。
+			例子：
+				// xxx.childNodes[0] 是一个元素
+				element = xxx.childNodes[0];
+				element.getElementById('xx');
+				document.getElementById("myDiv").querySelectorAll("em");
+
 		DOM（文档对象模型）描绘了一个层次化的节点树，允许开发人员添加、移除和修改页面的某一部分。
 
 		IE 中的所有DOM 对象都是以COM 对象的形式实现的。这意味着IE 中的DOM 对象与原生JavaScript 对象的行为或活动特点并不一致。(ie 要注意兼容)
 
-		document.hasChildNodes()	有问题
+		document.hasChildNodes()	貌似有问题
 		xxx.ownerDocument			每个节点都有这属性，指向 document。这意味着 任何节点都不能同时存在于两个或更多个文档中，
 
 		节点层次
 
 			Node类型
 				JavaScript 中的所有节点类型都继承自Node 类型，因此所有节点类型都共享着相同的基本属性和方法。(ie 除外)
+				Node 也自带着一些属性（可以参考“JavaScript高级程序设计(第三版)” 10.1.1 ）
 
 				每个节点都有一个nodeType 属性，用于表明节点的类型。
-					xxx.nodeType === Node.ELEMENT_NODE 		表示 xxx 为元素
-					xxx.nodeType === 1 						为了确保跨浏览器兼容，最好还是将nodeType 属性与数字值进行比较 （适用于所有浏览器）
+				xxx.nodeType === Node.ELEMENT_NODE 		表示 xxx 为元素
+				xxx.nodeType === 1 						为了确保跨浏览器兼容，最好还是将nodeType 属性与数字值进行比较 （适用于所有浏览器）
 
 				xxx.nodeName		返回元素的标签名(大写)。最好在确定 （nodeType === 1） 时，进行获取。
 				xxx.nodeValue		返回 null （始终如此）
 
-				xxx.childNodes		返回所有子节点。一个类数组的 NodeList，可以像数组一样取值，也可以通过NodeList 的 item 方法获取
-					xxx.childNodes[1]			找不到返回 undefined
-					xxx.childNodes.item(1)		找不到返回 null
+				父子，同胞间的操作
+					xxx.childNodes		返回所有子节点。一个类数组的 NodeList，可以像数组一样取值，也可以通过NodeList 的 item 方法获取
+						xxx.childNodes[1]			找不到返回 undefined
+						xxx.childNodes.item(1)		找不到返回 null
+					
+					xxx.parentNode			返回父节点
+					xxx.previousSibling		返回同胞节点，上一个。找不到返回 null
+					xxx.nextSibling			返回同胞节点，下一个。找不到返回 null
+					xxx.firstChild			返回子节点(NodeList)中的第一个。找不到返回 null
+					xxx.lastChild			返回子节点(NodeList)中的最后一个。找不到返回 null
 
-				xxx.parentNode			返回父节点
-				xxx.previousSibling		返回同胞节点，上一个。找不到返回 null
-				xxx.nextSibling			返回同胞节点，下一个。找不到返回 null
-				xxx.firstChild			返回子节点(NodeList)中的第一个。找不到返回 null
-				xxx.lastChild			返回子节点(NodeList)中的最后一个。找不到返回 null
+				添加、插入、替换、删除。以下节点操作，只要不是新创建的元素，都是剪切操作。这几个方法必须先取得父节点（使用parentNode 属性）
+					xxx.appendChild(a)			在NodeList 末尾添加一个元素
+					xxx.insertBefore(a, b)		在NodeList 中添加一个元素。a 要插入的节点，b 要插入位置的节点，当b 传null 时，效果同上（要注意 文本节点 ，这也是个位置）
+						xxx.insertBefore(document.createElement('a'), document.body.lastChild)
+					xxx.replaceChild(a, b)		a插入的节点,b替换的节点，并返回被替换的节点(就是b)
+					xxx.removeChild(a)			a要移除的节点，并返回被删除的节点(就是a)
 
-				xxx.appendChild(a)			在NodeList 末尾添加一个元素
-				xxx.insertBefore(a, b)		在NodeList 中添加一个元素。a 要插入的节点，b 要插入位置的节点，当b 传null 时，效果同上（要注意 文本节点 ，这也是个位置）
-					xxx.insertBefore(document.createElement('a'), document.body.lastChild)
-				xxx.replaceChild(a, b)
+				xxx.cloneNode()				复制这个节点
+											默认浅复制：只会复制这个节点本身，不包含子节点
+											传true 深复制：包含这个节点本身和子节点
 
-
-
-
-
-
+				xxx.normalize()				合并相连的两个文本（text）节点（某些情况下会导致IE6 崩溃）
+				xxx.childNodes[0].splitText()
+					xxx.childNodes[0] 必须为文本（text）节点，传入切割坐标。
 
 
+			Document类型
+				JavaScript 通过Document 类型表示文档。
+				在浏览器中，document 对象是HTMLDocument（继承自Document 类型）的一个实例，表示整个HTML 页面。
+				而且，document 对象是window 对象的一个属性，因此可以将其作为全局对象来访问。
 
+				document.documentElement			始终指向HTML 页面中的<html>元素
+				document.body						返回html 元素里的body 元素
+				document.head						
+				document.title						获取设置文档标题
+					document.title = "New page title";
 
-		改变 HTML 输出流
-			document.write() 可用于直接向 HTML 输出流写内容。
+				document.childNodes					返回文档元素列表
+				document.doctype					取得对<!DOCTYPE>的引用
+					由于浏览器对document.doctype 的支持不一致，因此这个属性的用处很有限。
 
-		改变 HTML 元素的样式
-			document.getElementById("p2").style.color="blue";
+				document.URL						返回上个当前页面的url
+				document.domain						返回上个当前页面的域名（可以通过修改这个来，实现主页面和iframe 通信）
+				document.referrer					返回上个页面的url
 
-		对象
-			document(文档)
-				创建新的 HTML 元素
-					var para=document.createElement("p");//创建p节点
-					var node=document.createTextNode("这是新段落。");//创建文本节点
-					para.appendChild(node);//向p里添加文本节点
-					parent.removeChild(child);//从父元素中删除子元素
+				document.getElementById()			传入id 获取到元素。如果有相同id 的返回第一个，没有返回null 。
+				document.getElementsByTagName()		传入标签名 获取一组元素。是一个HTMLCollection 对象与NodeList 非常类似
+					document.getElementsByTagName('*')	// 获取文档中的所有元素，ie 中会返回注释节点
+					HTMLCollection 除了有着和NodeList 一样的功能外，还多一个 namedItem 可以根据元素上的name 来从数组中获取
+					// <img src="myimage.gif" name="myImage">
+					var images = document.getElementsByTagName("img");
+					var myImage = images.namedItem("myImage");
+					var myImage = images["myImage"];
+				document.getElementsByName()		传入name 值获取一组元素。
 
-				获取节点
-					getElementById() 				通过id获取
-					getElementsByName()				通过name值获取，返回的是数组
-					getElementsByTagName()			通过标签名获取，返回的是数组
-					getAttributeNode()				返回指定的属性节点。
-					querySelector()					返回匹配指定 CSS 选择器元素的第一个子元素
-					querySelectorAll()				返回匹配指定 CSS 选择器元素的所有子元素节点列表
+				document.anchors			包含文档中所有带name 特性的<a>元素
+				document.forms				包含文档中所有的<form>元素
+				document.images				包含文档中所有的<img>元素
+				document.links				包含文档中所有带href 特性的<a>元素
+				document.applets			包含文档中所有的<applet>元素
 
-			元素对象 就是获取到节点后的操作 (节点操作)
+				DOM 一致性检测
+					由于DOM 分为多个级别，也包含多个部分，因此检测浏览器实现了DOM 的哪些部分就十分必要了。
+					document.implementation 属性就是为此提供相应信息和功能的对象
+					DOM1 级:
+						document.implementation.hasFeature()		两个参数：要检测的DOM 功能的名称及版本号。这方法有缺点，最好使用这方法时再进行 能力检测。
 
-				scrollLeft				返回元素左边缘与视图之间的距离。
-				scrollTop				返回元素上边缘与视图之间的距离。
-				offsetLeft				返回元素的水平偏移位置。
-				offsetTop				返回元素的垂直偏移位置。
+				文档写入
+					document.write()
+					document.writeln()
+					document.open()
+					document.close()
+			
+			Element类型
+				文档中使用的标签就是 Element(元素)，其中节点包括了元素。
+				节点包括：Element、Text、Comment、ProcessingInstruction、CDATASection 或 EntityReference。
+				查找标签时最好这样写：element.nodeName.toLowerCase() === 'div'
 
-				clientHeight			返回元素的可见高度。
-				clientWidth				返回元素的可见宽度。
-				scrollHeight			返回元素的整体高度。
-				scrollWidth				返回元素的整体宽度。
-				offsetHeight			返回元素的高度。
-				offsetWidth				返回元素的宽度。
-				offsetParent			返回元素的偏移容器。
+				HTML 元素
+					// <div id="myDiv" class="bd" title="Body text" lang="en" dir="ltr"></div>
+					xxx.id					元素在文档中的唯一标识符
+					xxx.className			与元素的class 特性对应，即为元素指定的CSS类
+					xxx.title				有关元素的附加说明信息，一般通过工具提示条显示出来
+					xxx.lang				元素内容的语言代码，很少使用
+					xxx.dir					语言的方向，值为"ltr"（left-to-right，从左至右）或"rtl"（right-to-left，从右至左），也很少使用
+
+				操作特性 (就是标签上的属性)
+					注意，根据HTML5 规范，自定义特性应该加上data-前缀以便验证。
+					xxx.getAttribute(a)			a 属性名，传入要获取的属性名，获取对应的值，不存在返回null。（属性名不区分大小写）// div.getAttribute("id")
+					xxx.setAttribute(a, b)		a 属性名，b 新的值，传入两个参数根据属性名来替换原来的值。（传入的属性名都转为小写）
+					xxx.removeAttribute(a)		a 属性名，传入要对应的属性名，彻底删除元素的特性（不仅会清除特性的值，而且也会从元素中完全删除特性）。IE6 及以前版本不支持
+
+					特殊的特性
+						xxx.style				会返回一个对象
+						xxx.onclick 这类的事件处理程序
+						这两个在 ie7 及以前的版本使用 getAttribute 会有问题，返回的值与直接 点属性 出来的值一样。
+						这两个（还有class）在 ie7 及以前的版本使用 setAttribute 会有问题，起不到作用。
+
+				attributes 属性
+					attributes 属性中包含一个NamedNodeMap，与NodeList 类似，也是一个“动态”的集合。
+					元素的每一个特性都由一个Attr 节点表示，每个节点都保存在NamedNodeMap 对象中。
+
+					xxx.attributes
+					attributes 属性中包含一系列节点，每个节点的nodeName 就是特性的名称，而节点的nodeValue就是特性的值。
+					里面可能会有多余的数据，可以根据每项的 specified 属性为 true 来判断。true，则意味着要么是在HTML 中指定了相应特性，要么是通过setAttribute()方法设置了该特性。(兼容ie7及以前的版本)
+
+					xxx.attributes.getNamedItem(name)			返回nodeName 属性等于name 的节点；
+					xxx.attributes.removeNamedItem(name)		从列表中移除nodeName 属性等于name 的节点；
+					xxx.attributes.setNamedItem(node)			向列表中添加节点，以节点的nodeName 属性为索引；
+					xxx.attributes.item(pos)					返回位于数字pos 位置处的节点。
+					例子：xxx.attributes.getNamedItem('id').nodeValue
+
+				创建元素
+					document.createElement(a)				a 标签名（HTML 文档中不区分大小写），传入标签名生成并返回一个新元素。
+
+				元素的子节点
+					循环 childNodes 所有节点，判断 nodeType === 1 来进行过滤无效节点。
+					var ul = document.getElementById("myList");
+					var items = ul.getElementsByTagName("li");
+
+			Text类型 	(可以参考“JavaScript高级程序设计(第三版)” 10.1.4 )
+				文本节点由Text 类型表示，包含的是可以照字面解释的纯文本内容。
+				nodeType 的值为3
+				nodeValue 可以获取或设置值
+
+				创建文本节点
+					document.createTextNode(a)			a 一串字符串，传入字符串返回text 节点
+			
+			Comment类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.5 )
+				注释在DOM中是通过Comment 类型来表示的
+
+				nodeType 的值为8；
+				nodeValue 的值是注释的内容；
+
+				document.createComment(a)			a 一串字符串，传入字符串返回注释（Comment） 节点
+
+			CDATASection类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.6 )
+				CDATASection 类型只针对基于XML 的文档，表示的是CDATA 区域。
 				
-				hasAttribute			如果元素拥有指定属性，则返回true，否则返回 false。
-				hasAttributes			如果元素拥有属性，则返回 true，否则返回 false。
-				hasChildNodes			如果元素拥有子节点，则返回 true，否则 false。
-				getAttribute			返回元素节点的指定属性值。
-				getAttributeNode 		返回指定属性节点
-				setAttribute			把指定属性设置或更改为指定值。
-				setAttributeNode		设置或更改指定属性节点。
-				removeAttribute			从元素中移除指定属性。
-				removeAttributeNode		移除指定的属性节点，并返回被移除的节点。
+			DocumentType类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.7 )
+
+			DocumentFragment类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.8 )
+				为了避免浏览器反复渲染，可以使用文档片段把要插入的所有内容先放进来，再添加到文档上去。
+				document.createDocumentFragment()		创建文档片段
+
+				// <ul id="myList"></ul>
+				var fragment = document.createDocumentFragment();
+				var ul = document.getElementById("myList");
+				var li = null;
+				for (var i=0; i < 3; i++){
+					li = document.createElement("li");
+					li.appendChild(document.createTextNode("Item " + (i+1)));
+					fragment.appendChild(li);
+				}
+				ul.appendChild(fragment);
+
+			Attr类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.9 )
+				元素的特性在DOM 中以Attr 类型来表示。
+				特性就是存在于元素的attributes 属性中的节点。
+
+				Attr 对象有3 个属性：name(nodeName)、value(nodeValue) 和specified。
+				nodeType 的值为2；
+				nodeName 的值是特性的名称；
+				nodeValue 的值是特性的值；
+
+				document.createAttribute()			传入特性的名称创建新的特性节点
+
+				xxx.setAttributeNode(a)		a特性节点，把 Attr类型 的特性节点添加到元素上
+				xxx.getAttributeNode(a)		a特性节点的nodeName，获取元素上 Attr类型 的特性节点
+
+		DOM 操作技术
+			动态脚本
+				script.src
+				script.type
+				script.text
+				兼容ie：
+					在script标签内添加文本
+					try {
+						script.appendChild(document.createTextNode("code"));
+					} catch (ex){
+						script.text = "code";
+					}
+
+				// <script type="text/javascript" src="client.js"></script>
+				var script = document.createElement("script");
+				script.type = "text/javascript";
+				script.src = "client.js";
+				document.body.appendChild(script);
+
+			动态样式
+				link.type
+				link.href
+				link.rel
+
+				// <link rel="stylesheet" type="text/css" href="styles.css">
+				var link = document.createElement("link");
+				link.rel = "stylesheet";
+				link.type = "text/css";
+				link.href = "style.css";
+				var head = document.getElementsByTagName("head")[0] || document.head;
+				head.appendChild(link);
+
+				style.type
+				兼容ie：
+					在style标签内添加文本
+					try{
+						style.appendChild(document.createTextNode("body{background-color:red}"));
+					} catch (ex){
+						style.styleSheet.cssText = "body{background-color:red}";
+					}
+
+				var style = document.createElement("style");
+				style.type = "text/css";
+				style.appendChild(document.createTextNode("body{background-color:red}"));
+				var head = document.getElementsByTagName("head")[0];
+				head.appendChild(style);
+
+			操作表格		(可以参考“JavaScript高级程序设计(第三版)” 10.2.3 )
+				有很简便的写法
+
+		使用NodeList
+			理解NodeList 及其“近亲”NamedNodeMap 和HTMLCollection，是从整体上透彻理解DOM的关键所在。
+			这三个集合都是“动态的”；换句话说，每当文档结构发生变化时，它们都会得到更新。
+			注意：因为是动态的，循环时要注意。
+
+	DOM 扩展
+		var xxx = docuemnt.body
+
+		选择符API
+			ie8+ 以上才支持
+			Selectors API 根据CSS 选择符选择与某个模式匹配的DOM 元素。
+			document.querySelector(a)				a 一个CSS 选择符，返回与该模式匹配的第一个元素，没有返回 null
+			document.querySelectorAll(a)			a 一个CSS 选择符，返回与该模式匹配的一个 NodeList 的实例，没有找到 NodeList 就是空的
+			document.matchesSelector(a)				a 一个CSS 选择符，调用元素与该选择符匹配，返回true；否则，返回false。（貌似浏览器还不支持）
+
+		元素遍历
+			IE9+ 以上才支持
+			一下这些属性会忽略文本节点
+			xxx.childElementCount			返回子元素（不包括文本节点和注释）的个数。
+			xxx.firstElementChild			指向第一个子元素；firstChild 的元素版。
+			xxx.lastElementChild			指向最后一个子元素；lastChild 的元素版。
+			xxx.previousElementSibling		指向前一个同辈元素；previousSibling 的元素版。
+			xxx.nextElementSibling			指向后一个同辈元素；nextSibling 的元素版。
+
+		HTML5
+			与类相关的扩充
+				ie10 以上才支持
+				document.getElementsByClassName(a)				a 一个包含一或多个类名的字符串，返回带有指定类的所有元素的NodeList。IE9+ 以上才支持
+				xxx.classList					返回该元素的一组类名
+				xxx.classList.add(a)			将给定的字符串值添加到列表中。如果值已经存在，就不添加了。
+				xxx.classList.contains(a)		表示列表中是否存在给定的值，如果存在则返回true，否则返回false。
+				xxx.classList.remove(a)			从列表中删除给定的字符串。
+				xxx.classList.toggle(a)			如果列表中已经存在给定的值，删除它；如果列表中没有给定的值，添加它。这样，前面那么多行代码用下面这一行代码就可以代替了：
+
+			焦点管理
+				HTML5 也添加了辅助管理DOM 焦点的功能。
+				document.activeElement			这个属性始终会引用DOM 中当前获得了焦点的元素。
+				document.hasFocus()				用来判断是否处于交互中。true 时用户正在使用input 之类的，
+
+			HTMLDocument的变化
+				document.readyState				返回文档的加载状态	loading，正在加载文档；complete，已经加载完文档
+					window.onload = function () {
+						if (docuemnt.readyState === 'complete') {// 文档加载完成执行}
+					}
+
+				document.compatMode				用来确认浏览器的模式  CSS1Compat，标准模式；BackCompat，混杂模式
+				document.head					HTML5 新增的 ie9以上可用 (兼容：document.head || document.getElementsByTagName('head')[0])
+
+			字符集属性
+				document.charset				表示文档中实际使用的字符集
+				document.defaultCharset			表示根据默认浏览器及操作系统的设置
+
+			自定义数据属性 （ie 貌似不支持）
+				HTML5 规定可以为元素添加非标准的属性，但要添加前缀data-，目的是为元素提供与渲染无关的信息，或者提供语义信息。
+				// <div id="myDiv" data-appId="12345" data-myname="Nicholas"></div>
+				var div = document.getElementById("myDiv");
+				var appId = div.dataset.appId;
+				div.dataset.appId = 23456;
+
+				通过 dataset 的属性可以取值与赋值
+
+			插入标记
+				这几个操作要注意性能方面的问题（指的不要频繁调用），还有占用内存的问题（指的是原html上绑定的事件要先清除掉）。
+				xxx.innerHTML		获取元素下的所有子节点，赋值就替换元素下的所有子节点
+					注意：不要指望所有浏览器返回的innerHTML 值完全相同（ie8及以下貌似返回的节点都是大写的）
+						 不要用来插入 script 标签。
+						 插入 style 标签，ie8及以下的版本 时插入这标签时要前置一个“有作用域的元素(就是下面style标签前面的_)” 
+						 	如：div.innerHTML = "_<style type=\"text/css\">body {background-color: red; }</style>";
+						 有些标签不支持 innerHTML 属性
+					
+					window.toStaticHTML()		这个方法接收一个参数，即一个HTML 字符串；返回一个经过无害处理后的版本（ie8 及以上版本可用）
 				
-				appendChild				向元素添加新的子节点，作为最后一个子节点。
-				nextSibling				返回位于相同节点树层级的下一个节点。
-				previousSibling			返回位于相同节点树层级的前一个元素。
-				insertBefore			在指定的已有的子节点之前插入新节点。
-				replaceChild			替换元素中的子节点。
+				xxx.outerHTML		返回调用它的元素及所有子节点的HTML 标签，赋值就完全替换调用元素
+				xxx.childNodes[0].insertAdjacentHTML()
+					// xxx.childNodes[0] 是一个元素
+					第一个参数必须是下列值之一
+						同级
+						"beforebegin"，在当前元素之前插入一个紧邻的同辈元素；
+						"afterend"，在当前元素之后插入一个紧邻的同辈元素；
+						子级
+						"afterbegin"，在当前元素之下插入一个新的子元素 或 在第一个子元素之前再插入新的子元素；
+						"beforeend"，在当前元素之下插入一个新的子元素 或  在最后一个子元素之后再插入新的子元素；
+					第二个参数是一个HTML 字符串（与innerHTML 和outerHTML的值相同）
 
-				childNodes				返回元素子节点的 NodeList。是个数组包括文本节点
-				children				返回元素子节点,没有其他多余节点
-				firstChild				返回元素的首个子。
-				lastChild				返回元素的最后一个子元素。
-				parentNode				返回元素的父节点。
-				removeChild				从元素中移除子节点。
+			scrollIntoView()方法
+				可以在所有HTML 元素上调用
+				这个方法主要是把内容与视口的 顶部 或 底部 对齐。
+				document.body.scrollIntoView(true)	顶部对齐
+				document.body.scrollIntoView(false)	底部对齐
 
-				nodeName				返回元素的标记名（大写）
-				nodeType				返回元素的节点类型。(1.元素,3.文本)
-				nodeValue				设置或返回元素值。
+		专有扩展
+			文档模式 （貌似只对 ie 使用的）
+				IE8 引入了一个新的概念叫“文档模式”（document mode）。
+				页面的文档模式决定了可以使用什么功能。
 
-				className				设置或返回元素的 class 属性。
-				classList				返回元素的类名，作为 DOMTokenList 对象。
-					add(c1,c2)				在元素中添加一个或多个类名。
-					contains()				返回布尔值，判断指定的类名是否存在。
-					remove(c1,c2)			移除元素中一个或多个类名。
-					toggle(c)				在元素中切换类名。
-				id 						设置或返回元素的 id。
-				innerHTML				设置或返回元素的内容。
-				style					设置或返回元素的 style 属性。
-				tabIndex				设置或返回元素的 tab 键控制次序。
-				tagName 				返回元素的标签名。
-				textContent				设置或返回节点及其后代的文本内容。
-				title					设置或返回元素的 title 属性。
-				tabIndex				设置或返回元素的标签顺序。
-				tagName 				作为一个字符串返回某个元素的标记名（大写）
+				IE5：以混杂模式渲染页面（IE5 的默认模式就是混杂模式）。IE8 及更高版本中的新功能都无法使用。
+				IE7：以IE7 标准模式渲染页面。IE8 及更高版本中的新功能都无法使用。
+				IE8：以IE8 标准模式渲染页面。IE8 中的新功能都可以使用，因此可以使用Selectors API、更多CSS2 级选择符和某些CSS3 功能，还有一些HTML5 的功能。不过IE9 中的新功能无法使用。
+				IE9：以IE9 标准模式渲染页面。IE9 中的新功能都可以使用，比如ECMAScript 5、完整的CSS3以及更多HTML5 功能。这个文档模式是最高级的模式。
 
-				cloneNode				克隆元素。
+				<meta http-equiv="X-UA-Compatible" content="IE=Edge">		强制ie 使用某种模式渲染页面，不同的content 值不同的模式
+					Edge：始终以最新的文档模式来渲染页面。忽略文档类型声明。对于IE8，始终保持以IE8 标准模式渲染页面。对于IE9，则以IE9 标准模式渲染页面。
+					EmulateIE9：如果有文档类型声明，则以IE9 标准模式渲染页面，否则将文档模式设置为IE5。
+					EmulateIE8：如果有文档类型声明，则以IE8 标准模式渲染页面，否则将文档模式设置为IE5。
+					EmulateIE7：如果有文档类型声明，则以IE7 标准模式渲染页面，否则将文档模式设置为IE5。
+					9：强制以IE9 标准模式渲染页面，忽略文档类型声明。
+					8：强制以IE8 标准模式渲染页面，忽略文档类型声明。
+					7：强制以IE7 标准模式渲染页面，忽略文档类型声明。
+					5：强制将文档模式设置为IE5，忽略文档类型声明。
 
-			事件对象
-				鼠标事件
-					onclick 			当用户点击某个对象时调用的事件句柄。
-					ondblclick 			当用户双击某个对象时调用的事件句柄。
-					onmousedown			鼠标按钮被按下。
-					onmousemove			鼠标被移动。
-					onmouseout			鼠标从某元素移开。
-					onmouseover			鼠标移到某元素之上。
-					onmouseup			鼠标按键被松开。
-					onmouseenter		当鼠标指针移动到元素上时触发。
-					onmouseleave		当鼠标指针移出元素时触发
-					onhover
+				document.documentMode 			返回页面的采用的文档模式
+			
+			xxx.children			返回所有子元素（ie8及更早的版本会包含注释节点）
+			xxx.contains(a)			a 某个元素，判断值是否属于该元素的子节点，返回布尔值
+			xxx.compareDocumentPosition()			确定节点间的关系 (可以参考“JavaScript高级程序设计(第三版)” 11.4.3 )
+			xxx.innerText			获取元素下的所有文本，赋值就替换元素下的所有子节点
+				注意：Firefox 低版本不支持该属性，可以用 textContent（ie9 及以上才能使用） 代替。
+					 innerText 与textContent（包含样式和脚本代码） 返回的内容并不完全一样
+				兼容写法
+					function getInnerText (element) { return (typeof element.textContent == "string") ? element.textContent : element.innerText; }
+					function setInnerText (element, text) { if (typeof element.textContent == "string"){ element.textContent = text; } else { element.innerText = text; } }
+			xxx.outerText			返回调用它的元素及所有子节点的文本，赋值就完全替换调用元素
 
-					属性
-						screenX				返回当某个事件被触发时，鼠标指针的水平坐标。
-						screenY				返回当某个事件被触发时，鼠标指针的垂直坐标。
-						clientX				返回当事件被触发时，鼠标指针的水平坐标。
-						clientY				返回当事件被触发时，鼠标指针的垂直坐标。
-						key 				在按下按键时返回按键的标识符。
-						keyCode				返回键盘事件触发的键的值的字符代码
-						which				返回键盘事件触发的键的值的字符代码
+		滚动
+			貌似只适用于 Safari 和Chrome (webkit)
+			xxx.scrollIntoViewIfNeeded(a)		a 布尔值，是否居中显示。只在当前元素在视口中不可见的情况下，才滚动浏览器窗口或容器元素，最终让它可见。
+			scrollByPages、scrollByLines 这两个貌似用不了
+			
 
-				键盘事件
-					onkeydown			某个键盘按键被按下
-					onkeypress			某个键盘按键被按下并松开。
-					onkeyup				某个键盘按键被松开。
 
-				框架/对象（Frame/Object）事件 (页面事件，生命周期)
-					onabort				图像的加载被中断。
-					onerror				在加载文档或图像时发生错误。
-					onload 				一张页面或一幅图像完成加载。
-					onpageshow			该事件在用户访问页面时触发
-					onpagehide			该事件在用户离开当前网页跳转到另外一个页面时触发
-					onunload			用户退出页面。
-					onbeforeunload		该事件在即将离开页面（刷新或关闭）时触发
-					onhashchange		该事件在当前 URL 的锚部分发生修改时触发。
-					onresize			窗口或框架被重新调整大小。
-					onscroll			当文档被滚动时发生的事件。  scrollTo(0,0)返回顶部
 
-				表单事件
-					onfocus				元素获得焦点。
-					onblur				元素失去焦点。
-					onchange			域的内容被改变。
-					onsubmit			确认按钮被点击。
-					oninput				元素获取用户输入时触发
-					onpropertychange	同上，兼容ie
-					onfocusin			元素即将获取焦点时触发
-					onfocusout			元素即将失去焦点时触发 
-					onsearch			用户向搜索域输入文本时触发 ( <input="search">)
-					onreset				表单重置时触发
-					onselect			用户选取文本时触发 ( <input> 和 <textarea>)
 
-				剪贴板事件
-					oncopy				该事件在用户拷贝元素内容时触发
-					oncut 				该事件在用户剪切元素内容时触发
-					onpaste				该事件在用户粘贴元素内容时触发
-				
-				打印事件
-					onafterprint		该事件在页面已经开始打印，或者打印窗口已经关闭时触发
-					onbeforeprint		该事件在页面即将开始打印时触发
 
-				拖动事件
-					ondrag 				该事件在元素正在拖动时触发
-					ondragend			该事件在用户完成元素的拖动时触发
-					ondragenter			该事件在拖动的元素进入放置目标时触发
-					ondragleave			该事件在拖动元素离开放置目标时触发
-					ondragover			该事件在拖动元素在放置目标上时触发
-					ondragstart			该事件在用户开始拖动元素时触发
-					ondrop				该事件在拖动元素放置在目标区域时触发
 
-				多媒体（Media）事件
-					http://www.runoob.com/jsref/dom-obj-event.html (搜：多媒体（Media）事件)
 
-				动画事件
-					animationend 		该事件在 CSS 动画结束播放时触发
-					animationiteration 	该事件在 CSS 动画重复播放时触发
-					animationstart 		该事件在 CSS 动画开始播放时触发
+	改变 HTML 输出流
+		document.write() 可用于直接向 HTML 输出流写内容。
 
-				过渡事件
-					transitionend		该事件在 CSS 完成过渡后触发。
+	改变 HTML 元素的样式
+		document.getElementById("p2").style.color="blue";
 
-				其他事件
-					onwheel				该事件在鼠标滚轮在元素上下滚动时触发
-					http://www.runoob.com/jsref/dom-obj-event.html (搜：其他事件)
+	对象
+		document(文档)
+			创建新的 HTML 元素
+				var para=document.createElement("p");//创建p节点
+				var node=document.createTextNode("这是新段落。");//创建文本节点
+				para.appendChild(node);//向p里添加文本节点
+				parent.removeChild(child);//从父元素中删除子元素
 
-				方法
-					addEventListener() 		允许在目标事件中注册监听事件(IE8 = attachEvent())
-					removeEventListener()	运行一次注册在事件目标上的监听事件(IE8 = detachEvent())
+			获取节点
+				getElementById() 				通过id获取
+				getElementsByName()				通过name值获取，返回的是数组
+				getElementsByTagName()			通过标签名获取，返回的是数组
+				getAttributeNode()				返回指定的属性节点。
+				querySelector()					返回匹配指定 CSS 选择器元素的第一个子元素
+				querySelectorAll()				返回匹配指定 CSS 选择器元素的所有子元素节点列表
 
-					阻止事件
-						preventDefault()	通知浏览器不要执行与事件关联的默认动作。
-						stopPropagation()	不再派发事件。
+		元素对象 就是获取到节点后的操作 (节点操作)
+
+			scrollLeft				返回元素左边缘与视图之间的距离。
+			scrollTop				返回元素上边缘与视图之间的距离。
+			offsetLeft				返回元素的水平偏移位置。
+			offsetTop				返回元素的垂直偏移位置。
+
+			clientHeight			返回元素的可见高度。
+			clientWidth				返回元素的可见宽度。
+			scrollHeight			返回元素的整体高度。
+			scrollWidth				返回元素的整体宽度。
+			offsetHeight			返回元素的高度。
+			offsetWidth				返回元素的宽度。
+			offsetParent			返回元素的偏移容器。
+			
+			hasAttribute			如果元素拥有指定属性，则返回true，否则返回 false。
+			hasAttributes			如果元素拥有属性，则返回 true，否则返回 false。
+			hasChildNodes			如果元素拥有子节点，则返回 true，否则 false。
+			getAttribute			返回元素节点的指定属性值。
+			getAttributeNode 		返回指定属性节点
+			setAttribute			把指定属性设置或更改为指定值。
+			setAttributeNode		设置或更改指定属性节点。
+			removeAttribute			从元素中移除指定属性。
+			removeAttributeNode		移除指定的属性节点，并返回被移除的节点。
+			
+			appendChild				向元素添加新的子节点，作为最后一个子节点。
+			nextSibling				返回位于相同节点树层级的下一个节点。
+			previousSibling			返回位于相同节点树层级的前一个元素。
+			insertBefore			在指定的已有的子节点之前插入新节点。
+			replaceChild			替换元素中的子节点。
+
+			childNodes				返回元素子节点的 NodeList。是个数组包括文本节点
+			children				返回元素子节点,没有其他多余节点
+			firstChild				返回元素的首个子。
+			lastChild				返回元素的最后一个子元素。
+			parentNode				返回元素的父节点。
+			removeChild				从元素中移除子节点。
+
+			nodeName				返回元素的标记名（大写）
+			nodeType				返回元素的节点类型。(1.元素,3.文本)
+			nodeValue				设置或返回元素值。
+
+			className				设置或返回元素的 class 属性。
+			classList				返回元素的类名，作为 DOMTokenList 对象。
+				add(c1,c2)				在元素中添加一个或多个类名。
+				contains()				返回布尔值，判断指定的类名是否存在。
+				remove(c1,c2)			移除元素中一个或多个类名。
+				toggle(c)				在元素中切换类名。
+			id 						设置或返回元素的 id。
+			innerHTML				设置或返回元素的内容。
+			style					设置或返回元素的 style 属性。
+			tabIndex				设置或返回元素的 tab 键控制次序。
+			tagName 				返回元素的标签名。
+			textContent				设置或返回节点及其后代的文本内容。
+			title					设置或返回元素的 title 属性。
+			tabIndex				设置或返回元素的标签顺序。
+			tagName 				作为一个字符串返回某个元素的标记名（大写）
+
+			cloneNode				克隆元素。
+
+		事件对象
+			鼠标事件
+				onclick 			当用户点击某个对象时调用的事件句柄。
+				ondblclick 			当用户双击某个对象时调用的事件句柄。
+				onmousedown			鼠标按钮被按下。
+				onmousemove			鼠标被移动。
+				onmouseout			鼠标从某元素移开。
+				onmouseover			鼠标移到某元素之上。
+				onmouseup			鼠标按键被松开。
+				onmouseenter		当鼠标指针移动到元素上时触发。
+				onmouseleave		当鼠标指针移出元素时触发
+				onhover
+
+				属性
+					screenX				返回当某个事件被触发时，鼠标指针的水平坐标。
+					screenY				返回当某个事件被触发时，鼠标指针的垂直坐标。
+					clientX				返回当事件被触发时，鼠标指针的水平坐标。
+					clientY				返回当事件被触发时，鼠标指针的垂直坐标。
+					key 				在按下按键时返回按键的标识符。
+					keyCode				返回键盘事件触发的键的值的字符代码
+					which				返回键盘事件触发的键的值的字符代码
+
+			键盘事件
+				onkeydown			某个键盘按键被按下
+				onkeypress			某个键盘按键被按下并松开。
+				onkeyup				某个键盘按键被松开。
+
+			框架/对象（Frame/Object）事件 (页面事件，生命周期)
+				onabort				图像的加载被中断。
+				onerror				在加载文档或图像时发生错误。
+				onload 				一张页面或一幅图像完成加载。
+				onpageshow			该事件在用户访问页面时触发
+				onpagehide			该事件在用户离开当前网页跳转到另外一个页面时触发
+				onunload			用户退出页面。
+				onbeforeunload		该事件在即将离开页面（刷新或关闭）时触发
+				onhashchange		该事件在当前 URL 的锚部分发生修改时触发。
+				onresize			窗口或框架被重新调整大小。
+				onscroll			当文档被滚动时发生的事件。  scrollTo(0,0)返回顶部
+
+			表单事件
+				onfocus				元素获得焦点。
+				onblur				元素失去焦点。
+				onchange			域的内容被改变。
+				onsubmit			确认按钮被点击。
+				oninput				元素获取用户输入时触发
+				onpropertychange	同上，兼容ie
+				onfocusin			元素即将获取焦点时触发
+				onfocusout			元素即将失去焦点时触发 
+				onsearch			用户向搜索域输入文本时触发 ( <input="search">)
+				onreset				表单重置时触发
+				onselect			用户选取文本时触发 ( <input> 和 <textarea>)
+
+			剪贴板事件
+				oncopy				该事件在用户拷贝元素内容时触发
+				oncut 				该事件在用户剪切元素内容时触发
+				onpaste				该事件在用户粘贴元素内容时触发
+			
+			打印事件
+				onafterprint		该事件在页面已经开始打印，或者打印窗口已经关闭时触发
+				onbeforeprint		该事件在页面即将开始打印时触发
+
+			拖动事件
+				ondrag 				该事件在元素正在拖动时触发
+				ondragend			该事件在用户完成元素的拖动时触发
+				ondragenter			该事件在拖动的元素进入放置目标时触发
+				ondragleave			该事件在拖动元素离开放置目标时触发
+				ondragover			该事件在拖动元素在放置目标上时触发
+				ondragstart			该事件在用户开始拖动元素时触发
+				ondrop				该事件在拖动元素放置在目标区域时触发
+
+			多媒体（Media）事件
+				http://www.runoob.com/jsref/dom-obj-event.html (搜：多媒体（Media）事件)
+
+			动画事件
+				animationend 		该事件在 CSS 动画结束播放时触发
+				animationiteration 	该事件在 CSS 动画重复播放时触发
+				animationstart 		该事件在 CSS 动画开始播放时触发
+
+			过渡事件
+				transitionend		该事件在 CSS 完成过渡后触发。
+
+			其他事件
+				onwheel				该事件在鼠标滚轮在元素上下滚动时触发
+				http://www.runoob.com/jsref/dom-obj-event.html (搜：其他事件)
+
+			方法
+				addEventListener() 		允许在目标事件中注册监听事件(IE8 = attachEvent())
+				removeEventListener()	运行一次注册在事件目标上的监听事件(IE8 = detachEvent())
+
+				阻止事件
+					preventDefault()	通知浏览器不要执行与事件关联的默认动作。
+					stopPropagation()	不再派发事件。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
+	原型与闭包
+		prototype原型
+			每个函数都有一个属性叫做prototype,prototype的属性值是一个对象（属性的集合，再次强调！），默认的只有一个叫做constructor的属性，指向这个函数本身。
 
-	
+		隐式原型__proto__
+			每个函数function都有一个prototype，即原型
+			每个对象都有一个__proto__，可成为隐式原型
+			每个对象都有一个__proto__属性，指向创建该对象的函数的prototype。
+			Object.prototype确实一个特例——它的__proto__指向的是null，切记切记！
 
-
-
-
-
-
-
-
-
-
-
-
-
+		还有————函数也是一种对象，函数也有__proto__吗？————当然有
+		函数也不是从石头缝里蹦出来的，函数也是被创建出来的。谁创建了函数呢？————Function————注意这个大写的“F”。
+		好了，根据上面说的一句话————对象的__proto__指向的是创建它的函数的prototype，就会出现：Object.__proto__ === Function.prototype
 
 
-
-
-
-
-
-
-原型与闭包
-	prototype原型
-		每个函数都有一个属性叫做prototype,prototype的属性值是一个对象（属性的集合，再次强调！），默认的只有一个叫做constructor的属性，指向这个函数本身。
-
-	隐式原型__proto__
-		每个函数function都有一个prototype，即原型
-		每个对象都有一个__proto__，可成为隐式原型
-		每个对象都有一个__proto__属性，指向创建该对象的函数的prototype。
-		Object.prototype确实一个特例——它的__proto__指向的是null，切记切记！
-
-	还有————函数也是一种对象，函数也有__proto__吗？————当然有
-	函数也不是从石头缝里蹦出来的，函数也是被创建出来的。谁创建了函数呢？————Function————注意这个大写的“F”。
-	好了，根据上面说的一句话————对象的__proto__指向的是创建它的函数的prototype，就会出现：Object.__proto__ === Function.prototype
-
-
-	instanceof
-		对于值类型，你可以通过typeof判断，string/number/boolean都很清楚，
-		但是typeof在判断到引用类型的时候，返回值只有object/function，
-		你不知道它到底是一个object对象，还是数组，还是new Number等等。
+		instanceof
+			对于值类型，你可以通过typeof判断，string/number/boolean都很清楚，
+			但是typeof在判断到引用类型的时候，返回值只有object/function，
+			你不知道它到底是一个object对象，还是数组，还是new Number等等。
 
 
 
