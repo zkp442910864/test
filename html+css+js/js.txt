@@ -1694,6 +1694,40 @@ js
 
 					var rules = sheet.cssRules || sheet.rules;			//取得规则列表，就是自己定义的样式规则
 
+			元素大小
+				var mydiv = document.getElementById('myDiv');
+				1. 偏移量 		（偏移量属性都是只读的，而且每次访问它们都需要重新计算。）
+					元素的可见大小由其高度、宽度决定，包括所有内边距、滚动条和边框大小（注意，不包括外边距）。
+					内容 + 内边距 + 边框
+					mydiv.offsetHeight		元素在垂直方向上占用的空间大小，以像素计。包括元素的高度、（可见的）水平滚动条的高度、上边框高度和下边框高度。
+					mydiv.offsetWidth		元素在水平方向上占用的空间大小，以像素计。包括元素的宽度、（可见的）垂直滚动条的宽度、左边框宽度和右边框宽度。
+					mydiv.offsetLeft		元素的左外边框至包含元素的左内边框之间的像素距离。
+					mydiv.offsetTop			元素的上外边框至包含元素的上内边框之间的像素距离。
+
+					mydiv.offsetParent		获取父级元素（注意<td>元素的offsetParent 是作为其祖先元素的<table>元素）
+					例子：
+						offsetTop 也可以用这函数(修改下)
+						function getElementLeft(element){
+							var actualLeft = element.offsetLeft;
+							var current = element.offsetParent;
+							while (current !== null){
+								actualLeft += current.offsetLeft;
+								current = current.offsetParent;
+							}
+							return actualLeft;
+						}
+
+				2. 客户区大小			（客户区大小也是只读的，也是每次访问都要重新计算的。）
+					元素的客户区大小（client dimension），指的是元素内容及其内边距所占据的空间大小
+					内容 + 内边距
+
+					浏览器视口大小，使用document.documentElement 或document.body
+						document.body.clientWidth
+						document.body.clientHeight
+						document.documentElement.clientWidth
+						document.documentElement.clientHeight
+
+				3. 滚动大小
 
 
 
