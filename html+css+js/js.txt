@@ -1254,7 +1254,7 @@ js
 					由于DOM 分为多个级别，也包含多个部分，因此检测浏览器实现了DOM 的哪些部分就十分必要了。
 					document.implementation 属性就是为此提供相应信息和功能的对象
 					DOM1 级:
-						document.implementation.hasFeature()		两个参数：要检测的DOM 功能的名称及版本号。这方法有缺点，最好使用这方法时再进行 能力检测。
+						document.implementation.hasFeature()		(貌似被弃用了)两个参数：要检测的DOM 功能的名称及版本号。这方法有缺点，最好使用这方法时再进行 能力检测。
 
 				文档写入
 					document.write()
@@ -1536,7 +1536,174 @@ js
 			貌似只适用于 Safari 和Chrome (webkit)
 			xxx.scrollIntoViewIfNeeded(a)		a 布尔值，是否居中显示。只在当前元素在视口中不可见的情况下，才滚动浏览器窗口或容器元素，最终让它可见。
 			scrollByPages、scrollByLines 这两个貌似用不了
-			
+
+	DOM2 和 DOM3	(这章看的懵，可以参考“JavaScript高级程序设计(第三版)” 12 )
+		DOM1 级主要定义的是HTML 和XML 文档的底层结构。DOM2 和DOM3 级则在这个结构的基础上引入了更多的交互能力，也支持了更高级的XML 特性。
+
+		DOM2 级核心（DOM Level 2 Core）：在1 级核心基础上构建，为节点添加了更多方法和属性。
+		DOM2 级视图（DOM Level 2 Views）：为文档定义了基于样式信息的不同视图。
+		DOM2 级事件（DOM Level 2 Events）：说明了如何使用事件与DOM文档交互。
+		DOM2 级样式（DOM Level 2 Style）：定义了如何以编程方式来访问和改变CSS 样式信息。
+		DOM2 级遍历和范围（DOM Level 2 Traversal and Range）：引入了遍历DOM 文档和选择其特定部分的新接口。
+	 	DOM2 级 HTML（DOM Level 2 HTML）：在1 级HTML 基础上构建，添加了更多属性、方法和新接口。
+		DOM3 级又增加了“XPath”模块和“加载与保存”（Load and Save）模块。
+					
+		DOM 变化
+			DOM2 级和3 级的目的在于扩展DOM API，以满足操作XML 的所有需求，同时提供更好的错误处理及特性检测能力。
+
+			针对XML命名空间的变化		 (可以参考“JavaScript高级程序设计(第三版)” 12.1.1 )
+				主要对 xml 和 xhtml 命名空间做解释
+				之前的 dom api 后缀加 NS 的都是针对命名空间来的
+
+			其他方面的变化		 (可以参考“JavaScript高级程序设计(第三版)” 12.1.2 )
+				// <!DOCTYPE html>
+				主要对 documentType 的操作
+
+				document.importNode()				类似于 document.cloneNode()，但是可以从一个文档复制到另一个文档，这个方法在HTML 文档中并不常用，在XML 文档中用得比较多。
+
+				DOM2 级视图
+					document.defaultView				获取文档的归属窗口
+						ie 不支持这属性， document.parentWindow 这个代替
+
+				DOM2 级核心
+					document.implementation 对象规定了两个新方法：createDocumentType()和createDocument()
+
+					document.implementation.createDocumentType("html", "-//W3C//DTD HTML 4.01//EN", "http://www.w3.org/TR/html4/strict.dtd")
+						创建一个新的DocumentType节点，接受3 个参数：文档类型名称、publicId、systemId。只在创建新文档时有用
+
+					document.implementation.createDocument("", "root", null);
+						创建新文档用到createDocument()方法。这个方法接受3 个参数：针对文档中元素的namespaceURI、文档元素的标签名、新文档的文档类型
+
+					document.implementation.createDocument("http://www.w3.org/1999/xhtml", "html",
+						document.implementation.createDocumentType("html", " -//W3C//DTD XHTML 1.0 Strict//EN", "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd")
+					);
+					这样，就创建了一个带有适当命名空间和文档类型的新XHTML 文档。
+				
+				DOM2 级HTML
+					document.implementation.createHTMLDocument("New Doc");
+						这个方法的用途是创建一个完整的HTML 文档，包括<html>、<head>、<title>和<body>元素。这个方法只接受一个参数，即新创建文档的标题（放在<title>元素中的字符串）
+						注意：只有Opera 和Safari 支持这个方法。
+
+				DOM3 级引入了两个辅助比较节点的方法
+					这两个方法都接受一个节点参数，并在传入节点与引用的节点 相同 或 相等 时返回true。
+					相同，指的是两个节点引用的是同一个对象。
+					相等，指的是两个节点是相同的类型，具有相等的属性（nodeName、nodeValue，等等），而且它们的attributes 和childNodes 属性也相等（相同位置包含相同的值）
+					isSameNode()		判断节点是否相同
+					isEqualNode()		判断节点是否相等
+					例子
+						var div1 = document.createElement("div");
+						div1.setAttribute("class", "box");
+
+						var div2 = document.createElement("div");
+						div2.setAttribute("class", "box");
+
+						alert(div1.isSameNode(div1)); //true
+						alert(div1.isEqualNode(div2)); //true
+						alert(div1.isSameNode(div2)); //false
+
+				DOM3 引入的（貌似还没支持）
+					document.body.setUserData("name", "Nicholas", function(){});
+					document.body.getUserData("name");
+
+				DOM2级中都有了一个新属性
+					框架内的调用必须同域名
+					contentDocument 		针对frame 使用的，主要是获取frame 的document
+						var iframe = document.getElementById("myIframe");
+						var iframeDoc = iframe.contentDocument; //在IE8 以前的版本中无效
+						iframe.contentWindow 	所有浏览器都支持这个，用来获取frame 的window
+
+		样式
+			确定浏览器是否支持DOM2 级定义的CSS 能力 （貌似被弃用）
+				var supportsDOM2CSS = document.implementation.hasFeature("CSS", "2.0");
+				var supportsDOM2CSS2 = document.implementation.hasFeature("CSS2", "2.0");
+
+			访问元素的样式
+
+				样式里的 短划线 键值，在javascript 里要用驼峰大小写形式来访问
+				var xxx = document.body;
+				xxx.style.backgroundColor = 'red';
+				xxx.style.fontSize = '12px';
+
+				注意：所有度量值都必须指定一个度量单位
+
+				一些style 的属性和方法 (注意：大部分需要ie9+以上才支持)
+					(propertyName) 输入的值和样式的键一样都有 短划线，不能用驼峰大小写
+					xxx.style.cssText					获取 style 属性里的字符串，也可以直接写入
+					xxx.style.length					获取 style 属性设置的键值长度
+					xxx.style.parentRule				表示CSS 信息的CSSRule 对象。
+					xxx.style.item(index)				返回给定位置的CSS 属性的名称。
+					xxx.style.getPropertyCSSValue()		(貌似没这函数) 返回包含给定属性值的CSSValue 对象。
+					xxx.style.getPropertyPriority(propertyName)			如果给定的属性使用了!important 设置，则返回"important"；否则，返回空字符串。
+					xxx.style.getPropertyValue(propertyName)			返回给定属性的字符串值。
+					xxx.style.removeProperty(propertyName)				从样式中删除给定属性。
+					xxx.style.setProperty(propertyName, value, priority)
+						xxx.style.setProperty('background-color', '#000' , 'important' || '')
+
+				计算的样式		(可以参考“JavaScript高级程序设计(第三版)” 12.2.1 )
+					(不太明白)
+					document.defaultView.getComputedStyle()
+						这个方法接受两个参数：要取得计算样式的元素和一个伪元素字符串（例如":after"）。如果不需要伪元素信息，第二个参数可以是null。
+
+					document.body.currentStyle;
+						ie 可以通过这个取到
+
+					最重要的一条是要记住所有计算的样式都是只读的；不能修改计算后样式对象中的CSS 属性。
+
+			操作样式表
+				CSSStyleSheet对象 就是 link、style 标签的内容展示，可以通过它来操作样式。
+
+				document.styleSheets			返回样式表(CSSStyleSheet对象)列表。文档加载的样式表，包括通过<link>元素包含的样式表和在<style>元素中定义的样式表。
+					每项都有以下属性(除了disabled 属性之外，其他属性都是只读的。)
+					disabled：			表示样式表是否被禁用的布尔值。这个属性是可读/写的，将这个值设置为true 可以禁用样式表。
+					href：				如果样式表是通过<link>包含的，则是样式表的URL；否则，是null。
+					parentStyleSheet：	在当前样式表是通过@import 导入的情况下，这个属性是一个指向导入它的样式表的指针。
+					title：				ownerNode 中title 属性的值。
+					type：				表示样式表类型的字符串。对CSS 样式表而言，这个字符串是"type/css"。
+					media：
+						当前样式表支持的所有媒体类型的集合。
+						与所有DOM 集合一样，这个集合也有一个length 属性和一个item()方法。
+						也可以使用方括号语法取得集合中特定的项。
+						如果集合是空列表，表示样式表适用于所有媒体。
+						在IE 中，media 是一个反映<link>和<style>元素media特性值的字符串。
+					ownerNode （就是当前包含样式的标签 link、style 这些）
+						指向拥有当前样式表的节点的指针，样式表可能是在HTML 中通过<link>或<style/>引入的（在XML 中可能是通过处理指令引入的）。
+						如果当前样式表是其他样式表通过@import 导入的，则这个属性值为null。
+						IE 不支持这个属性。
+
+					在支持以上所有这些属性的基础上，CSSStyleSheet 类型还支持下列属性和方法：
+						cssRules：					样式表中的样式规则集合。IE 不支持这个属性，但有一个类似的rules 属性。
+							每项的属性
+							cssText				返回整条规则对应的文本。IE 不支持这个属性。
+							selectorText		返回当前规则的选择符文本。
+							style				一个CSSStyleDeclaration 对象，可以通过它设置和取得规则中特定的样式值。
+								这个style 	可以按“访问元素的样式”来
+							parentRule			如果当前规则是导入的规则，这个属性引用的就是导入规则；否则，这个值为null。IE 不支持这个属性。
+							parentStyleSheet	当前规则所属的样式表。IE 不支持这个属性。
+							type				表示规则类型的常量值。对于样式规则，这个值是1。IE 不支持这个属性。
+
+						insertRule(rule,index)：	（注意兼容）就是添加新规则。向cssRules 集合中指定的位置插入rule 字符串。IE 不支持这个方法，但支持一个类似的addRule()方法。
+						deleteRule(index)：			删除cssRules 集合中指定位置的规则。IE 不支持这个方法，但支持一个类似的removeRule()方法。
+						ownerRule：					如果样式表是通过@import 导入的，这个属性就是一个指针，指向表示导入的规则；否则，值为null。IE 不支持这个属性。
+				
+				通过标签取得样式表 (CSSStyleSheet对象)
+					sheet ie不支持这属性，用styleSheet 代替
+					function getStyleSheet(element){ return element.sheet || element.styleSheet; }
+					//取得第一个<link/>元素引入的样式表
+					var link = document.getElementsByTagName("link")[0];
+					var sheet = getStylesheet(link);
+
+					var rules = sheet.cssRules || sheet.rules;			//取得规则列表，就是自己定义的样式规则
+
+
+
+
+
+
+
+
+
+
+
 
 
 
