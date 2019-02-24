@@ -1728,10 +1728,25 @@ js
 						document.documentElement.clientHeight
 
 				3. 滚动大小
-					mydiv.scrollHeight：	在没有滚动条的情况下，元素内容的 总 高度。
-					mydiv.scrollWidth：		在没有滚动条的情况下，元素内容的 总 宽度。
+					mydiv.scrollHeight：	在没有滚动条的情况下，元素内容的 总 高度。（文档的整个高度）
+					mydiv.scrollWidth：		在没有滚动条的情况下，元素内容的 总 宽度。（文档的整个宽度）
 					mydiv.scrollLeft：		被隐藏在内容区域左侧的像素数。通过设置这个属性可以改变元素的滚动位置。
 				 	mydiv.scrollTop：		被隐藏在内容区域上方的像素数。通过设置这个属性可以改变元素的滚动位置。
+
+					跨浏览器
+						确定文档的总高度、总宽度
+							scrollHeight、scrollWidth、clientHeight、clientWidth 		这两组在不同的浏览器会有不同的变现
+							混杂模式下的IE，则需要用document.body 代替document.document-Element。
+							var docHeight = Math.max(document.documentElement.scrollHeight, document.documentElement.clientHeight);
+							var docWidth = Math.max(document.documentElement.scrollWidth, document.documentElement.clientWidth);
+
+				4. 确定元素大小
+					元素都提供了一个 getBoundingClientRect() 方法。这个方法返回会一个矩形对象，包含4 个属性：left、top、right 和bottom。这些属性给出了元素在页面中相对于视口的位置。
+					自测的浏览器（包含6 个属性：left、top、right、bottom、height 和 width）
+					id8 及老版本    返回的都是4个属性
+						之后的版本  返回的都是6个属性
+					document.body.getBoundingClientRect()
+					
 
 
 
