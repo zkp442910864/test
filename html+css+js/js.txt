@@ -135,7 +135,7 @@ js
 
 			concat()				连接两个或更多的数组，并返回结果
 			every()					检测数值元素的每个元素是否都符合条件。例：arr.every(function(a){return a>=1}) 返回true或false
-			some()					同上
+			some()					基本同上(这只需要一个相等)
 			filter()				检测数值元素，并返回符合条件所有元素的数组。例：arr.filter(function(a){return a>=1}) 返回新数组
 			find()					返回指定的第一个值。例：arr.find(function(a){return a==2}) 当有等于2时，返回所有2中的第一个，否则undefined
 			findIndex() 			返回指定值的第一个索引。例：arr.findIndex(function(a){return a==2}) 当有等于2时，返回所有2中的第一个索引，否则-1
@@ -1537,7 +1537,7 @@ js
 			xxx.scrollIntoViewIfNeeded(a)		a 布尔值，是否居中显示。只在当前元素在视口中不可见的情况下，才滚动浏览器窗口或容器元素，最终让它可见。
 			scrollByPages、scrollByLines 这两个貌似用不了
 
-	DOM2 和 DOM3	(这章看的懵，可以参考“JavaScript高级程序设计(第三版)” 12 )
+	DOM2 和 DOM3	(这章看的懵，有空要重新看。可以参考“JavaScript高级程序设计(第三版)” 12 )
 		DOM1 级主要定义的是HTML 和XML 文档的底层结构。DOM2 和DOM3 级则在这个结构的基础上引入了更多的交互能力，也支持了更高级的XML 特性。
 
 		DOM2 级核心（DOM Level 2 Core）：在1 级核心基础上构建，为节点添加了更多方法和属性。
