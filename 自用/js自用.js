@@ -38,6 +38,47 @@ document.getElementById('a').onchange = function(){
 }
 
 
+/**
+ * 	<img usemap="#man" ng-src="{{img}}" class="portrait" alt="" id="z-images">
+ * 	<map name="man" id="man">
+		<area shape="rect" coords="{{calculate('168,56,218,76')}}" ng-click="rq({bodyPart: '眼'})" />
+	</map>
+ * 计算图片缩放比例，放大缩小图上坐标点
+ * 以图片大小为标准
+ * 页面显示图片大小为参照物
+ * 		大的 / 小的，得到比例
+ * 		再去处理坐标点 （注意大于和小于不同的处理方法）
+ * @param {*} valstr 
+ */
+function calculate (valstr) {
+	var arr = valstr.split(',');
+	$scope.imagesDom = document.getElementById('z-images');
+
+	if (!$scope.imagesDom) {
+		return valstr;
+	}
+	
+	var width = $scope.imagesDom.offsetWidth;
+	// var height = 739 - $scope.imagesDom.offsetHeight;
+	// var proportion = (width / height).toFixed(2);
+	var proportion = null;
+	var arr2 = [];
+
+	if (389 >= width) {
+		proportion = 389 / width;
+		for (var i in arr) {
+			arr2[i] = parseInt(Number(arr[i]) / Number(proportion));
+		}
+	} else {
+		proportion = width / 389;
+		for (var i in arr) {
+			arr2[i] = parseInt(Number(arr[i]) * Number(proportion));
+		}
+	}
+
+	return arr2.join();
+}
+
 
 
 
