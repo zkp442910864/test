@@ -1532,6 +1532,8 @@ js
 			“DOM2 级样式”模块主要针对操作元素的样式信息而开发...
 
 	事件
+		（一个封装好的对象 EventUtil 用来款浏览器绑定事件，可以参考“JavaScript高级程序设计(第三版)” p372 )
+		var btn = document.getElementById("myBtn");
 		事件流
 			IE8 及更早版本不支持DOM 事件流。
 
@@ -1541,5 +1543,146 @@ js
 			DOM事件流
 				“DOM2级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段、事件冒泡阶段。
 
-		事件处理程序
+		事件处理程序 （就是dom 上响应的函数）
+			响应某个事件的函数就叫做 事件处理程序（或 事件侦听器）
+			原始的写法
+				<input type="button" value="Click Me" onclick="showMessage()" />  	缺点：在js 没加载完成调用会报错
 
+			DOM0 级事件处理程序
+				btn.onclick = function () {alert(this.id)}		// 指定事件处理程序
+				btn.onclick = null;		// 删除事件处理程序
+
+			DOM2 级事件处理程序 （ie9 及以上的版本支持）
+				使用 DOM2级 添加事件处理程序，同一个事件名可以添加多个事件处理程序（按照添加它们的顺序触发）。
+				3 个参数：要处理的 事件名、作为事件处理程序的函数、一个布尔值（true，表示在捕获阶段调用事件处理程序；false，表示在冒泡阶段调用事件处理程序）。
+				addEventListener()			指定事件（注意匿名函数无法移除）
+				removeEventListener()		删除事件（注意匿名函数无法移除）
+				// 添加例子
+				btn.addEventListener("click", function () { alert(this.id) }, false);
+				btn.addEventListener("click", function () { alert('aaa') }, false);
+				// 删除例子
+				var fun = function () { console.log('bbb') }
+				btn.addEventListener("click", fun, false);
+				btn.removeEventListener("click", fun, false);
+
+			IE事件处理程序  （ie8 及以下的版本支持）
+				基本同上，但只接受前两个参数（事件名前要加 on，事件处理程序中使用 this 指向的是 window），只支持事件冒泡。
+				同一个事件名添加多个事件时，和上面的不同，按相反的顺序来执行
+				attachEvent()
+				detachEvent()
+
+			跨浏览器的事件处理程序
+				var EventUtil = {
+					addHandler: function (element, type, handler) {
+						if (element.addEventListener){
+							element.addEventListener(type, handler, false);
+						} else if (element.attachEvent){
+							element.attachEvent("on" + type, handler);
+						} else {
+							element["on" + type] = handler;
+						}
+					},
+					removeHandler: function (element, type, handler) {
+						if (element.removeEventListener){
+							element.removeEventListener(type, handler, false);
+						} else if (element.detachEvent){
+							element.detachEvent("on" + type, handler);
+						} else {
+							element["on" + type] = null;
+						}
+					}
+				};
+		
+		事件对象
+			DOM中的事件对象 （可以参考“JavaScript高级程序设计(第三版)” 13.3.1 )
+				在触发DOM上的某个事件时，会产生一个事件对象event。所有浏览器都支持event 对象，但支持方式不同。
+				event.currentTarget			指向this
+				event.target				只包含事件的实际目标（触发的地方）（应该可能会和this 不等）
+				event.preventDefault()		阻止特定事件的默认行为
+				event.stopPropagation()		立即停止事件在DOM 层次中的传播，即取消进一步的事件捕获或冒泡。
+
+				只有在事件处理程序执行期间，event 对象才会存在；一旦事件处理程序执行完成，event 对象就会被销毁。
+
+			IE中的事件对象  （可以参考“JavaScript高级程序设计(第三版)” 13.3.2 )
+				与DOM中的获取方式不同，ie 在触发事件时，通过 window.event 获取事件对象 （DOM0 级时要这样获取）
+				window.event.returnValue = false		阻止默认行为
+				window.event.cancelBubble = true		停止事件冒泡
+
+			跨浏览器的事件对象		（可以参考“JavaScript高级程序设计(第三版)” 13.3.3 )
+		
+		事件类型
+			UI事件
+				UI 事件指的是那些不一定与用户操作有关的事件。
+				这些事件都与 window 对象或表单控件相关。
+				load			当页面完全加载后在window 上面触发，当所有框架都加载完毕时在框架集上面触发，当图像加载完毕时在<img>元素上面触发，或者当嵌入的内容加载完毕时在<object>元素上面触发。
+					IE8 及之前版本不会生成 event 对象。IE9 修复了这个问题。
+					// 确定文档加载完成
+					window.onload = function (event) {}
+
+					// 貌似用的很少，新图像元素不一定要从添加到文档后才开始下载，只要设置了src 属性就会开始下载。
+					imgDom.onload = function (event) {}
+					// 常用的加载图片方法
+					var m = new Image();m.onload = function (event) {};m.src = 'xxx.jpg';
+
+					// 动态加载js
+					// 动态加载css
+
+				unload			当页面完全卸载后在window 上面触发，当所有框架都卸载后在框架集上面触发，或者当嵌入的内容卸载完毕后在<object>元素上面触发。
+
+				resize			当窗口或框架的大小变化时在window 或框架上面触发。
+					window.onresize = function (event) {console.log(event)}
+
+				scroll			当用户滚动带滚动条的元素中的内容时，在该元素上面触发。<body>元素中包含所加载页面的滚动条。
+					window.scroll = function (event) {console.log(event)}
+					一部分浏览器会基于 html 来跟踪滚动位置，一部分浏览器会基于 body 来跟踪滚动位置
+					document.documentElement.scrollTop || document.body.scrollTop
+
+				abort			在用户停止下载过程时，如果嵌入的内容没有加载完，则在<object>元素上面触发。
+				error			当发生JavaScript 错误时在window 上面触发，当无法加载图像时在<img>元素上面触发，当无法加载嵌入内容时在<object>元素上面触发，或者当有一或多个框架无法加载时在框架集上面触发。
+				select			当用户选择文本框（<input>或<texterea>）中的一或多个字符时触发。
+
+			焦点事件
+				blur			在元素失去焦点时触发。所有浏览器都支持它
+				focus			在元素获得焦点时触发。所有浏览器都支持它
+
+				这两个可以ie5.5 就支持
+				focusout		在元素失去焦点时触发。
+				focusin			在元素获得焦点时触发。
+
+			鼠标与滚轮事件
+				mousedown			在用户按下了任意鼠标按钮时触发。
+				mouseup				在用户释放鼠标按钮时触发。
+				click				在用户单击主鼠标按钮（一般是左边的按钮）或者按下回车键时触发（需要得到焦点）。
+				dblclick			ie8及之前的版本存在问题，在用户双击主鼠标按钮（一般是左边的按钮）时触发。
+
+				mouseout			在鼠标指针位于一个元素上方，然后用户将其移入另一个元素时触发。（包括内部的子元素）
+				mouseover			在鼠标指针位于一个元素外部，然后用户将其首次移入另一个元素边界之内时触发。
+
+				mousemove			当鼠标指针在元素内部移动时重复地触发。
+
+				只有这两事件不冒泡。上面的都冒泡，也可以被取消
+				mouseenter			在鼠标光标从元素外部首次移动到元素范围之内时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。
+				mouseleave			在位于元素上方的鼠标光标移动到元素范围之外时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。
+
+				mousewheel			这个事件跟踪鼠标滚轮
+
+				鼠标事件对象保存着 clientX 和 clientY (所有浏览器都支持这两个属性)，这样确定鼠标在视口中的位置
+					document.getElementById("myDiv").onclick = (event) => {console.log(`${event.clientX}, ${event.clientY}`)}
+				
+				鼠标事件对象保存着 pageX 和 pageY，确定在文档（特别是带滚动条的文档）中的位置。（IE8 及更早版本不支持事件对象上的页面坐标）
+					通过计算得到
+					(document.documentElement.scrollTop || document.body.scrollTop) + event.clientY
+					(document.documentElement.scrollLeft || document.body.scrollLeft) + event.clientX
+
+				屏幕坐标位置 screenX 和 screenY，相对于整个屏幕的坐标信息
+
+				event.shiftKey、event.ctrlKey、event.altKey 和 event.metaKey，和鼠标事件组合触发。就是点击时候，按住键盘上对应的按钮会返回 true。
+					ie8及之前版本不支持 metaKey 属性。
+
+				注意
+					只有在同一个元素上相继触发mousedown 和mouseup 事件，才会触发click 事件；
+					如果mousedown 或mouseup 中的一个被取消，就不会触发click 事件。
+					类似地，只有触发两次click 事件，才会触发一次dblclick 事件。
+					如果有代码阻止了连续两次触发click 事件（可能是直接取消click事件，也可能通过取消mousedown 或mouseup 间接实现），那么就不会触发dblclick 事件了。
+
+				
