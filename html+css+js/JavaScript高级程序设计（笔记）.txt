@@ -1596,8 +1596,11 @@ js
 		事件对象
 			DOM中的事件对象 （可以参考“JavaScript高级程序设计(第三版)” 13.3.1 )
 				在触发DOM上的某个事件时，会产生一个事件对象event。所有浏览器都支持event 对象，但支持方式不同。
+
 				event.currentTarget			指向this
-				event.target				只包含事件的实际目标（触发的地方）（应该可能会和this 不等）
+				event.target				只包含事件的实际目标（触发的地方）（可能会和this 不等）
+					这两个要注意 当一个元素里包含多个子元素，给父元素设置 click 事件，通过 target 可以拿到点击的那个子元素， currentTarget 可以拿到本身。
+
 				event.preventDefault()		阻止特定事件的默认行为
 				event.stopPropagation()		立即停止事件在DOM 层次中的传播，即取消进一步的事件捕获或冒泡。
 
@@ -1657,6 +1660,7 @@ js
 
 				mouseout			在鼠标指针位于一个元素上方，然后用户将其移入另一个元素时触发。（包括内部的子元素）
 				mouseover			在鼠标指针位于一个元素外部，然后用户将其首次移入另一个元素边界之内时触发。
+					这两个事件对象带有 relatedTarget， ie的用 mouseover 对应 fromElement、mouseout 对应 toElement。（貌似返回目标对象的父元素）
 
 				mousemove			当鼠标指针在元素内部移动时重复地触发。
 
