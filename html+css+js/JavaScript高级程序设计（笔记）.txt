@@ -1661,6 +1661,7 @@ js
 				mouseout			在鼠标指针位于一个元素上方，然后用户将其移入另一个元素时触发。（包括内部的子元素）
 				mouseover			在鼠标指针位于一个元素外部，然后用户将其首次移入另一个元素边界之内时触发。
 					这两个事件对象带有 relatedTarget， ie的用 mouseover 对应 fromElement、mouseout 对应 toElement。（貌似返回目标对象的父元素）
+					（兼容代 可以参考“JavaScript高级程序设计(第三版)” p391）
 
 				mousemove			当鼠标指针在元素内部移动时重复地触发。
 
@@ -1668,7 +1669,8 @@ js
 				mouseenter			在鼠标光标从元素外部首次移动到元素范围之内时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。
 				mouseleave			在位于元素上方的鼠标光标移动到元素范围之外时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。
 
-				mousewheel			这个事件跟踪鼠标滚轮
+				mousewheel			这个事件跟踪鼠标滚轮 （这个貌似需要注意兼容）
+				DOMMouseScroll		这是 firefox 的鼠标滚轮事件
 
 				鼠标事件对象保存着 clientX 和 clientY (所有浏览器都支持这两个属性)，这样确定鼠标在视口中的位置
 					document.getElementById("myDiv").onclick = (event) => {console.log(`${event.clientX}, ${event.clientY}`)}
@@ -1680,13 +1682,38 @@ js
 
 				屏幕坐标位置 screenX 和 screenY，相对于整个屏幕的坐标信息
 
-				event.shiftKey、event.ctrlKey、event.altKey 和 event.metaKey，和鼠标事件组合触发。就是点击时候，按住键盘上对应的按钮会返回 true。
-					ie8及之前版本不支持 metaKey 属性。
+				event 事件对象的鼠标属性
+					event.shiftKey、event.ctrlKey、event.altKey 和 event.metaKey，和鼠标事件组合触发。就是点击时候，按住键盘上对应的按钮会返回 true。
+						ie8及之前版本不支持 metaKey 属性。
+
+					event.button		鼠标按钮按下的代表值 （可以参考“JavaScript高级程序设计(第三版)” p392）
+					event.detail		连续点鼠标的次数
+
+					event.clientX		鼠标在视口的位置
+					event.clientY		鼠标在视口的位置
+					event.pageX			鼠标在文档的位置
+					event.pageY			鼠标在文档的位置
+					event.offsetX		光标相对于目标元素边界的坐标
+					event.offsetY		光标相对于目标元素边界的坐标
+
+					event.wheelDelta	对应 mousewheel 事件，表示向上或向下滚动 (Opera要注意兼容)
+					event.detail		对应 DOMMouseScroll 事件，表示向上或向下滚动 (firefox的兼容)
 
 				注意
 					只有在同一个元素上相继触发mousedown 和mouseup 事件，才会触发click 事件；
 					如果mousedown 或mouseup 中的一个被取消，就不会触发click 事件。
 					类似地，只有触发两次click 事件，才会触发一次dblclick 事件。
 					如果有代码阻止了连续两次触发click 事件（可能是直接取消click事件，也可能通过取消mousedown 或mouseup 间接实现），那么就不会触发dblclick 事件了。
+
+			键盘与文本事件
+				一般使用在 输入框 这些元素上。
+				keydown					当用户按下键盘上的任意键时触发，而且如果按住不放的话，会重复触发此事件。
+				keypress				当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。
+				keyup					当用户释放键盘上的键时触发。
+				input(textInput)		在文本插入文本框之前会触发。
+
+				event 事件对象的键盘属性
+					keyCode				返回键盘上按键对应的keyCode(keyup 和 keydown 里有效)
+						在Firefox 和Opera 中，按分号键时keyCode值为59，也就是ASCII 中分号的编码；但IE 和Safari 返回186，即键盘中按键的键码。
 
 				
