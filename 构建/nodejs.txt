@@ -23,6 +23,11 @@
 
 
 		npm安装模块
+
+		install === i;
+		–save === -S;
+		–save-dev === -D;
+
 		【npm install xxx】利用 npm 安装xxx模块到当前命令行所在目录；
 		【npm install -g xxx】利用npm安装全局模块xxx；
 		本地安装时将模块写入package.json中：

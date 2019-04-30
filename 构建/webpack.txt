@@ -2,6 +2,23 @@
 	https://www.jianshu.com/p/42e11515c10f
 	https://www.runoob.com/w3cnote/webpack-tutorial.html
 
+	package.json 运行命令
+		/*
+			package.json 里配置 --mode 三种模式
+			none 本地
+			development 开发
+			progress	生成
+			process.env.NODE_ENV 通过 process 这个全局变量取到
+
+			启动命令，添加 --env.NODE_ENV=local 来做标志
+			在 webpack.config.js 这样 module.exports = (env) => {} 就能拿到环境变量
+		*/
+		"scripts": {
+			"dev": "webpack-dev-server --env.NODE_ENV=none --mode none --hot --inline --config config/webpack.dev.js",
+			"test": "webpack --env.NODE_ENV=development --mode development --progress --config config/webpack.prod.js",
+			"build": "webpack --env.NODE_ENV=production --mode production --progress --config config/webpack.prod.js"
+		},
+
 	注意：
 		module.rules
 			配置处理 css
