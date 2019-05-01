@@ -1713,7 +1713,9 @@ js
 				input(textInput)		在文本插入文本框之前会触发。
 
 				event 事件对象的键盘属性
-					keyCode				返回键盘上按键对应的keyCode(keyup 和 keydown 里有效)
+					keyCode			返回键盘上按键对应的keyCode(keyup 和 keydown 里有效)
 						在Firefox 和Opera 中，按分号键时keyCode值为59，也就是ASCII 中分号的编码；但IE 和Safari 返回186，即键盘中按键的键码。
+
+					charCode		这个属性只有在发生 keypress 事件时才包含值，而且这个值是按下的那个键所代表字符的ASCII 编码
 
 				
