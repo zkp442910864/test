@@ -80,6 +80,46 @@ function calculate (valstr) {
 }
 
 
+// https://www.jianshu.com/p/bc94380c4a22
+function press (r) {
+	/* 百分比与角度的关系
+	* 100%对应360度->1%=3.6deg
+	* 角度与周长的关系
+	* 360度对应长度为800->0.45deg=1px
+	* 百分比与周长的关系
+	* 100%对应周长800->0.125%=1px           
+	* ----->1%=8px
+	* 45deg=100px(角度对应的周长)=50%(clip-path中的百分比)
+	* ------->100%(百分比值)=400%(clip-path中的百分比)
+	*/
+	
+	var r=r*4;
+	var k1="polygon(50% 50%,50% 0%,";
+	var k2=k1+"100% 0%,";
+	var k3=k2+"100% 100%,";
+	var k4=k3+"0% 100%,";
+	var k5=k4+"0% 0%,";
+
+	let obj = {};
+	if(r<=50){
+		r+=50;
+		obj = {"-webkit-clip-path":k1+r+"% 0%)"};
+	}else if((r>50)&&(r<=150)){
+		r-=50;
+		obj = {"-webkit-clip-path":k2+"100% "+r+"%)"};
+	}else if((r>150)&&(r<=250)){
+		r=250-r;
+		obj = {"-webkit-clip-path":k3+r+"% 100%)"};
+	}else if((r>250)&&(r<=350)){
+		r=350-r;
+		obj = {"-webkit-clip-path":k4+"0% "+r+"%)"};
+	}else if((r>350)&&(r<=400)){
+		r-=350;
+		obj = {"-webkit-clip-path":k5+r+"% 0%)"};
+	}
+	return `-webkit-clip-path:${obj["-webkit-clip-path"]}`;
+}
+
 
 
 

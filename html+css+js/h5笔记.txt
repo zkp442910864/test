@@ -545,7 +545,9 @@ JavaScript:
 		_img.src = '图片路径';
 		_img.onload =function(){//加载成功回调}	
 		_img.onerror =function(){//加载失败回调}	
-	
+		
+		有兼容问题
+		_img.decode()  返回一个Promise
 	
 	
 	
