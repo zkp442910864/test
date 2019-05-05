@@ -1710,12 +1710,23 @@ js
 				keydown					当用户按下键盘上的任意键时触发，而且如果按住不放的话，会重复触发此事件。
 				keypress				当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。
 				keyup					当用户释放键盘上的键时触发。
-				input(textInput)		在文本插入文本框之前会触发。
+				input					在文本插入文本框之前会触发。
+				textInput				只有可编辑区域才能触发
+										按下能够输入实际字符的键时才会被触发
+										event 对象中还包含一个data 属性，值是用户输入的值
 
 				event 事件对象的键盘属性
 					keyCode			返回键盘上按键对应的keyCode(keyup 和 keydown 里有效)
 						在Firefox 和Opera 中，按分号键时keyCode值为59，也就是ASCII 中分号的编码；但IE 和Safari 返回186，即键盘中按键的键码。
 
-					charCode		这个属性只有在发生 keypress 事件时才包含值，而且这个值是按下的那个键所代表字符的ASCII 编码
+					charCode		这个属性只有在发生 keypress 事件时才包含值，而且这个值是按下的那个键所代表字符的ASCII 编码 （DOM3不支持）
+
+					DOM3 新增 存在兼容问题（可以参考“JavaScript高级程序设计(第三版)” p400）
+						（IE9 支持key 属性，但不支持char 属性。）
+						key				了取代keyCode 而新增的，它的值是一个字符串
+						char			在按下字符键时的行为与key 相同，但在按下非字符键时值为null。
+						keyIdentifier	webkit 的支持
+						location		这是一个数值，表示按下了什么位置上的键
+						keyLocation		webkit 的支持
 
 				
