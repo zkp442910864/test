@@ -2,6 +2,8 @@
 	https://www.jianshu.com/p/42e11515c10f
 	https://www.runoob.com/w3cnote/webpack-tutorial.html
 
+	包里（插件）的 package.json 里 main 指向引用的js
+
 	package.json 运行命令
 		/*
 			package.json 里配置 --mode 三种模式

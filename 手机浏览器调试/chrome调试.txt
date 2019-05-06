@@ -1,75 +1,78 @@
 移动：chrome浏览器，uc开发者浏览器
 
 pc：chrome浏览器
-  adb 下载 http://adbshell.com/downloads
+	adb 下载 http://adbshell.com/downloads
 
-  运行 adb
-    1.将adb_tool解压，把里面的文件复制到 C:\Windows\SysWOW64 文件夹下面。
-    2.到 C:\Windows\SysWOW64 目录下打开 cmd
-      $ adb shell
-        查看是否链接上了，不行就百度
+	运行 adb
+		1.将adb_tool解压，把里面的文件复制到 C:\Windows\SysWOW64 文件夹下面。
+		2.到 C:\Windows\SysWOW64 目录下打开 cmd
+			$ adb shell
+				查看是否链接上了，不行就百度
 
-  打开 chrome://inspect/#devices
-    在这上面可以看到自己链接的设备
-  
-  手机浏览器打开网站，会有数据列表出来，点击 inspect 打开控制台进行调式
-    注意
-      打开控制台可能是空白的
-      1. 添加hosts
-        C:\Windows\System32\drivers\etc\hosts
-        61.91.161.217 chrome-devtools-frontend.appspot.com
-        61.91.161.217 chrometophone.appspot.com
-      2. 翻墙 vpn
+	打开 chrome://inspect/#devices
+		在这上面可以看到自己链接的设备
+	
+	手机浏览器打开网站，会有数据列表出来，点击 inspect 打开控制台进行调式
+		注意
+			打开控制台可能是空白的
+			1. 添加hosts
+				C:\Windows\System32\drivers\etc\hosts
+				61.91.161.217 chrome-devtools-frontend.appspot.com
+				61.91.161.217 chrometophone.appspot.com
+			2. 翻墙 vpn
 
 
 
 // 意外发现 调起微信 的
+weixin://dl/business/?ticket=xxx
+ticket 要微信生成
+
 var is_postmsg = "";
 if (0 !== 0 && is_postmsg == "1") {
-  parent.postMessage(JSON.stringify({
-    action: "send_deeplink_fail",
-    data: {
-      deeplink: ""
-    },
-    error: {
-      error_code: "0",
-      error_msg: "ok"
-    }
-  }), "");
+	parent.postMessage(JSON.stringify({
+		action: "send_deeplink_fail",
+		data: {
+			deeplink: ""
+		},
+		error: {
+			error_code: "0",
+			error_msg: "ok"
+		}
+	}), "");
 }
 if (0 === 0) {
-  window.onload = function () {
-    {
-      var is_postmsg = "";
-      if (is_postmsg == "1") {
-        parent.postMessage(JSON.stringify({
-          action: "send_deeplink",
-          data: {
-            deeplink: "weixin://wap/pay?prepayid%3Dwx08150848546127b0ae3400e61181111729&package=915835061&noncestr=1544252928&sign=4220d4dce5836939ca83ae24aa9d9bab"
-          }
-        }), "");
-      }
-      else {
-        var url = "weixin://wap/pay?prepayid%3Dwx08150848546127b0ae3400e61181111729&package=915835061&noncestr=1544252928&sign=4220d4dce5836939ca83ae24aa9d9bab";
-        var redirect_url = "http://klym.weiyena.ds160.net/HouseUser/order_detail/order_sn/W2018120815073244348DE25238201?type=1&paytype=wx&paytype=wx&paytype=wx";
-        top.location.href = url;
+	window.onload = function () {
+		{
+			var is_postmsg = "";
+			if (is_postmsg == "1") {
+				parent.postMessage(JSON.stringify({
+					action: "send_deeplink",
+					data: {
+						deeplink: "weixin://wap/pay?prepayid%3Dwx08150848546127b0ae3400e61181111729&package=915835061&noncestr=1544252928&sign=4220d4dce5836939ca83ae24aa9d9bab"
+					}
+				}), "");
+			}
+			else {
+				var url = "weixin://wap/pay?prepayid%3Dwx08150848546127b0ae3400e61181111729&package=915835061&noncestr=1544252928&sign=4220d4dce5836939ca83ae24aa9d9bab";
+				var redirect_url = "http://klym.weiyena.ds160.net/HouseUser/order_detail/order_sn/W2018120815073244348DE25238201?type=1&paytype=wx&paytype=wx&paytype=wx";
+				top.location.href = url;
 
-        if (redirect_url) {
-          setTimeout(
-            function () {
-              top.location.href = redirect_url;
-            },
-            5000
-          );
-        }
-        else {
-          setTimeout(
-            function () {
-              window.history.back();
-            },
-            5000);
-        }
-      }
-    }
-  }
+				if (redirect_url) {
+					setTimeout(
+						function () {
+							top.location.href = redirect_url;
+						},
+						5000
+					);
+				}
+				else {
+					setTimeout(
+						function () {
+							window.history.back();
+						},
+						5000);
+				}
+			}
+		}
+	}
 }
