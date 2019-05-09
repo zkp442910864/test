@@ -1,6 +1,48 @@
 
 
 TypeScript 基础
+	基础类型
+		let isDone: boolean = false;
+		let decLiteral: number = 6;
+		let name: string = "bob";
+
+		let list: number[] = [1, 2, 3];
+		let list: Array<number> = [1, 2, 3];
+
+		Object
+			let list: object = {};
+
+		any
+			不清楚类型的变量指定一个类型，使用这个
+			let name: any = "bob";
+			name = 4; name = true;
+			let name: any[] = ['1', 2, true];
+
+		Void
+			void类型像是与any类型相反，它表示没有任何类型。 
+			声明一个void类型的变量没有什么大用，因为你只能为它赋予undefined和null
+			let unusable: void = undefined;
+		
+		Null 和 Undefined
+			let u: undefined = undefined;
+			let n: null = null;
+
+		Never
+			never类型表示的是那些永不存在的值的类型。
+
+		类型断言
+			确切的知道该变量属于什么类型时使用
+
+			let someValue: any = "this is a string";
+
+			写法1
+			let strLength: number = (<string>someValue).length;
+
+			写法2
+			let strLength: number = (someValue as string).length;
+
+		枚举
+			enum类型是对JavaScript标准数据类型的一个补充。
 	类
 		继承
 			extends
@@ -39,7 +81,10 @@ TypeScript 基础
 			默认的进行赋值
 			const newAdd: (x: number, y?: number) => number = (x, y = 5) => { return x * y };
 
+		剩余参数
+			const newFun: (x: number, ...arr: string[]) => string = (x, ...arr) => { return `${x}-${arr.join()}` };
 
+	泛型
 
 
 
