@@ -85,7 +85,32 @@ TypeScript 基础
 			const newFun: (x: number, ...arr: string[]) => string = (x, ...arr) => { return `${x}-${arr.join()}` };
 
 	泛型
+		泛型名不一定是 T，可用其它字母代替
+		主要是限制 传参和返回值 的数据类型
+		类使用可以统一的使用一个类型
 
+		function identity<T> (arg: T): T { return arg }
+
+		这两个等价
+		function loggingIdentity<T> (arr: T[]): T[] { return arr }
+		function loggingIdentity<T> (arr: Array<T>): Array<T> { return arr }
+
+		class GNumber<T> { val: T; add: (x: T, y: T) => T; }
+
+		// 写法一 手动指定 T 的类型
+		console.log(identity<string>('123'));
+		// 写法二 即编译器会根据传入的参数自动地帮助我们确定T的类型
+		console.log(identity('123'));
+
+		console.log(loggingIdentity([1, 'q', '3', true]));
+
+		// 这样限制了 number，重写的属性和方法（有 T 的）就必须是 number 类型了。
+		const gn = new GNumber<number>();
+
+		泛型约束
+			就是给 T 加上限制，这样传入的参数就必须包含 length 属性。
+			interface IContain { length: number; }
+			function custor<T extends IContain> (val: T): T { return val }
 
 
 
