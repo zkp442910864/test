@@ -1711,7 +1711,7 @@ js
 				keypress				当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。
 				keyup					当用户释放键盘上的键时触发。
 				input					在文本插入文本框之前会触发。
-				textInput				只有可编辑区域才能触发
+				textInput				只有可编辑区域才能触发（支持textInput 属性的浏览器有IE9+、Safari 和Chrome。只有IE 支持inputMethod 属性。）
 										按下能够输入实际字符的键时才会被触发
 										event 对象中还包含一个data 属性，值是用户输入的值
 
@@ -1728,5 +1728,9 @@ js
 						keyIdentifier	webkit 的支持
 						location		这是一个数值，表示按下了什么位置上的键
 						keyLocation		webkit 的支持
+
+				复合事件（可以参考“JavaScript高级程序设计(第三版)” 13.4.5）
+					复合事件（composition event）是DOM3 级事件中新添加的一类事件，用于处理IME 的输入序列。IME（Input Method Editor，输入法编辑器）可以让用户输入在物理键盘上找不到的字符。
+					例如，使用拉丁文键盘的用户通过IME 照样能输入日文字符。IME 通常需要同时按住多个键，但最终只输入一个字符。
 
 				
