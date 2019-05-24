@@ -66,6 +66,32 @@ input[type=button], input[type=submit]{
 
 实验表明，在IOS下，对一个元素设置了overflow:scroll的基础上再添加-webkit-overflow-scrolling: touch;会让滑动又如丝般顺滑。
 {
-overflow:scroll;
--webkit-overflow-scrolling: touch;
+	overflow:scroll;
+	-webkit-overflow-scrolling: touch;
 }
+
+/**
+ * 获取原型图的宽度
+ * 两个被除数相乘为原型图宽
+ * 然后这样就能直接拿原型图的px值来用
+ * scss 里的被除数必需比 js 里的大
+ * 
+ * scss
+ * 	@function font-value($val) {
+ *		@return ($val / 100) * 1rem;
+ *	}
+ *	
+ * js
+ * (function() {
+ *		var head = {
+ *			init: function() {
+ *				var deviceWidth = document.documentElement.clientWidth;
+ *				if(deviceWidth > 750) {
+ *					deviceWidth = 750;
+ *				}
+ *				document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+ *			},
+ *		}
+ *		head.init();
+ * })()
+ */

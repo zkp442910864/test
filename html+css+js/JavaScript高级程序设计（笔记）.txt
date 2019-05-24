@@ -1344,7 +1344,7 @@ js
 					xxx.style.setProperty(propertyName, value, priority)
 						xxx.style.setProperty('background-color', '#000' , 'important' || '')
 
-				计算的样式		(可以参考“JavaScript高级程序设计(第三版)” 12.2.1 )
+				计算的样式		(可以参考“JavaScript高级程序设��(第三版)” 12.2.1 )
 					(不太明白)
 					document.defaultView.getComputedStyle()
 						这个方法接受两个参数：要取得计算样式的元素和一个伪元素字符串（例如":after"）。如果不需要伪元素信息，第二个参数可以是null。
@@ -1729,8 +1729,192 @@ js
 						location		这是一个数值，表示按下了什么位置上的键
 						keyLocation		webkit 的支持
 
-				复合事件（可以参考“JavaScript高级程序设计(第三版)” 13.4.5）
-					复合事件（composition event）是DOM3 级事件中新添加的一类事件，用于处理IME 的输入序列。IME（Input Method Editor，输入法编辑器）可以让用户输入在物理键盘上找不到的字符。
-					例如，使用拉丁文键盘的用户通过IME 照样能输入日文字符。IME 通常需要同时按住多个键，但最终只输入一个字符。
+			复合事件（可以参考“JavaScript高级程序设计(第三版)” 13.4.5）
+				复合事件（composition event）是DOM3 级事件中新添加的一类事件，用于处理IME 的输入序列。IME（Input Method Editor，输入法编辑器）可以让用户输入在物理键盘上找不到的字符。
+				例如，使用拉丁文键盘的用户通过IME 照样能输入日文字符。IME 通常需要同时按住多个键，但最终只输入一个字符。
 
+			变动事件
+				DOM2 级的变动（mutation）事件能在DOM 中的某一部分发生变化时给出提示。变动事件是为XML或HTML DOM设计的，并不特定于某种语言。
+				在对 dom 进行操作时执行响应的函数（监听dom变化）。
+				事件
+					DOMSubtreeModified				在DOM 结构中发生任何变化时触发。这个事件在其他任何事件触发后都会触发。
+					DOMNodeInserted					在一个节点作为子节点被插入到另一个节点中时触发。
+					DOMNodeRemoved					在节点从其父节点中被移除时触发。
+					DOMNodeInsertedIntoDocument		在一个节点被直接插入文档或通过子树间接插入文档之后触发。这个事件在DOMNodeInserted 之后触发。
+					DOMNodeRemovedFromDocument		在一个节点被直接从文档中移除或通过子树间接从文档中移除之前触发。这个事件在DOMNodeRemoved 之后触发。
+					DOMAttrModified					在特性被修改之后触发。
+					DOMCharacterDataModified		在文本节点的值发生变化时触发。
 				
+				例子：
+					document.body.addEventListener('DOMNodeRemoved', function (e) {console.log(e)})
+			
+			HTML5 事件
+				contextmenu 事件（可以参考“JavaScript高级程序设计(第三版)” p406）
+					自定义上下文自定义菜单
+					通常使用contextmenu 事件来显示自定义的上下文菜单，而使用onclick 事件处理程序来隐藏该菜单。
+					例子的事件流程：
+						这个事件处理程序首先会取消默认行为，以保证不显示浏览器默认的上下文菜单。
+						然后，再根据event 对象clientX 和clientY 属性的值，来确定放置<ul>元素的位置。
+						最后一步就是通过将visibility 属性设置为"visible"来显示自定义上下文菜单。
+						另外，还为document 添加了一个onclick 事件处理程序，以便用户能够通过鼠标单击来隐藏菜单（单击也是隐藏系统上下文菜单的默认操作）。
+
+				beforeunload 事件
+					页面卸载前执行的函数
+
+				DOMContentLoaded 事件
+					window 的load 事件会在页面中的一切都加载完毕时触发，但这个过程可能会因为要加载的外部资源过多而颇费周折。
+					而DOMContentLoaded 事件则在形成完整的DOM 树之后就会触发，不理会图像、JavaScript 文件、CSS 文件或其他资源是否已经下载完毕。
+					与load 事件不同，DOMContentLoaded 支持在页面下载的早期添加事件处理程序，这也就意味着用户能够尽早地与页面进行交互。
+					例子：
+						document.addEventListener('DOMContentLoaded', function (e) {console.log(e)}, false)
+
+				readystatechange 事件（可以参考“JavaScript高级程序设计(第三版)” p408）
+					每个对象都有一个 readyState 属性，可能包含下列5 个值中的一个。
+						uninitialized（未初始化）：对象存在但尚未初始化。
+						loading(正在加载)		对象正在加载数据。
+						loaded(加载完毕)		对象加载数据完成。
+						interactive（交互）		可以操作对象了，但还没有完全加载。
+						complete（完成）		对象已经加载完毕。
+					并非所有对象都会经历 readyState 的这几个阶段。
+
+					这个事件有不稳定性，已知用来监听 document 加载周期， 和动态 js 的加载周期
+
+				pageshow 和 pagehide 事件
+					Firefox 和Opera 有一个特性，名叫“往返缓存”（back-forward cache，或bfcache），
+					可以在用户使用浏览器的“后退”和“前进”按钮时加快页面的转换速度。
+					这个缓存中不仅保存着页面数据，还保存了DOM 和JavaScript 的状态；实际上是将整个页面都保存在了内存里。
+
+					因为这个特性，在页面重新显示出来时，不会执行 load，这个时候就需要：
+						这两必需添加到 window 上
+						e.persisted		该属性是个布尔值，来判断页面是否缓存中的页面
+						pageshow		页面显示时执行，load 之后执行
+						pagehide		页面隐藏时执行，unload 之前执行
+
+				hashchange 事件
+					在URL 的参数列表（及URL 中“#”号后面的所有字符串）发生变化时通知开发人员。
+					必须要把hashchange 事件处理程序添加给window 对象
+
+					window.addEventListener('hashchange', function (e) {console.log(e)})
+					包含这两属性（兼容问题，最好用 location）
+						e.newURL
+						e.oldURL
+
+			设备事件
+				orientationchange 事件
+					手机浏览器的查看模式切换时触发（主要是竖屏和横屏）
+					可以把 orientationchange 事件处理程序添加给 window 对象或body元素
+					window.orientation 表示手机的状态 0竖 90、-90 横屏
+
+				deviceorientation 事件（可以参考“JavaScript高级程序设计(第三版)” p414）
+					加速计检测到设备方向变化时在 window 对象上触发
+					告诉开发人员设备在空间中朝向哪儿
+
+				devicemotion 事件（可以参考“JavaScript高级程序设计(第三版)” p417）
+					这个事件是要告诉开发人员设备什么时候移动，而不仅仅是设备方向如何改变。
+
+			触摸与手势事件
+				触摸事件
+					touchstart		当手指触摸屏幕时触发；即使已经有一个手指放在了屏幕上也会触发。
+					touchmove		当手指在屏幕上滑动时连续地触发。在这个事件发生期间，调用 preventDefault() 可以阻止滚动。
+						// touch-action: none	阻止默认事件需要给元素加这样式
+					touchend		当手指从屏幕上移开时触发。
+					touchcancel		当系统停止跟踪触摸时触发。关于此事件的确切触发时间，文档中没有明确说明。
+
+					上面这几个事件都会冒泡，也都可以取消。 event 对象都提供了在鼠标事件中常见的属性
+
+					除了常见的DOM属性外，触摸事件还包含下列三个用于跟踪触摸的属性。
+					touches				表示当前跟踪的触摸操作的Touch 对象的数组。
+					targetTouchs		特定于事件目标的Touch 对象的数组。
+					changeTouches		表示自上次触摸以来发生了什么改变的Touch 对象的数组。
+
+					每个 Touch（e.touches[0] || e.changedTouches[0]） 对象包含下列属性。
+					clientX				触摸目标在视口中的x 坐标。
+					clientY				触摸目标在视口中的y 坐标。
+					identifier			标识触摸的唯一ID。
+					pageX				触摸目标在页面中的x 坐标。
+					pageY				触摸目标在页面中的y 坐标。
+					screenX				触摸目标在屏幕中的x 坐标。
+					screenY				触摸目标在屏幕中的y 坐标。
+					target				触摸的DOM 节点目标。
+
+				手势事件（可以参考“JavaScript高级程序设计(第三版)” 13.4.9 )
+					gesturestart		当一个手指已经按在屏幕上而另一个手指又触摸屏幕时触发。
+					gesturechange		当触摸屏幕的任何一个手指的位置发生变化时触发。
+					gestureend			当任何一个手指从屏幕上面移开时触发。
+
+	
+		内存和性能（可以参考“JavaScript高级程序设计(第三版)” 13.5 )
+			事件委托
+				利用 addEventListener 的冒泡机制，给父元素添加事件，触发子元素会冒泡上去。
+
+			移除事件处理程序
+				使用 innerHTML 时，注意替换的内容里是否包含事件，要清楚(赋值为null)
+				通过 onunload 事件来清楚，一般页面在前进和后退都会被缓存下来
+
+			有必要限制一个页面中事件处理程序的数量，数量太多会导致占用大量内存，而且也会让用户感觉页面反应不够灵敏。
+			建立在事件冒泡机制之上的事件委托技术，可以有效地减少事件处理程序的数量。
+			建议在浏览器卸载页面之前移除页面中的所有事件处理程序。
+
+		模拟事件（可以参考“JavaScript高级程序设计(第三版)” 13.6 )
+			DOM中的事件模拟
+				document.createEvent() 通过这方法创建事件中的 event 对象
+				这个方法接收一个参数，即表示要创建的事件类型的字符串。
+					UIEvents				一般化的UI 事件。鼠标事件和键盘事件都继承自UI 事件。DOM3 级中是UIEvent。
+					MouseEvents				一般化的鼠标事件。DOM3 级中是MouseEvent。
+					MutationEvents			一般化的DOM 变动事件。DOM3 级中是MutationEvent。
+					HTMLEvents				一般化的HTML 事件。没有对应的DOM3 级事件（HTML 事件被分散到其他类别中）。
+
+				document.dispatchEvent() 通过这方法触发事件
+				这个方法接收一个参数，传 event 对象。
+
+				例子：（主动触发事件）
+					const btn = document.getElementById('myBtn');
+					btn.onclick = (e: IParameter) => {
+						console.log(e);
+					};
+					const evnet = document.createEvent('MouseEvents');
+					evnet.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					btn.dispatchEvent(evnet);
+
+				自定义DOM 事件
+					只能通过模拟事件来进行触发
+					CustomEvent			创建自定义事件的字符串
+
+					const btn = document.getElementById('myBtn');
+					btn.addEventListener('myevent', (e) => {
+						console.log(e);
+					}, false);
+
+					const event = document.createEvent('CustomEvent');
+					event.initCustomEvent('myevent', true, false, 'hhhhhhh');
+					btn.dispatchEvent(event);
+
+			IE中的事件模拟
+
+	表单脚本
+		表单的基础知识
+			表单是由<form>元素来表示的，而在JavaScript 中，表单对应的则是 HTMLFormElement 类型
+			属性
+				acceptCharset		服务器能够处理的字符集；等价于HTML 中的accept-charset 特性。
+				action				接受请求的URL；等价于HTML 中的action 特性。
+				elements			表单中所有控件的集合（HTMLCollection）。
+				enctype				请求的编码类型；等价于HTML 中的enctype 特性。
+				length				表单中控件的数量。
+				method				要发送的HTTP 请求类型，通常是"get"或"post"；等价于HTML 的method 特性。
+				name				表单的名称；等价于HTML 的name 特性。
+				reset()				将所有表单域重置为默认值。
+				submit()			提交表单。
+				target				用于发送请求和接收响应的窗口名称；等价于HTML 的target 特性。
+
+			document.forms 可以获取到页面中所有的 form 表单。
+
+
+
+
+
+
+
+
+
+
+

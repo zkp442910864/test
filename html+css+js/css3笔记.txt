@@ -4,6 +4,7 @@
 css3
 	技巧
 		pointer-events: none; 可以屏蔽掉所有事件
+		object-fit: cover; 设置img标签图片的缩放
 		
 
 	单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。
