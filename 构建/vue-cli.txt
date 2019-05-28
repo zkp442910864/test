@@ -19,6 +19,105 @@ Vue 构建单页应用
 		1.我们将会使用webpack去为我们的模块打包，预处理，热加载。如果你对webpack不熟悉，它就是可以帮助我们把多个js文件打包为1个入口文件，并且可以达到按需加载。这就意味着，我们不用担心由于使用太多的组件，导致了过多的HTTP请求，这是非常有益于产品体验的。但我们并不只是为了这个而使用webpack，我们需要用webpack去编译.vue文件，如果没有使用一个loader去转换我们.vue文件里的style、js和html，那么浏览器就无法识别。
 
 		2.模块热加载是webpack的一个非常碉堡的特性，将会为我们的单页应用带来极大的便利。通常来说，当我们修改了代码刷新页面，那应用里的所有状态就都没有了。这对于开发一个单页应用来说是非常痛苦的，因为需要重新在跑一遍流程。如果有模块热加载，当你修改了代码，你的代码会直接修改，页面并不会刷新，所以状态也会被保留。
+	
+	vue的使用
+		npm run build --report  查看打包后的文件大小分布
+
+		vue-resource(axios) 	进行请求数据
+		vue-router	 			路由管理
+		vuex 					管理我们的数据流(全局数据的意思)
+
+		在根目录的 package.json 可以查看和配置信息
+
+		入口在根目录的 src->main.js
+
+   		Vue.use()
+   			像vue的插件要通过Vue.use来绑定上去
+   			参数必须是:
+   			函数
+   			  或
+   			对象(传对象会执行install函数，这时候把js绑定到vue里Vue.prototype.myjs = myjs)
+
+		vue-router
+			通过Vue.use绑定到vue上
+			this.$route 可以获取当前的路径信息
+			this.$router.push()			可以直接写字符串,也可以传对象(必须按this.$route的格式来)
+						.back() 		后退,传-1,如	this.$router.back(-1);
+						.replace()		改变当前路径,如 this.$router.replace(this.$route.path + '?go=true')
+				
+			例子：vue路由
+				new Router({
+					//所有的路径写在routes的数组里
+					routes:[{
+						path: '/',				//定义路径
+						name: 'Index',			//这个组件的名
+						component: Index,		//组件的内容
+						children:[{				//该组件下的子组件
+							path:'calendar',
+						}]
+					},{
+						path: '/lists',
+						name: 'Lists',
+						component: Lists,
+						children:[{
+							path:'calendar',
+						},{
+							path: 'detail/:id',		//携带参数
+							name: 'Detail',
+							component: Detail,
+							children:[{
+								path:'calendar',
+							},{
+								path:'all_img',
+							},{
+								path:'more',
+								name: 'DetailMore',
+								component: DetailMore
+							},{
+								path: 'comment/:tk',
+								component: Comment,
+								children:[{
+									path:'discuss'
+								}]
+							},{
+								path:'s_order',
+								component: SubmitOrder,
+								children:[{
+									path:'o_detail'
+								}]
+							}]
+						}]
+					}]
+				})
+
+		vue-resource	vue数据请求
+			通过Vue.use绑定到vue上
+			路径,参数
+			this.$http.post(self.ajaxUrl,o).then(function(res){
+				console.warn(res);
+			});
+
+		组件间通信
+			1.子调父
+				1)this.$parent.(变量名或函数)
+				  this.$children.
+
+				2)在父里<router-view
+							:bianliang1="bianliang1"
+							:bianliang2="bianliang2"
+						/>
+				  在子里 props:['bianliang1','bianliang2'] 变成自己的
+
+				3)在父里<router-view
+							v-on:msg1="fun1"
+							v-on:msg2="fun2"
+						/>
+				 在子里 this.$emit('msg1','') 第一个是函数名，必须在父里v-on:msg1才能调用
+				 							  第二个是这函数需要的传参，没有可不填
+
+				4)ref 和 $refs
+
+
 
 
 	步骤：
@@ -81,107 +180,6 @@ Vue 构建单页应用
 						    }	
 
 
-	vue的使用
-		vue-resource 进行请求数据
-		vue-router	 路由管理
-		vuex 管理我们的数据流
-
-		在根目录的 package.json 可以查看和配置信息
-		当需要依赖时，在更目录下通过 $ npm install vue-resource(名) 来进行安装
-		安装多个npm install vue-resource vue-router vuex bootstrap --save
-
-		入口在根目录的 src->main.js
-			src->assets 			放些自己的文件
-			src->components			放组件文件
-			src->router->index.js   不同路径对应不同的组件(路由配置)
-
-			在里层的文件可以通过 @/ 直接回到src目录下，比如:
-				在 src->router->index.js 下引入 src->components->HelloWorld.vue	的组件
-			   		直接写 import HelloWorld from '@/components/HelloWorld'
-
-   		Vue.use()
-   			像vue的插件要通过Vue.use来绑定上去
-   			参数必须是:
-   			函数
-   			  或
-   			对象(传对象会执行install函数，这时候把js绑定到vue里Vue.prototype.myjs = myjs)
-   			
-
-		vue-router
-			通过Vue.use绑定到vue上
-			this.$route 可以获取当前的路径信息
-			this.$router.push()			可以直接写字符串,也可以传对象(必须按this.$route的格式来)
-						.back() 		后退,传-1,如	this.$router.back(-1);
-						.replace()		改变当前路径,如 this.$router.replace(this.$route.path + '?go=true')
-
-		vue-resource	vue数据请求
-			通过Vue.use绑定到vue上
-			路径,参数
-			this.$http.post(self.ajaxUrl,o).then(function(res){
-				console.warn(res);
-			});
-
-		vue-router		vue路由
-			new Router({
-				//所有的路径写在routes的数组里
-				routes:[{
-			      	path: '/',				//定义路径
-			      	name: 'Index',			//这个组件的名
-			      	component: Index,		//组件的内容
-			      	children:[{				//该组件下的子组件
-			        	path:'calendar',
-			      	}]
-			    },{
-			      	path: '/lists',
-			      	name: 'Lists',
-			      	component: Lists,
-			      	children:[{
-		      	  		path:'calendar',
-	      			},{
-			        	path: 'detail/:id',		//携带参数
-			        	name: 'Detail',
-			        	component: Detail,
-			        	children:[{
-			        	  	path:'calendar',
-			        	},{
-			        	  	path:'all_img',
-			        	},{
-			        	  	path:'more',
-			        	  	name: 'DetailMore',
-			        	  	component: DetailMore
-			        	},{
-			        	  	path: 'comment/:tk',
-			        	  	component: Comment,
-			        	  	children:[{
-			        	    	path:'discuss'
-			        	  	}]
-			        	},{
-			        	  	path:'s_order',
-			        	  	component: SubmitOrder,
-			        	  	children:[{
-			        	    	path:'o_detail'
-	        	  			}]
-	       				}]
-			      	}]
-			    }]
-			})
-
-		组件间通信
-			1.子调父
-				1)this.$parent.(变量名或函数)
-
-				2)在父里<router-view
-							:bianliang1="bianliang1"
-							:bianliang2="bianliang2"
-						/>
-				  在子里 props:['bianliang1','bianliang2'] 变成自己的
-
-				3)在父里<router-view
-							v-on:msg1="fun1"
-							v-on:msg2="fun2"
-						/>
-				 在子里 this.$emit('msg1','') 第一个是函数名，必须在父里v-on:msg1才能调用
-				 							  第二个是这函数需要的传参，没有可不填
 
 
 

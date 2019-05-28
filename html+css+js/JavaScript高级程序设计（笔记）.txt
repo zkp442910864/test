@@ -1906,8 +1906,143 @@ js
 				submit()			提交表单。
 				target				用于发送请求和接收响应的窗口名称；等价于HTML 的target 特性。
 
+				html5 
+				autofocus			不用 JavaScript 就能自动把焦点移动到相应字段
+
 			document.forms 可以获取到页面中所有的 form 表单。
 
+			提交表单
+				<!-- 通用提交按钮 -->
+				<input type="submit" value="Submit Form">
+				<!-- 自定义提交按钮 -->
+				<button type="submit">Submit Form</button>
+				<!-- 图像按钮 -->
+				<input type="image" src="graphic.gif">
+				document.forms[0].submit();
+				e.preventDefault(); 可以阻止默认事件
+
+			重置表单
+				<!-- 通用重置按钮 -->
+				<input type="reset" value="Reset Form">
+				<!-- 自定义重置按钮 -->
+				<button type="reset">Reset Form</button>
+				document.forms[0].reset();
+				e.preventDefault(); 可以阻止默认事件
+
+			表单字段
+				document.forms[0].elements; 可以通过 name 值获取对应的元素
+
+				共有的表单字段属性
+					disabled			布尔值，表示当前字段是否被禁用。
+					form				指向当前字段所属表单的指针；只读。
+					name				当前字段的名称。
+					readonly			布尔值，表示当前字段是否只读。
+					tabindex			表示当前字段的切换（tab）序号。
+					type				当前字段的类型，如"checkbox"、"radio"，等等。
+					value				当前字段将被提交给服务器的值。对文件字段来说，这个属性是只读的，包含着文件在计算机中的路径。
+
+				共有的表单字段方法
+					focus()				获取焦点
+					blur()				失去焦点
+
+				共有的表单字段事件
+					blur				当前字段失去焦点时触发。
+					change				对于<input>和<textarea>元素，在它们失去焦点且value 值改变时触发；对于<select>元素，在其选项改变时触发。
+					focus				当前字段获得焦点时触发。
+			
+			文本框脚本
+				<input>
+				<textarea>
+				在处理文本框的值时，最好不要使用DOM 方法。
+
+				选择文本
+					select()方法		选择文本框中的所有文本
+					例子：document.forms[0].elements[0].select()
+
+					选择（select）事件
+						与select()方法对应的，是一个select 事件。在选择了文本框中的文本时，就会触发select事件。
+
+					取得选择的文本
+						属性
+						selectionStart
+						selectionEnd
+
+					选择部分文本 （兼容，可以参考“JavaScript高级程序设计(第三版)” 14.2.1 )
+						setSelectionRange()		类似于截取字符串
+						document.forms[0].elements[0].setSelectionRange(0, 5)
+
+				过滤输入
+					keypress		利用该事件来监听按钮 charCode 进行过滤，preventDefault() 可以阻止输入文本
+					例子：
+						_keypress (e: IParameter) {
+							console.log(e.charCode);
+							if (!/\d/.test(String.fromCharCode(e.charCode)) && e.charCode > 9 && !e.ctrlKey) {
+								e.preventDefault();
+							}
+						}
+
+				操作剪贴板
+					beforecopy			在发生复制操作前触发。
+					copy				在发生复制操作时触发。
+					beforecut			在发生剪切操作前触发。
+					cut					在发生剪切操作时触发。
+					beforepaste			在发生粘贴操作前触发。
+					paste				在发生粘贴操作时触发。
+
+				自动切换焦点
+					(function () {
+						function tabForward(event) {
+							event = EventUtil.getEvent(event);
+							var target = EventUtil.getTarget(event);
+							if (target.value.length == target.maxLength) {
+								var form = target.form;
+								for (var i = 0, len = form.elements.length; i < len; i++) {
+									if (form.elements[i] == target) {
+										if (form.elements[i + 1]) {
+											form.elements[i + 1].focus();
+										}
+										return;
+									}
+								}
+							}
+						}
+						var textbox1 = document.getElementById("txtTel1");
+						var textbox2 = document.getElementById("txtTel2");
+						var textbox3 = document.getElementById("txtTel3");
+						EventUtil.addHandler(textbox1, "keyup", tabForward);
+						EventUtil.addHandler(textbox2, "keyup", tabForward);
+						EventUtil.addHandler(textbox3, "keyup", tabForward);
+					})();
+
+				HTML5 约束验证API
+					表单属性
+					required		必填
+					pattern			是一个正则表达式
+						<input type="text" pattern="\d+" name="count"> 注意，模式的开头和末尾不用加^和$符号（假定已经有了）。
+
+					step			每次增加或减少的值
+						<input type="number" min="0" max="100" step="5" name="count">
+						这两个方法可以模拟
+						stepUp()
+						stepDown()
+
+					validity
+
+					input 的其他输入类型（type）
+						type="email"
+						type="url"
+						number
+						range
+						datetime
+						atetime-local
+						date
+						month
+						week
+						time
+
+					检测有效性
+						document.forms[0].elements[0].checkValidity()		针对于表单中字段
+						document.forms[0].checkValidity()					针对于整个表单
 
 
 
