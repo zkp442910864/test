@@ -1949,100 +1949,193 @@ js
 					blur				当前字段失去焦点时触发。
 					change				对于<input>和<textarea>元素，在它们失去焦点且value 值改变时触发；对于<select>元素，在其选项改变时触发。
 					focus				当前字段获得焦点时触发。
-			
-			文本框脚本
-				<input>
-				<textarea>
-				在处理文本框的值时，最好不要使用DOM 方法。
+		
+		文本框脚本
+			<input>
+			<textarea>
+			在处理文本框的值时，最好不要使用DOM 方法。
 
-				选择文本
-					select()方法		选择文本框中的所有文本
-					例子：document.forms[0].elements[0].select()
+			选择文本
+				select()方法		选择文本框中的所有文本
+				例子：document.forms[0].elements[0].select()
 
-					选择（select）事件
-						与select()方法对应的，是一个select 事件。在选择了文本框中的文本时，就会触发select事件。
+				选择（select）事件
+					与select()方法对应的，是一个select 事件。在选择了文本框中的文本时，就会触发select事件。
 
-					取得选择的文本
-						属性
-						selectionStart
-						selectionEnd
+				取得选择的文本
+					属性
+					selectionStart
+					selectionEnd
 
-					选择部分文本 （兼容，可以参考“JavaScript高级程序设计(第三版)” 14.2.1 )
-						setSelectionRange()		类似于截取字符串
-						document.forms[0].elements[0].setSelectionRange(0, 5)
+				选择部分文本 （兼容，可以参考“JavaScript高级程序设计(第三版)” 14.2.1 )
+					setSelectionRange()		类似于截取字符串
+					document.forms[0].elements[0].setSelectionRange(0, 5)
 
-				过滤输入
-					keypress		利用该事件来监听按钮 charCode 进行过滤，preventDefault() 可以阻止输入文本
-					例子：
-						_keypress (e: IParameter) {
-							console.log(e.charCode);
-							if (!/\d/.test(String.fromCharCode(e.charCode)) && e.charCode > 9 && !e.ctrlKey) {
-								e.preventDefault();
-							}
+			过滤输入
+				keypress		利用该事件来监听按钮 charCode 进行过滤，preventDefault() 可以阻止输入文本
+				例子：
+					_keypress (e: IParameter) {
+						console.log(e.charCode);
+						if (!/\d/.test(String.fromCharCode(e.charCode)) && e.charCode > 9 && !e.ctrlKey) {
+							e.preventDefault();
 						}
+					}
 
-				操作剪贴板
-					beforecopy			在发生复制操作前触发。
-					copy				在发生复制操作时触发。
-					beforecut			在发生剪切操作前触发。
-					cut					在发生剪切操作时触发。
-					beforepaste			在发生粘贴操作前触发。
-					paste				在发生粘贴操作时触发。
+			操作剪贴板
+				beforecopy			在发生复制操作前触发。
+				copy				在发生复制操作时触发。
+				beforecut			在发生剪切操作前触发。
+				cut					在发生剪切操作时触发。
+				beforepaste			在发生粘贴操作前触发。
+				paste				在发生粘贴操作时触发。
 
-				自动切换焦点
-					(function () {
-						function tabForward(event) {
-							event = EventUtil.getEvent(event);
-							var target = EventUtil.getTarget(event);
-							if (target.value.length == target.maxLength) {
-								var form = target.form;
-								for (var i = 0, len = form.elements.length; i < len; i++) {
-									if (form.elements[i] == target) {
-										if (form.elements[i + 1]) {
-											form.elements[i + 1].focus();
-										}
-										return;
+			自动切换焦点
+				(function () {
+					function tabForward(event) {
+						event = EventUtil.getEvent(event);
+						var target = EventUtil.getTarget(event);
+						if (target.value.length == target.maxLength) {
+							var form = target.form;
+							for (var i = 0, len = form.elements.length; i < len; i++) {
+								if (form.elements[i] == target) {
+									if (form.elements[i + 1]) {
+										form.elements[i + 1].focus();
 									}
+									return;
 								}
 							}
 						}
-						var textbox1 = document.getElementById("txtTel1");
-						var textbox2 = document.getElementById("txtTel2");
-						var textbox3 = document.getElementById("txtTel3");
-						EventUtil.addHandler(textbox1, "keyup", tabForward);
-						EventUtil.addHandler(textbox2, "keyup", tabForward);
-						EventUtil.addHandler(textbox3, "keyup", tabForward);
-					})();
+					}
+					var textbox1 = document.getElementById("txtTel1");
+					var textbox2 = document.getElementById("txtTel2");
+					var textbox3 = document.getElementById("txtTel3");
+					EventUtil.addHandler(textbox1, "keyup", tabForward);
+					EventUtil.addHandler(textbox2, "keyup", tabForward);
+					EventUtil.addHandler(textbox3, "keyup", tabForward);
+				})();
 
-				HTML5 约束验证API
-					表单属性
-					required		必填
-					pattern			是一个正则表达式
-						<input type="text" pattern="\d+" name="count"> 注意，模式的开头和末尾不用加^和$符号（假定已经有了）。
+			HTML5 约束验证API
+				表单属性
+				noValidate			给表单设置该属性，禁用验证
+				formNoValidate		给表单提交按钮设置该属性，提交时禁用验证
+				required			必填
+				pattern				是一个正则表达式
+					<input type="text" pattern="\d+" name="count"> 注意，模式的开头和末尾不用加^和$符号（假定已经有了）。
 
-					step			每次增加或减少的值
-						<input type="number" min="0" max="100" step="5" name="count">
-						这两个方法可以模拟
-						stepUp()
-						stepDown()
+				step			每次增加或减少的值
+					<input type="number" min="0" max="100" step="5" name="count">
+					这两个方法可以模拟
+					stepUp()
+					stepDown()
 
-					validity
+				表单控件验证属性
+				validity		是个对象，包含着
+					例子document.forms[0].elements[0].validity
+					customError				如果设置了 setCustomValidity()，则为true，否则返回false。
+					patternMismatch			如果值与指定的pattern 属性不匹配，返回true。
+					rangeOverflow			如果值比max 值大，返回true。
+					rangeUnderflow			如果值比min 值小，返回true。
+					stepMisMatch			如果min 和max 之间的步长值不合理，返回true。
+					tooLong					如果值的长度超过了maxlength 属性指定的长度，返回true。有的浏览器（如Firefox 4）会自动约束字符数量，因此这个值可能永远都返回false。
+					typeMismatch			如果值不是"mail"或"url"要求的格式，返回true。
+					valid					如果这里的其他属性都是false，返回true。checkValidity()也要求相同的值。
+					valueMissing			如果标注为required 的字段中没有值，返回true。
 
-					input 的其他输入类型（type）
-						type="email"
-						type="url"
-						number
-						range
-						datetime
-						atetime-local
-						date
-						month
-						week
-						time
+				input 的其他输入类型（type）
+					type="email"
+					type="url"
+					number
+					range
+					datetime
+					atetime-local
+					date
+					month
+					week
+					time
 
-					检测有效性
-						document.forms[0].elements[0].checkValidity()		针对于表单中字段
-						document.forms[0].checkValidity()					针对于整个表单
+				检测有效性
+					document.forms[0].elements[0].checkValidity()		针对于表单中字段
+					document.forms[0].checkValidity()					针对于整个表单
+
+		选择框脚本
+			选择框是通过<select>和<option>元素创建的
+			HTMLSelectElement 类型还提供了下列属性和方法
+			add(newOption, relOption)			向控件中插入新<option>元素，其位置在相关项（relOption）之前。
+			multiple							布尔值，表示是否允许多项选择；等价于HTML 中的multiple 特性。
+			options								控件中所有<option>元素的HTMLCollection。
+			remove(index)						移除给定位置的选项。
+			selectedIndex						基于0 的选中项的索引，如果没有选中项，则值为-1。对于支持多选的控件，只保存选中项中第一项的索引。
+			size								选择框中可见的行数；等价于HTML 中的size 特性。（影响部分功能）
+
+			HTMLOptionElement 对象添加了下列属属性：
+			index				当前选项在options 集合中的索引。
+			label				当前选项的标签；等价于HTML 中的label 特性。
+			selected			布尔值，表示当前选项是否被选中。将这个属性设置为true 可以选中当前选项。
+			text				选项的文本。
+			value				选项的值（等价于HTML 中的value 特性）。
+
+			创建 option （等同于 HTMLOptionElement，ie 不能用）
+				const o = new Option('text', 'value');
+
+		表单序列化
+			function serialize(form) {
+				var parts = [],
+					field = null,
+					i,
+					len,
+					j,
+					optLen,
+					option,
+					optValue;
+				for (i = 0, len = form.elements.length; i < len; i++) {
+					field = form.elements[i];
+					switch (field.type) {
+						case "select-one":
+						case "select-multiple":
+							if (field.name.length) {
+								for (j = 0, optLen = field.options.length; j < optLen; j++) {
+									option = field.options[j];
+									if (option.selected) {
+										optValue = "";
+										if (option.hasAttribute) {
+											optValue = (option.hasAttribute("value") ?
+												option.value : option.text);
+										} else {
+											optValue = (option.attributes["value"].specified ?
+												option.value : option.text);
+										}
+										parts.push(encodeURIComponent(field.name) + "=" +
+											encodeURIComponent(optValue));
+									}
+								}
+							}
+							break;
+						case undefined: //字段集
+						case "file": //文件输入
+						case "submit": //提交按钮
+						case "reset": //重置按钮
+						case "button": //自定义按钮
+							break;
+						case "radio": //单选按钮
+						case "checkbox": //复选框
+							if (!field.checked) {
+								break;
+							}
+						/* 执行默认操作 */
+						default:
+							//不包含没有名字的表单字段
+							if (field.name.length) {
+								parts.push(encodeURIComponent(field.name) + "=" +
+									encodeURIComponent(field.value));
+							}
+					}
+				}
+				return parts.join("&");
+			}
+
+		富文本编辑（可以参考“JavaScript高级程序设计(第三版)” 14.5 )
+
+	使用Canvas 绘图（可以参考“JavaScript高级程序设计(第三版)” 15 )
 
 
 
