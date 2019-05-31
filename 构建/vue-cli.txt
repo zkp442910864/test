@@ -31,6 +31,9 @@ Vue 构建单页应用
 
 		入口在根目录的 src->main.js
 
+		v-bind:title="1"	简写：  :title="1"
+		v-on:click="c"		简写：	@click="c"
+
    		Vue.use()
    			像vue的插件要通过Vue.use来绑定上去
    			参数必须是:

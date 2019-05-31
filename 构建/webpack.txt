@@ -22,9 +22,12 @@
 		},
 
 	注意：
-		module.rules
-			配置处理 css
-			{
+		Loader（加载器）
+			module.rules: []
+			在这里配置处理文件的 loader（比如图片、字体文件、xml）
+
+			例子：配置处理 css
+			[{
 				test: /\.css$/,
 				use: [{
 					loader: MiniCssExtractPlugin.loader || 'style-loader',
@@ -34,9 +37,12 @@
 				}, {
 					loader: 'css-loader'
 				}]
-			}
+			}]
 
-		resolve.alias
+		Plugin（插件）
+			plugins: []
+
+		resolve.alias: {}
 			配置快捷路径
 			{
 				'@file': path.resolve(__dirname, "../src/assets")
@@ -49,6 +55,11 @@
 
 			https://www.jianshu.com/p/901c7eaed40f
 			https://wiki.zthxxx.me/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/Webpack-%E4%B8%AD-css-import-%E4%BD%BF%E7%94%A8-alias-%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84/
+
+
+
+
+
 
 	安装webpack
 		前提:环境需要支持 node.js

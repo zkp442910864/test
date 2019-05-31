@@ -1344,7 +1344,7 @@ js
 					xxx.style.setProperty(propertyName, value, priority)
 						xxx.style.setProperty('background-color', '#000' , 'important' || '')
 
-				计算的样式		(可以参考“JavaScript高级程序设��(第三版)” 12.2.1 )
+				计算的样式		(可以参考“JavaScript高级程序设���(第三版)” 12.2.1 )
 					(不太明白)
 					document.defaultView.getComputedStyle()
 						这个方法接受两个参数：要取得计算样式的元素和一个伪元素字符串（例如":after"）。如果不需要伪元素信息，第二个参数可以是null。
@@ -2137,8 +2137,14 @@ js
 
 	使用Canvas 绘图（可以参考“JavaScript高级程序设计(第三版)” 15 )
 
+	HTML5 脚本编程（可以参考“JavaScript高级程序设计(第三版)” 16 )
 
+	错误处理与调试
+		浏览器报告的错误（可以参考“JavaScript高级程序设计(第三版)” 17.1 )
+			主要是讲针对各浏览器的调试方法
 
+		错误处理
+			try-catch语句
 
 
 
