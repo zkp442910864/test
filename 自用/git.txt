@@ -1,0 +1,53 @@
+https://baijiahao.baidu.com/s?id=1619544681032320225&wfr=spider&for=pc
+
+
+本地代码同步到 GitHub
+    // 初始化
+    git init
+
+    // 查看要提交的文件
+    git status
+
+    // 配置 .gitignore 忽略不需要的文件
+
+    // 添加
+    git add ***.**
+    git add --all
+
+    // 提交
+    git commit -m "第一次提交"
+
+    在 GitHub 上创建新的库，然后执行第二步 (本地库同步到 GitHub 上)
+
+    git remote add origin ***
+    git push -u origin master
+
+
+
+提交代码
+    // 查看要提交的文件
+    git status
+
+    // 添加
+    git add ***.**
+    git add --all
+
+    // 提交
+    git commit -m "第一次提交"
+
+    git push
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
