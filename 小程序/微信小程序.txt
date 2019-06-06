@@ -1,6 +1,9 @@
 
 
 
+技巧
+	px与rpx之间转换的公式：px = rpx / 750 * wx.getSystemInfoSync().windowWidth;
+
 
 引用 js 文件
 	module.exports = {} 				// 暴露出来的对象

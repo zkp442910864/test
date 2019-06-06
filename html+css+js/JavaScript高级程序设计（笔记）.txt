@@ -1,7 +1,7 @@
 
 
 
-js
+js （大部分api 在js.txt 里）
 	语法
 		var 关键词来声明变量：var carname;
 		全局变量：不要加var
@@ -2145,8 +2145,119 @@ js
 
 		错误处理
 			try-catch语句
+			try-catch-finally
+				只要代码中包含finally 子句，那么无论try 还是catch 语句块中的return 语句都将被忽略。
+				因此，在使用finally 子句之前，一定要非常清楚你想让代码怎么样。
 
+			抛出错误
+				throw 操作符，用于随时抛出自定义错误
+				例子：
+					throw 12345;
+					throw "Hello world!";
+					throw true;
+					throw { name: "JavaScript"};
 
+					throw new Error("syntax.");
+					throw new SyntaxError("I don’t like your syntax.");
+					throw new TypeError("What type of variable do you take me for?");
+					throw new RangeError("Sorry, you just don’t have the range.");
+					throw new EvalError("That doesn’t evaluate.");
+					throw new URIError("Uri, is that you?");
+					throw new ReferenceError("You didn’t cite your references properly.");
+
+				区别浏览器的错误，可以通过创建自定义错误（原型链继承）
+					function CustomError(message){
+						this.name = "CustomError";
+						this.message = message;
+					}
+					CustomError.prototype = new Error();
+					throw new CustomError("My message");
+
+				注意：一旦使用 throw 操作符，代码就会停止执行，除非用 try-catch语句 捕获错误
+				捕获错误的目的在于避免浏览器以默认方式处理它们；而抛出错误的目的在于提供错误发生具体原因的消息。
+
+			错误（error）事件
+				window.onerror = function (message, url, line) {
+					// 信息，文档url，行号
+					return false;
+				}
+
+				通过返回false，这个函数实际上就充当了整个文档中的try-catch 语句，可以捕获所有无代码处理的运行时错误。
+
+			处理错误的策略
+				作为开发人员，必须要知道代码何时可能出错，会出什么错，同时还要有一个跟踪此类问题的系统。
+
+			常见的错误类型（可以参考“JavaScript高级程序设计(第三版)” 17.2.5 )
+				一般来说，需要关注三种错误：
+					类型转换错误
+					数据类型错误
+					通信错误
+
+			区分致命错误和非致命错误（可以参考“JavaScript高级程序设计(第三版)” 17.2.6 )
+
+			把错误记录到服务器（可以参考“JavaScript高级程序设计(第三版)” 17.2.7 )
+
+		调试技术
+			将消息记录到控制台
+				console 对象向JavaScript 控制台中写入消息
+					error(message)		将错误消息记录到控制台
+					info(message)		将信息性消息记录到控制台
+					log(message)		将一般消息记录到控制台
+					warn(message)		将警告消息记录到控制台
+
+			将消息记录到当前页面
+
+			抛出错误
+				function assert(condition, message) {
+					if (!condition){
+						throw new Error(message);
+					}
+				}
+
+				function divide(num1, num2) {
+					assert(typeof num1 == "number" && typeof num2 == "number", "divide(): Both arguments must be numbers.");
+					return num1 / num2;
+				}
+
+		常见的IE 错误（可以参考“JavaScript高级程序设计(第三版)” 17.4 )
+
+	JavaScript 与XML（可以参考“JavaScript高级程序设计(第三版)” 18 )
+
+	E4X（可以参考“JavaScript高级程序设计(第三版)” 19 )
+
+	JSON（可以参考“JavaScript高级程序设计(第三版)” 20 )
+		JSON.stringify()		输出的JSON 字符串不包含任何空格字符或缩进
+			还可以接收另外两个参数
+			第一个参数是个过滤器，可以是一个数组，也可以是一个函数；
+				传数组时取数组的字段并按上面的顺序来
+					var jsonText = JSON.stringify(book, ["title", "edition"]);
+				传函数
+					var jsonText = JSON.stringify(book, function(key, value){
+						// 返回undefined，则表示要从结果中删除相应的键
+						return value;
+					});
+			第二个参数是一个选项，表示是否在JSON 字符串中保留缩进。
+				JSON.stringify(book, null, 4);
+				JSON.stringify(book, null, '--');
+			有一个扩展函数 toJSON ，需要自定义（可以参考“JavaScript高级程序设计(第三版)” 20.2.2(3) )
+
+		JSON.parse()			JSON 字符串转化成js 里的对象
+			接收另一个参数，该参数是一个函数
+			var book = {date: new Date(2011, 11, 1)};
+			JSON.parse(JSON.stringify(book), function(key, value){
+				// 返回undefined，则表示要从结果中删除相应的键
+				if (key == "date"){
+					return new Date(value);
+				} else {
+					return value;
+				}
+			});
+
+		值为undefined 的任何属性也都会被跳过。结果中最终都是值为有效JSON 数据类型的实例属性。
+
+		JSON 是一个轻量级的数据格式，可以简化表示复杂数据结构的工作量。
+
+	Ajax 与Comet（可以参考“JavaScript高级程序设计(第三版)” 21 )
 
 
 
