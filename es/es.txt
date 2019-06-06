@@ -1,6 +1,8 @@
 ES6:
 	http://es6.ruanyifeng.com/
 
+	import React, { useState } from 'react';
+
 	注意
 		箭头函数中的 this ，首先从它的父级作用域中找，如果父级作用域还是箭头函数，再向上找，直至找到 this 的指向
 		普通函数的 this ： 指向它的调用者，如果没有调用者则默认指向window
