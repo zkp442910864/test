@@ -2258,8 +2258,79 @@ js （大部分api 在js.txt 里）
 		JSON 是一个轻量级的数据格式，可以简化表示复杂数据结构的工作量。
 
 	Ajax 与Comet（可以参考“JavaScript高级程序设计(第三版)” 21 )
+		var xhr = new XMLHttpRequest();
+		XMLHttpRequest 对象
+			兼容 ie7及更早的版本（可以参考“JavaScript高级程序设计(第三版)” 21。1 开头的那部分)
+
+			XHR的用法
+				xhr.open()			它接受 3 个参数：要发送的请求的类型（"get"、 "post"等）、请求的 URL 和表示是否异步发送请求的布尔值。
+					xhr.open("get", "example.php", true);
+				xhr.send()			接收一个参数，即要作为请求主体发送的数据。
+									如果不需要通过请求主体发送数据，则必须传入 null，因为这个参数对有些浏览器来说是必需的。
+									调用 send()之后，请求就会被分派到服务器
+				xhr.abort()			对已发送的请求，进行中止，之后，还应该对 XHR 对象进行解引用操作。（就是赋值为 null）
+
+				
+				xhr	属性
+					xhr.readyState
+						0		未初始化。尚未调用 open()方法。
+						1		启动。已经调用 open()方法，但尚未调用 send()方法。
+						2		发送。已经调用 send()方法，但尚未接收到响应。
+						3		接收。已经接收到部分响应数据。
+						4		完成。已经接收到全部响应数据，而且已经可以在客户端使用了。
+				
+				xhr 方法
+					xhr.onreadystatechange		readyState 每次变化都会触发该函数，该函数必须在调用open() 之前定义
+						xhr.onreadystatechange = function(){
+							if (xhr.readyState == 4){
+								if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+									alert(xhr.responseText);
+								} else {
+									alert("Request was unsuccessful: " + xhr.status);
+								}
+							}
+						};
+
+				注意：请求的URL 必须和网站域名相同，否则就会涉及到跨域问题
+				状态码：
+					200		作为成功的标识
+					304		表示请求的资源并没有被修改，可以直接使用浏览器中缓存的版本；当然，也意味着响应是有效的
+			
+			HTTP头部信息
+				每个 HTTP 请求和响应都会带有相应的头部信息，其中有的对开发人员有用，有的也没有什么用。
+				XHR 对象也提供了操作这两种头部（即请求头部和响应头部）信息的方法。
+				默认情况下，在发送 XHR 请求的同时，还会发送下列头部信息。
+					Accept						浏览器能够处理的内容类型。
+					Accept-Charset				浏览器能够显示的字符集。
+					Accept-Encoding				浏览器能够处理的压缩编码。
+					Accept-Language				浏览器当前设置的语言。
+					Connection					浏览器与服务器之间连接的类型。
+					Cookie						当前页面设置的任何 Cookie。
+					Host						发出请求的页面所在的域 。
+					Referer						发出请求的页面的 URI。
+												注意， HTTP 规范将这个头部字段拼写错了，而为保证与规范一致，也只能将错就错了。（这个英文单词的正确拼法应该是 referrer。）
+					User-Agent					浏览器的用户代理字符串。
+
+				xhr.setRequestHeader()			设置请求头部信息作用，接受两个参数，头部字段的名称和头部字段的值。必须在调用open() 之后，send() 之前调用
+				xhr.getResponseHeader()			传头部字段，获取对应的值
+				xhr.getAllResponseHeaders()		获取包含所有头部信息的长字符串
 
 
+				注意：不要随意使用浏览器自带的字段，有的浏览器允许重写，有的不允许
+
+			GET请求
+				将查询字符串参数追加到 URL 的末尾，然后将信息发送给服务器。
+				查询字符串中每个参数的名称和值都必须使用 encodeURIComponent()进行编码，然后才能放到 URL 的末尾；而且所有名-值对儿都必须由和号（&）分隔
+
+			POST请求
+				模仿表单提交，最主要是设置请求头，和发送过去的数据。
+				xhr.open("post", "example.php", true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.send('a=1&b=2&c=3');
+
+			get 发送速度会比 post 快，但 post 也接受更多数据，相对的安全点。
+		
+		XMLHttpRequest 2 级
 
 
 
