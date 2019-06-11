@@ -2331,6 +2331,161 @@ js （大部分api 在js.txt 里）
 			get 发送速度会比 post 快，但 post 也接受更多数据，相对的安全点。
 		
 		XMLHttpRequest 2 级
+			FormData
+				var data = new FormData();
+				FormData 为序列化表单以及创建与表单格式相同的数据（用于通过XHR 传输）提供了便利。
+				方法：
+				data.append()		接收两个参数：键和值，分别对应表单字段的名字和字段中包含的值。(可以添加多个)
+				
+				通过 append 设置值
+					data.append("name", "Nicholas");
+				通过构造函数
+					data = new FormData(document.forms[0]);
+
+				使用FormData 的方便之处体现在不必明确地在XHR 对象上设置请求头部。
+				XHR 对象能够识别传入的数据类型是FormData 的实例，并配置适当的头部信息。
+
+				注意：可以用来模仿表单提交图片
+
+			超时设定
+				xhr.timeout			超时时间
+					xhr.timeout = 1000;
+					xhr.ontimeout = function () {
+						alert('//将超时设置为1 秒钟');
+					}
+
+				注意：超时后readyState 会变为4，就会触发onreadystatechange。因为超时了，所以正常执行会报错，可以加个try-cacth。
+			
+			overrideMimeType()
+				响应的MIME 类型决定了XHR 对象如何处理它，所以提供一种方法能够重写服务器返回的MIME 类型是很有用的。
+				xhr.overrideMimeType("text/xml");
+
+				这个例子强迫XHR 对象将响应当作XML 而非纯文本来处理。
+				调用overrideMimeType() 必须在send() 方法之前，才能保证重写响应的MIME 类型。
+
+				注意：感觉用不到
+
+		进度事件
+			事件
+				onloadstart			在接收到响应数据的第一个字节时触发。
+				onprogress			在接收响应期间持续不断地触发。
+				onerror				在请求发生错误时触发。
+				onabort				在因为调用abort()方法而终止连接时触发。
+				onload				在接收到完整的响应数据时触发。
+				onloadend				在通信完成或者触发error、abort 或load 事件后触发。
+
+			onload事件（为确保正常执行，必须在调用open()方法之前添加onload 事件处理程序）
+				用来代替readystatechange 事件，响应接收完后会触发load，因此没有必要去检查readyState 属性了。
+				onload 事件接收event 对象，event.target 指向XHR 实例对象。（兼容问题，还是直接使用实例对象(xhr)，不要用event 对象）
+				例子：
+					xhr.onload = function(){
+						if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+							alert(xhr.responseText);
+						} else {
+							alert("Request was unsuccessful: " + xhr.status);
+						}
+					};
+
+				注意：
+					只要浏览器接收到服务器的响应，不管其状态如何，都会触发load 事件。
+					而这意味着你必须要检查status 属性，才能确定数据是否真的已经可用了。
+
+			onprogress事件（为确保正常执行，必须在调用open()方法之前添加onprogress 事件处理程序）
+				onprogress 事件接收event 对象，event.target 指向XHR 实例对象。
+				三个额外的属性:
+					lengthComputable		是一个表示进度信息是否可用的布尔值
+					position 				表示已经接收的字节数
+					totalSize 				表示根据Content-Length 响应头部确定的预期字节数
+				
+				例子：
+					xhr.onprogress = function(event){
+						if (event.lengthComputable){
+							console.log("Received " + event.position + " of " + event.totalSize +" bytes");
+						}
+					};
+
+		跨源资源共享
+			通过XHR 实现Ajax 通信的一个主要限制，来源于跨域安全策略。
+			默认情况下，XHR 对象只能访问与包含它的页面位于同一个域中的资源
+			CORS（Cross-Origin Resource Sharing，跨源资源共享）
+
+			IE对CORS的实现（可以参考“JavaScript高级程序设计(第三版)” 21.4.1 )
+				微软在IE8 中引入了XDR（XDomainRequest）类型。这个对象与XHR 类似，但能实现安全可靠的跨域通信。
+
+			其他浏览器对CORS的实现
+				通过XMLHttpRequest 对象实现了对CORS 的原生支持
+
+				与IE 中的XDR 对象不同，通过跨域XHR 对象可以访问status 和statusText 属性，而且还支持同步请求。
+				跨域XHR 对象也有一些限制，但为了安全这些限制是必需的。
+				以下就是这些限制。
+					不能使用setRequestHeader()设置自定义头部。
+					不能发送和接收cookie。
+					调用getAllResponseHeaders()方法总会返回空字符串。
+
+			Preflighted Reqeusts（可以参考“JavaScript高级程序设计(第三版)” 21.4.3 )
+				CORS 通过一种叫做Preflighted Requests 的透明服务器验证机制支持开发人员使用自定义的头部、GET 或POST 之外的方法，以及不同类型的主体内容。
+				在使用下列高级选项来发送请求时，就会向服务器发送一个Preflight 请求。
+				这种请求使用OPTIONS 方法，发送下列头部。
+					Origin									与简单的请求相同。
+					Access-Control-Request-Method			请求自身使用的方法。
+					Access-Control-Request-Headers			(可选)自定义的头部信息，多个头部以逗号分隔。
+															以下是一个带有自定义头部NCZ 的使用POST 方法发送的请求。
+
+				发送这个请求后，服务器可以决定是否允许这种类型的请求。服务器通过在响应中发送如下头部与浏览器进行沟通。
+					Access-Control-Allow-Origin				与简单的请求相同。
+					Access-Control-Allow-Methods			允许的方法，多个方法以逗号分隔。
+					Access-Control-Allow-Headers			允许的头部，多个头部以逗号分隔。
+					Access-Control-Max-Age					应该将这个Preflight 请求缓存多长时间（以秒表示）。
+
+			带凭据的请求（可以参考“JavaScript高级程序设计(第三版)” 21.4.4 )
+
+			跨浏览器的CORS（可以参考“JavaScript高级程序设计(第三版)” 21.4.5 )
+
+		其他跨域技术（可以参考“JavaScript高级程序设计(第三版)” 21.5 )
+			图像Ping
+			JSONP
+			Comet（通信，单向）
+			服务器发送事件（通信，单向）
+			Web Sockets（通信，双向）
+			SSE与Web Sockets
+
+
+			短轮询			设置定时器循环请求
+			长轮询			发起请求后，一直等待到有数据返回
+			HTTP 流			这个是利用 readyState状态为3 和 onreadystatechange事件来处理。
+							只要请求连接保持不断开，然后每次一点一点的把数据扔出来
+		
+		安全（可以参考“JavaScript高级程序设计(第三版)” 21.6 )
+
+	高级技巧
+		高级函数
+			安全的类型检测
+				typeof 操作符吧，由于它有一些无法预知的行为，经常会导致检测数据类型时得到不靠谱的结果。
+				instanceof 当拿不同 iframe 里的值，在当前的 iframe 里进行判断会出现问题。
+				分不清是否原生对象。
+				等等一系列问题会导致类型检测不靠谱
+
+				解决方法：
+					Object.prototype.toString.call([]);  // "[object Array]"
+					Object.prototype.toString.call(/\d/);  // "[object RegExp]"
+					对于非原生对象，统一返回 "[object Object]"，由此来推断该对象是否原生
+					这些都是基于 toString 没有被修改。
+
+			作用域安全的构造函数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
