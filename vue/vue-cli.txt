@@ -5,6 +5,30 @@ http://blog.csdn.net/xidongdong1/article/details/78613654		Vue中一些需要注
 http://blog.csdn.net/sinat_29412671/article/details/53690658
 https://juejin.im/post/583d1fe00ce463006baca2fa?utm_source=gold_browser_extension#heading-6
 
+技巧
+	当前路由页刷新
+		const data = this.$route;
+		const fullPath = data.fullPath;
+		const title = (data.meta && data.meta.title) || '';
+
+		// 如果没有使用 keep-alive 缓存页面，这一步是不需要的
+		for (const item of this.$route.matched) {
+			if (item.path === this.$route.path) {
+				// console.log(item.instances.default);
+				item.instances.default.$destroy();
+				break;
+			}
+		}
+
+		this.$router.replace({
+			name: 'reload'
+		});
+		this.$nextTick(() => {
+			this.$router.replace({
+				path: fullPath
+			});
+		});
+
 Vue 构建单页应用
 
 

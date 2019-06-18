@@ -269,6 +269,8 @@ JavaScript 对象
         caller			这个属性中保存着调用当前函数的函数的引用，如果是在全局作用域中调用当前函数，它的值为null
             function outer(){inner()};function inner(){alert(inner.caller)};outer();
 
+        bind()          指定this 指向
+
     Object 对象
         对象属性的操作
             4个属性描述符

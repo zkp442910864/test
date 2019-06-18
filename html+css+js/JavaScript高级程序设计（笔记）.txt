@@ -2472,7 +2472,107 @@ js （大部分api 在js.txt 里）
 					这些都是基于 toString 没有被修改。
 
 			作用域安全的构造函数
-			
+				当没有判断的时候，构造函数被直接调用，this 会指向最近的作用域上，可能会覆盖原作用域上的属性。
+				加了判断，构造函数更安全，首先确认this 对象是正确类型的实例。如果不是，那么会创建新的实例并返回。
+				function Person(name, age, job){
+					if (this instanceof Person){
+						this.name = name;
+						this.age = age;
+						this.job = job;
+					} else {
+						return new Person(name, age, job);
+					}
+				}
+
+				提示
+					实现这个模式后，你就锁定了可以调用构造函数的环境。
+					如果你使用构造函数 窃取模式的继承（就是使用call 或apply 进行继承） 且不使用原型链，那么这个继承很可能被破坏。
+
+			惰性载入函数
+				为了兼容代码每次执行都会进行检测，检测只需要一次，就能知道应该使用哪个部分的代码
+				平常的写法会每次执行都检测。
+				但用了惰性载入，判断一次后把函数重写了，以后的调用就不需要再进行判断。
+
+				第一种
+				function createXHR() {
+					if (typeof XMLHttpRequest != "undefined") {
+						createXHR = function () {
+							return new XMLHttpRequest();
+						};
+					} else if (typeof ActiveXObject != "undefined") {
+						createXHR = function () {
+							if (typeof arguments.callee.activeXString != "string") {
+								var versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"],
+									i, len;
+								for (i = 0, len = versions.length; i < len; i++) {
+									try {
+										new ActiveXObject(versions[i]);
+										arguments.callee.activeXString = versions[i];
+										break;
+									} catch (ex) {
+										//skip
+									}
+								}
+							}
+							return new ActiveXObject(arguments.callee.activeXString);
+						};
+					} else {
+						createXHR = function () {
+							throw new Error("No XHR object available.");
+						};
+					}
+					return createXHR();
+				}
+
+				第二种
+				var createXHR = (function () {
+					if (typeof XMLHttpRequest != "undefined") {
+						return function () {
+							return new XMLHttpRequest();
+						};
+					} else if (typeof ActiveXObject != "undefined") {
+						return function () {
+							if (typeof arguments.callee.activeXString != "string") {
+								var versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0",
+										"MSXML2.XMLHttp"
+									],
+									i, len;
+								for (i = 0, len = versions.length; i < len; i++) {
+									try {
+										new ActiveXObject(versions[i]);
+										arguments.callee.activeXString = versions[i];
+										break;
+									} catch (ex) {
+										//skip
+									}
+								}
+							}
+							return new ActiveXObject(arguments.callee.activeXString);
+						};
+					} else {
+						return function () {
+							throw new Error("No XHR object available.");
+						};
+					}
+				})();
+
+			函数绑定
+				function a () {};
+				就是给函数里的this 绑定上指定的对象
+					function bind(fn, context) {
+						return function(){
+							return fn.apply(context, arguments);
+						};
+					}
+					bind(a, window);
+
+				es5 给函数添加了 bind() 函数
+					a.bind(window);
+
+				注意
+					被绑定函数与普通函数相比有更多的开销，它们需要更多内存，同时也因为多重函数调用稍微慢一点，所以最好只在必要时使用。
+
+			函数柯里化
 
 
 
