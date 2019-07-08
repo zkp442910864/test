@@ -47,11 +47,8 @@ Vue 构建单页应用
 	vue的使用
 		npm run build --report  查看打包后的文件大小分布
 
-		vue-resource(axios) 	进行请求数据
 		vue-router	 			路由管理
 		vuex 					管理我们的数据流(全局数据的意思)
-
-		在根目录的 package.json 可以查看和配置信息
 
 		入口在根目录的 src->main.js
 
@@ -61,9 +58,7 @@ Vue 构建单页应用
    		Vue.use()
    			像vue的插件要通过Vue.use来绑定上去
    			参数必须是:
-   			函数
-   			  或
-   			对象(传对象会执行install函数，这时候把js绑定到vue里Vue.prototype.myjs = myjs)
+   			函数 或 对象(传对象会执行install函数，这时候把js绑定到vue里Vue.prototype.myjs = myjs)
 
 		vue-router
 			通过Vue.use绑定到vue上
@@ -117,37 +112,64 @@ Vue 构建单页应用
 					}]
 				})
 
-		vue-resource	vue数据请求
-			通过Vue.use绑定到vue上
-			路径,参数
-			this.$http.post(self.ajaxUrl,o).then(function(res){
-				console.warn(res);
-			});
+
 
 		组件间通信
-			1.子调父
-				1)this.$parent.(变量名或函数)
-				  this.$children.
+			1)this.$parent.(变量名或函数)
+				this.$children.
 
-				2)在父里<router-view
-							:bianliang1="bianliang1"
-							:bianliang2="bianliang2"
-						/>
-				  在子里 props:['bianliang1','bianliang2'] 变成自己的
+			2)在父里<router-view
+						:bianliang1="bianliang1"
+						:bianliang2="bianliang2"
+					/>
+				在子里 props:['bianliang1','bianliang2'] 变成自己的
 
-				3)在父里<router-view
-							v-on:msg1="fun1"
-							v-on:msg2="fun2"
-						/>
-				 在子里 this.$emit('msg1','') 第一个是函数名，必须在父里v-on:msg1才能调用
-				 							  第二个是这函数需要的传参，没有可不填
+			3)在父里<router-view
+						v-on:msg1="fun1"
+						v-on:msg2="fun2"
+					/>
+				在子里 this.$emit('msg1','') 第一个是函数名，必须在父里v-on:msg1才能调用
+											第二个是这函数需要的传参，没有可不填
 
-				4)ref 和 $refs
+			4)ref 和 $refs
 
+	vue seo
+		http://vuejs-templates.github.io/webpack/prerender.html
 
+		1.npm install --save-dev prerender-spa-plugin
 
+		2.在build / webpack.prod.conf.js中需要它：
+			// 此行应位于其他“导入”所在文件的顶部
+			const PrerenderSpaPlugin = require('prerender-spa-plugin')
 
-	步骤：
+		3.在plugins数组中配置它（也在build / webpack.prod.conf.js中）：
+			new PrerenderSpaPlugin(
+				// 已编译应用程序的路径
+				path.join(__dirname, '../dist'),
+				// 要预呈现的端点列表
+				[ '/' ]
+			)
+			// 如果你也想预渲染/about和/contact，那么数组会[ '/', '/about', '/contact' ]。
+		
+		4.启用历史记录模式vue-router：
+			const router = new VueRouter({
+				mode: 'history',
+				routes: [...]
+			});
+
+		5.服务端配置的路径有限制
+		
+			打包后文件名必需是 index.html
+
+			http://www.demo.zz/ 		必需是这种路径
+			http://www.demo.zz/dist/ 	这种路径不可以
+
+			简单说就是不能有深层结构路径
+	
+	
+	
+	
+	安装初始化步骤：
 		1.安装node、npm，在创建vue-cli(确保你有node和npm)。
 
 			npm是什么东东？npm其实是Node.js的包管理工具（package manager）。

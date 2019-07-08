@@ -9,6 +9,7 @@
     componentWillMount // 第一次加载组件时执行，在 render 前执行
     render // 渲染视图,通过 setState 修改参数会触发 render 更新
     componentDidMount  // 第一次加载组件时执行，在 render 执行完之后执行
+	componentDidUpdate	// 更新后重新渲染
     componentWillUnmount // 在组件被销毁时执行
 
 	事件处理

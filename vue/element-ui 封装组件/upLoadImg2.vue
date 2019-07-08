@@ -28,6 +28,7 @@
 
 <template>
     <div>
+        <!-- {{value}} -->
         <el-upload
             class="avatar-uploader el-upload-list--picture-card"
             ref="upload"
@@ -39,9 +40,9 @@
             :before-upload="beforeUpload"
             :on-change="onChange"
         >
-            <template v-if="imageUrl">
-                <img :src="imageUrl" class="avatar">
-                <span class="el-upload-list__item-actions" @click.stop="maskClick($event, imageUrl)">
+            <template v-if="value">
+                <img :src="value" class="avatar">
+                <span class="el-upload-list__item-actions" @click.stop="maskClick($event, value)">
                     <span class="">
                         <i class="el-icon-zoom-in"></i>
                     </span>
@@ -54,7 +55,7 @@
         </el-upload>
 
         <el-dialog width="640px" :visible.sync="dialogVisible" :modal="false">
-			<img width="100%" :src="imageUrl" alt="">
+			<img width="100%" :src="value" alt="">
 		</el-dialog>
     </div>
 </template>
@@ -136,7 +137,7 @@
             return {
                 url: null,
                 dialogVisible: false,
-                imageUrl: '',
+                // imageUrl: '',
                 params: {
                     usedWay: 'ADVER',
                     token: Tools.getLocalStorage('token')
@@ -157,7 +158,7 @@
             handleAvatarSuccess (res, file) {
                 try {
                     const data = res.body || res.data;
-                    this.imageUrl = data.url;
+                    // this.imageUrl = data.url;
                     this.$emit('input', data.url);
                 } catch (error) {
                     if (res.msg) {
@@ -188,7 +189,7 @@
             },
         },
         created () {
-            this.imageUrl = this.value;
+            // this.imageUrl = this.value;
             this.url = this.action;
         },
         mounted () {
