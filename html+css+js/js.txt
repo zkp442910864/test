@@ -83,14 +83,21 @@ JavaScript 对象
         arr.pop()					删除数组的最后一个元素并返回删除的元素。
         arr.push()					向数组的末尾添加一个或更多元素，并返回新的长度。
         arr.reduce()				将数组元素计算为一个值（从左到右）。例：arr.reduce(function(total, num){return total+num}) 
+            arr =  [1, 2, 3, 412, 123, 12, 223, 12, 323, 5123, 4];
+            [aa, bb] = arr.reduce((a, b) => {
+                if (b > 10) {
+                    a[0].push(b);return a;    
+                }
+                a[1].push(b);return a;
+            }, [[], []]);
         arr.reduceRight()			将数组元素计算为一个值（从右到左）。
         arr.reverse()				反转数组的元素顺序。
         arr.shift()					删除并返回数组的第一个元素。
-        arr.sort()					对数组的元素进行排序。
+        arr.sort()					对数组的元素进行排序。 （注意：自定义的函数里返回的 不是true或false， 是正负值或0，才能起效果）
             对 进行对象数组排序，可以根据对象里的值进行排序
             var arr = [{a:3},{a:6}];
             arr.sort(function(a,b){
-                return a.a > b.a
+                return a.a - b.a
             })
 
         arr.splice()				从数组中添加或删除元素,并返回添加或删除的数组给你
