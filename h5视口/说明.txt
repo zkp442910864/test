@@ -1,0 +1,120 @@
+
+总结：
+    对于手机端的展示兼容，主要是按一个标准值来进行放大缩小
+    现在一般是按 iphone6 的尺寸为标准，设计稿为 750px 来进行开发
+
+
+设备像素（dpr）
+    window.devicePixelRatio
+    设备像素比 ＝ 物理像素 / 设备独立像素
+            2 = 750 / 375
+
+设备独立像素（dip）
+    设备无关像素
+
+设备像素（dp）
+    也就是物理像素的意思
+
+设置理想视口
+    <meta name="viewport" content="width=width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    设置理想视口，使得DOM宽度(layout viewport)与屏幕宽度(visual viewport)一样大,DOM文档主宽度即为屏幕宽度。
+    1个CSS像素(1px)由多少设备像素显示由具体设备而不同。
+
+
+(() => {
+	var scale = 1 / window.devicePixelRatio;
+	document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+
+	var deviceWidth = document.documentElement.clientWidth;
+	// if(deviceWidth > 1920) deviceWidth = 1920;
+	// document.documentElement.style.fontSize = deviceWidth / 19.2+ 'px';
+     /**
+        * ================================================
+        *   设置根元素font-size
+        * 当设备宽度为375(iPhone6)时，根元素font-size=16px; 
+        * 当设备宽度为1920(设计稿)时，根元素font-size=100px; 
+        × ================================================
+        */
+    document.documentElement.style.fontSize = 100 * deviceWidth / 1920+ 'px';
+})();
+
+
+动态设置视口缩放为 1/dpr
+    (function (doc, win) {
+        var docEl = win.document.documentElement;
+        var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+        var metaEl = doc.querySelector('meta[name="viewport"]');
+        var dpr = 0;
+        var scale = 0;
+
+        // 对iOS设备进行dpr的判断，对于Android系列，始终认为其dpr为1
+        if (!dpr && !scale) {
+            var isAndroid = win.navigator.appVersion.match(/android/gi);
+            var isIPhone = win.navigator.appVersion.match(/[iphone|ipad]/gi);
+            var devicePixelRatio = win.devicePixelRatio;
+
+            if (isIPhone) {
+                dpr = devicePixelRatio;
+            } else {
+                drp = 1;
+            }
+
+            scale = 1 / dpr;
+        }
+
+        /**
+        * ================================================
+        *   设置data-dpr和viewport
+        × ================================================
+        */
+
+        docEl.setAttribute('data-dpr', dpr);
+        // 动态改写meta:viewport标签
+        if (!metaEl) {
+            metaEl = doc.createElement('meta');
+            metaEl.setAttribute('name', 'viewport');
+            metaEl.setAttribute('content', 'width=device-width, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+            document.documentElement.firstElementChild.appendChild(metaEl);
+        } else {
+            metaEl.setAttribute('content', 'width=device-width, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+        }
+
+    })(document, window);
+
+
+动态设置根元素fontSize
+    /**
+    * 以下这段代码是用于根据移动端设备的屏幕分辨率计算出合适的根元素的大小
+    * 当设备宽度为375(iPhone6)时，根元素font-size=16px; 依次增大；
+    * 限制当为设备宽度大于768(iPad)之后，font-size不再继续增大
+    * scale 为meta viewport中的缩放大小
+    */
+    (function (doc, win) {
+        var docEl = win.document.documentElement;
+        var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+        /**
+        * ================================================
+        *   设置根元素font-size
+        * 当设备宽度为375(iPhone6)时，根元素font-size=16px; 
+        × ================================================
+        */
+        var refreshRem = function () {
+            var clientWidth = win.innerWidth
+                || doc.documentElement.clientWidth
+                || doc.body.clientWidth;
+
+            console.log(clientWidth)
+            if (!clientWidth) return;
+            var fz;
+            var width = clientWidth;
+            fz = 16 * width / 375;
+            docEl.style.fontSize = fz + 'px';
+        };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, refreshRem, false);
+        doc.addEventListener('DOMContentLoaded', refreshRem, false);
+        refreshRem();
+
+    })(document, window);
