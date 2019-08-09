@@ -4,6 +4,25 @@
 技巧
 	px与rpx之间转换的公式：px = rpx / 750 * wx.getSystemInfoSync().windowWidth;
 
+    // __wxConfig.envVersion 版本判断
+    switch (__wxConfig.envVersion) {
+        case 'trial':
+            // 体验版环境域名';
+            config = {};
+            break;
+        case 'release':
+            // 线上环境域名';
+            config = {};
+            break;
+        case 'develop':
+        default:
+            config = {
+                // 正式
+                // 测试
+                // 开发
+            };
+    }
+
 	// 可以添加在App.js 里，相当于重写每个页面的Page 函数。
 	var a = Page;
 	Page = function (b) {
