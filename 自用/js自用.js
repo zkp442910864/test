@@ -117,7 +117,16 @@ function press (r) {
 		r-=350;
 		obj = {"-webkit-clip-path":k5+r+"% 0%)"};
 	}
-	return `-webkit-clip-path:${obj["-webkit-clip-path"]}`;
+    return `-webkit-clip-path:${obj["-webkit-clip-path"]}`;
+    
+    /**
+     * polygon(50% 50%, 0% 0%, 100% 0%,100% 100%,0% 100%,0% 0%)
+     * polygon(50% 50%, 100% 100%,0% 100%,0% 0%)
+     * 
+     * 
+     * polygon(50% 50%, 40% 0%, 100% 0%,100% 100%,0% 100%,0% 40%)
+     * polygon(50% 50%, 100% 100%,0% 100%,0% 40%)
+     */
 }
 
 

@@ -2609,7 +2609,117 @@ js （大部分api 在js.txt 里）
 			Yielding Processes（可以参考“JavaScript高级程序设计(第三版)” 22.3.2 )
 				循环数据量大的数组时，使用数组分块处理
 
+            函数节流
+                对dom的频繁操作进行延时处理
+                    function throttle(method, context) {
+                        clearTimeout(method.tId);
+                        method.tId= setTimeout(function(){
+                            method.call(context);
+                        }, 100);
+                    }
 
+        自定义事件（可以参考“JavaScript高级程序设计(第三版)” 22.4 )
+
+        拖放（可以参考“JavaScript高级程序设计(第三版)” 22.5 )
+            例子：追随鼠标移动，给文档添加 mousemove(鼠标移动触发) 事件
+            document.addEventListener('mousemove', function (event) {
+                var myDiv = document.getElementById("myDiv");
+                myDiv.style.left = event.clientX + "px";
+                myDiv.style.top = event.clientY + "px";
+            });
+
+    离线应用与客户端存储
+
+        离线检测
+            navigator.onLine        判断设备是否联网
+
+            设备从离线到联网会触发
+            window.addEventListener('online', () => {console.log(1)})
+
+            设备从联网到离线会触发
+            window.addEventListener('offline', () => {console.log(2)})
+
+        应用缓存
+
+        数据存储
+            cookie
+                限制
+                    同域名下 cookie 会随请求发送给服务器
+                    最好将整个cookie 长度限制在4095B（含4095）以内
+                构成
+                    名称
+                    值
+                    域                  限制同域名下才能访问
+                    路径                限制在某个路径下的请求才能访问到改cookie
+                    失效时间            
+                    安全标志            不懂
+                
+                封装（可以参考“JavaScript高级程序设计(第三版)” 23.3.1 有着更详细的封装)
+                var CookieUtil = {
+                    get: function (name) {
+                        var cookieName = encodeURIComponent(name) + "=",
+                            cookieStart = document.cookie.indexOf(cookieName),
+                            cookieValue = null;
+                        if (cookieStart > -1) {
+                            var cookieEnd = document.cookie.indexOf(";", cookieStart);
+                            if (cookieEnd == -1) {
+                                cookieEnd = document.cookie.length;
+                            }
+                            cookieValue = decodeURIComponent(document.cookie.substring(cookieStart
+                                + cookieName.length, cookieEnd));
+                        }
+                        return cookieValue;
+                    },
+                    set: function (name, value, expires, path, domain, secure) {
+                        var cookieText = encodeURIComponent(name) + "=" +
+                            encodeURIComponent(value);
+                        if (expires instanceof Date) {
+                            cookieText += "; expires=" + expires.toGMTString();
+                        }
+                        if (path) {
+                            cookieText += "; path=" + path;
+                        }
+                        if (domain) {
+                            cookieText += "; domain=" + domain;
+                        }
+                        if (secure) {
+                            cookieText += "; secure";
+                        }
+                        document.cookie = cookieText;
+                    },
+                    unset: function (name, path, domain, secure) {
+                        this.set(name, "", new Date(0), path, domain, secure);
+                    }
+                };
+        
+            IE用户数据（可以参考“JavaScript高级程序设计(第三版)” 23.3.2)
+
+            Web存储机制（可以参考“JavaScript高级程序设计(第三版)” 23.3  有特定于 ie8 的写法)
+                
+                Storage 类型提供最大的存储空间（因浏览器而异）来存储名值对儿。Storage 的实例与其他对象类似，有如下方法。
+                    getItem(name)                   根据指定的名字name 获取对应的值。
+                    setItem(name, value)            为指定的name 设置一个对应的值。
+                    removeItem(name)                删除由name 指定的名值对儿。
+                    clear()                         删除所有值；Firefox 中没有实现 。
+                    key(index)                      获得index 位置处的值的名字。
+
+                // sessionStorage instanceof Storage
+                // true  说明是 Storage 实例化出来的
+                sessionStorage      对象存储特定于某个会话的数据，也就是该数据只保持到浏览器关闭。
+                localStorage        会永久存储，除非主动删除
+
+                对于 sessionStorage 而言，大多数桌面浏览器会设置每个来源2.5MB 的限制。
+                对于 localStorage 而言，大多数桌面浏览器会设置每个来源5MB 的限制。移动端大多是2.5MB 的限制。
+
+            IndexedDB（可以参考“JavaScript高级程序设计(第三版)” 23.3.4)
+
+    最佳实践（可以参考“JavaScript高级程序设计(第三版)” 24)
+        用单个字符表示基本类型："o"代表对象，"s"代表字符串，"i"代表整数，"f"代表浮点数，"b"代表布尔型。
+            //用于指定数据类型的匈牙利标记法
+            var bFound;     //布尔型
+            var iCount;     //整数
+            var sName;      //字符串
+            var oPerson;    //对象
 
 
 

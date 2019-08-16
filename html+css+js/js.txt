@@ -100,6 +100,9 @@ JavaScript 对象
                 return a.a - b.a
             })
 
+        arr.slice()                 截取数组，接收两个值 开始和结束
+            data.slice(num * count - num, num * count);
+
         arr.splice()				从数组中添加或删除元素,并返回添加或删除的数组给你
             array.splice(index,howmany,item1,.....,itemX)
             index插入的位置，必需
