@@ -2837,6 +2837,60 @@ js （大部分api 在js.txt 里）
                             } while (--count > 0);
                         }
 
+                        // 由 Andrew B. King 所著的 Speed Up Your Site（New Riders， 2003）提出了一个更快的 Duff 装置技术，将 do-while 循环分成 2 个单独的循环。
+                        var iterations = Math.floor(values.length / 8);
+                        var leftover = values.length % 8;
+                        var i = 0;
+                        if (leftover > 0) {
+                            do {
+                                process(values[i++]);
+                            } while (--leftover > 0);
+                        }
+                        do {
+                            process(values[i++]);
+                            process(values[i++]);
+                            process(values[i++]);
+                            process(values[i++]);
+                            process(values[i++]);
+                            process(values[i++]);
+                            process(values[i++]);
+                            process(values[i++]);
+                        } while (--iterations > 0);
+                        
+                        这个方法几乎比原始的 Duff装置实现快上 40%。
+
+                        针对大数据集使用展开循环可以节省很多时间，但对于小数据集，额外的开销则可能得不偿失。
+                        它是要花更多的代码来完成同样的任务，如果处理的不是大数据集，一般来说并不值得。
+
+                避免双重解释
+                    //某些代码求值——避免!!
+                    eval("alert('Hello world!')");
+                    //创建新函数——避免!!
+                    var sayHi = new Function("alert('Hello world!')");
+                    //设置超时——避免!!
+                    setTimeout("alert('Hello world!')", 500);
+
+                性能的其他注意事项
+                    原生方法较快
+                    Switch 语句较快
+                    位运算符较快
+            
+            最小化语句数
+                插入迭代值
+                    当使用迭代值（也就是在不同的位置进行增加或减少的值）的时候，尽可能合并语句。
+                    var name = values[i];i++;
+                    var name = values[i++];
+
+                    这一个语句可以完成和前面两个语句一样的事情。
+                    因为自增操作符是后缀操作符， i 的值只有在语句其他部分结束之后才会增加。
+                    一旦出现类似情况，都要尝试将迭代值插入到最后使用它的语句中去。
+
+                使用数组和对象字面量
+                    两种创建数组和对象的方法：使用构造函数（new Object()）或者是使用字面量（{}）。
+                    只要有可能，尽量使用数组和对象的字面量表达方式来消除不必要的语句
+
+            优化DOM交互
+
 
 
 
