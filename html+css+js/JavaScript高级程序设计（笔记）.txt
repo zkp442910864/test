@@ -2714,18 +2714,128 @@ js （大部分api 在js.txt 里）
             IndexedDB（可以参考“JavaScript高级程序设计(第三版)” 23.3.4)
 
     最佳实践（可以参考“JavaScript高级程序设计(第三版)” 24)
-        代码约定
-            用单个字符表示基本类型："o"代表对象，"s"代表字符串，"i"代表整数，"f"代表浮点数，"b"代表布尔型。
-                //用于指定数据类型的匈牙利标记法
-                var bFound;     //布尔型
-                var iCount;     //整数
-                var sName;      //字符串
-                var oPerson;    //对象
+        可维护性
+            代码约定
+                用单个字符表示基本类型："o"代表对象，"s"代表字符串，"i"代表整数，"f"代表浮点数，"b"代表布尔型。
+                    //用于指定数据类型的匈牙利标记法
+                    var bFound;     //布尔型
+                    var iCount;     //整数
+                    var sName;      //字符串
+                    var oPerson;    //对象
 
-        松散耦合
+            松散耦合
 
-        编程实践
+            编程实践
+                尊重对象所有权
+                    不要随意去改原生或同事封装好的对象（自己的理解）
+                    不要为实例或原型添加属性
+                    不要为实例或原型添加方法
+                    不要重定义已存在的方法
 
+                    可以通过以下方式为对象创建新的功能
+                        创建包含所需功能的新对象，并用它与相关对象进行交互
+                        创建自定义类型，继承需要进行修改的类型。然后可以为自定义类型添加额外功能
+
+                避免全局量
+                    尽量把同一部分的代码定义在一个对象里，归类开来（自己的理解）
+                    虽然命名空间会需要多写一些代码，但是对于可维护的目的而言是值得的。
+                    命名空间有助于确保代码可以在同一个页面上与其他代码以无害的方式一起工作。
+
+                避免与 null 进行比较
+                     如果值应为一个引用类型，使用 instanceof 操作符检查其构造函数；
+                     如果值应为一个基本类型，使用 typeof 检查其类型；
+                     如果是希望对象包含某个特定的方法名，则使用 typeof 操作符确保指定名字的方法存在于对象上
+
+                使用常量
+    
+        性能（可以参考“JavaScript高级程序设计(第三版)” 24.2)
+            注意作用域
+                避免全局查找
+                    修改前：document（全局变量） 每次使用都会从作用域里查找，document 因为是全局的，所以每次都是从里面往外找，开销的肯定比局部的大。（注意：作用域链）
+                    function updateUI () {
+                        var imgs = document.getElementsByTagName("img");
+                        for (var i = 0, len = imgs.length; i < len; i++) {
+                            imgs[i].title = document.title + " image " + i;
+                        }
+                        var msg = document.getElementById("msg");
+                        msg.innerHTML = "Update complete.";
+                    }
+
+                    修改后：把 document 在函数内先进行存储，让后进行使用。（这样就只查找了一次，然后 doc 都是在局部进行查找，这样肯定会比原来的快）
+                    function updateUI () {
+                        var doc = document;
+                        var imgs = doc.getElementsByTagName("img");
+                        for (var i = 0, len = imgs.length; i < len; i++) {
+                            imgs[i].title = doc.title + " image " + i;
+                        }
+                        var msg = doc.getElementById("msg");
+                        msg.innerHTML = "Update complete.";
+                    }
+                    将在一个函数中会用到多次的全局对象存储为局部变量总是没错的
+
+                避免 with 语句
+
+            选择正确方法
+                避免不必要的属性查找
+                    尽可能多地使用局部变量将属性查找替换为值查找。
+                    一般来讲，只要能减少算法的复杂度，就要尽可能减少。尽可能多地使用局部变量将属性查找替换为值查找。
+                    进一步讲，如果即可以用数字化的数组位置进行访问，也可以使用命名属性（诸如 NodeList对象），那么使用数字位置。
+
+                     JavaScript 中常见的算法类型
+                        O(1)        常数        不管有多少值，执行的时间都是恒定的。一般表示简单值和存储在变量中的值
+                        O(log n)    对数        总的执行时间和值的数量相关，但是要完成算法并不一定要获取每个值。例如：二分查找
+                        O(n)        线性        总执行时间和值的数量直接相关。例如：遍历某个数组中的所有元素
+                        O(n2)       平方        总执行时间和值的数量有关，每个值至少要获取n次。例如：插入排序
+
+                优化循环
+                    减值迭代            大多数循环使用一个从 0 开始、增加到某个特定值的迭代器。在很多情况下，从最大值开始，在循环中不断减值的迭代器更加高效。（递减的的处理方式更加高效）
+                    简化终止条件        由于每次循环过程都会计算终止条件，所以必须保证它尽可能快。也就是说避免属性查找或其他 O(n)的操作。
+                    简化循环体          循环体是执行最多的，所以要确保其被最大限度地优化。确保没有某些可以被很容易移出循环的密集计算。
+                    使用后测试循环      最常用 for 循环和 while 循环都是前测试循环。而如 do-while 这种后测试循环，可以避免最初终止条件的计算，因此运行更快。
+
+                展开循环
+                    当循环的次数是确定的，消除循环并使用多次函数调用往往更快 。
+                    展开循环可以消除建立循环和处理终止条件的额外开销，使代码运行得更快。
+
+                    Duff 装置 （基本概念是通过计算迭代的次数是否为 8 的倍数将一个循环展开为一系列语句）
+                        //假设 values.length > 0
+                        var iterations = Math.ceil(values.length / 8);
+                        var startAt = values.length % 8;
+                        var i = 0;
+                        do {
+                            switch (startAt) {
+                                case 0: process(values[i++]);
+                                case 7: process(values[i++]);
+                                case 6: process(values[i++]);
+                                case 5: process(values[i++]);
+                                case 4: process(values[i++]);
+                                case 3: process(values[i++]);
+                                case 2: process(values[i++]);
+                                case 1: process(values[i++]);
+                            }
+                            startAt = 0;
+                        } while (--iterations > 0);
+
+                        // 尝试
+                        Array.prototype.forEach2 = function (fn) {
+                            const len = this.length;
+                            let count = Math.ceil(len / 8); // let count = len / 8 这是错误的
+                            let local = len % 8;
+                            let i = 0;
+                            do {
+                                switch (local) {
+                                    case 0: fn(this[i], i);i++;
+                                    case 7: fn(this[i], i);i++;
+                                    case 6: fn(this[i], i);i++;
+                                    case 5: fn(this[i], i);i++;
+                                    case 4: fn(this[i], i);i++;
+                                    case 3: fn(this[i], i);i++;
+                                    case 2: fn(this[i], i);i++;
+                                    case 1: fn(this[i], i);i++;
+                                }
+                                local = 0;
+                            } while (--count > 0);
+                        }
 
 
 
