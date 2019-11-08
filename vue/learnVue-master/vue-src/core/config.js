@@ -4,9 +4,9 @@ import {
   no,
   noop,
   identity
-} from 'shared/util'
+} from '../shared/util'
 
-import { LIFECYCLE_HOOKS } from 'shared/constants'
+import { LIFECYCLE_HOOKS } from '../shared/constants'
 
 export type Config = {
   // user
