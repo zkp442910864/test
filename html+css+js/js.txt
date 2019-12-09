@@ -83,6 +83,7 @@ JavaScript 对象
         arr.pop()					删除数组的最后一个元素并返回删除的元素。
         arr.push()					向数组的末尾添加一个或更多元素，并返回新的长度。
         arr.reduce()				将数组元素计算为一个值（从左到右）。例：arr.reduce(function(total, num){return total+num}) 
+            [{a:1},{a:1},{a:1}].reduce((a,b) => ((typeof a === 'number' ? a : a.a) + b.a))
             arr =  [1, 2, 3, 412, 123, 12, 223, 12, 323, 5123, 4];
             [aa, bb] = arr.reduce((a, b) => {
                 if (b > 10) {
