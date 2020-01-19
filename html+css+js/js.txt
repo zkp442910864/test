@@ -457,6 +457,7 @@ BOM（是window 对象，也叫 Global对象）
 
 DOM
     DOM（文档对象模型）描绘了一个层次化的节点树，允许开发人员添加、移除和修改页面的某一部分。
+    操作已在文档上的节点，该节点将从原来的位置转移到新位置上
 
 
     document.documentElement			始终指向HTML 页面中的<html>元素
@@ -529,8 +530,8 @@ DOM
 
     以下节点操作，只要不是新创建的元素，都是剪切操作。这几个方法必须先取得父节点（使用parentNode 属性）
     添加、插入、替换、删除。
-    xxx.appendChild(a)			    在NodeList 末尾添加一个元素
-    xxx.insertBefore(a, b)		    在NodeList 中添加一个元素。a 要插入的节点，b 要插入位置的节点，当b 传null 时，效果同上（要注意 文本节点 ，这也是个位置）
+    xxx.appendChild(a)			    在NodeList 末尾添加一个元素，并返回新增的节点
+    xxx.insertBefore(a, b)		    在NodeList 中添加一个元素。a 要插入的节点，b 要插入位置的节点(作为参照的节点)，当b 传null 时，效果同appendChild（要注意 文本节点 ，这也是个位置），并返回新增的节点
         xxx.insertBefore(document.createElement('a'), document.body.lastChild)
     xxx.replaceChild(a, b)		    a插入的节点,b替换的节点，并返回被替换的节点(就是b)
     xxx.removeChild(a)			    a要移除的节点，并返回被删除的节点(就是a)
