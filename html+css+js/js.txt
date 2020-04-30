@@ -41,6 +41,11 @@
         '19930826'.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');       // "1993-08-26"
         '19930826232'.replace(/(\d{4})/g, '$1 ');       // "1993 0826 232"
 
+        `import {zEmpty, toast, copyObj, confirm, jsCopyObj} from '@/assets/js/module.js';`.replace(
+            /import {([\w,\s]*)} from \'\@\/assets\/js\/module.js\';/,
+            '$1'
+        )
+        从里取到 zEmpty, toast, copyObj, confirm, jsCopyObj
 
 
 
@@ -102,7 +107,8 @@ JavaScript 对象
             })
 
         arr.slice()                 截取数组，接收两个值 开始和结束
-            data.slice(num * count - num, num * count);
+            // data.slice(num * count - num, num * count);
+            list.slice(no * size - size, no * size) no:页码 size:每页数据量
 
         arr.splice()				从数组中添加或删除元素,并返回添加或删除的数组给你
             array.splice(index,howmany,item1,.....,itemX)

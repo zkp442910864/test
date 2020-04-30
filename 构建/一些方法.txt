@@ -1,0 +1,42 @@
+
+技巧
+    vue-cli3脚手架
+        有的电脑不知道为什么，不能用ip打开网站，通过修改源文件实现
+            \node_modules\@vue\cli-service\lib\commands\serve.js
+
+            const os = require('os');
+            const ifaces = os.networkInterfaces();
+            for (var i in ifaces) {
+                for (var j in ifaces[i]) {
+                    var val = ifaces[i][j]
+                    if (val.family === 'IPv4' && val.address !== '127.0.0.1') {
+                        options.devServer.host = val.address;
+                    }
+                }
+            }
+
+    node
+        // 动态获取目录下的文件
+        const files = require.context('./tpl', true, /.vue$/);
+        console.dir(files);
+        console.log(files.keys());
+        const tpl = {};
+        files.keys().forEach(item => {
+            const child = files(item).default || files(item);
+            console.log(child);
+            tpl[child.name] = child;
+        });
+
+        // 动态获取目录下的文件夹
+        const fs = require('fs');
+        const path = require('path');
+        const util = require('util');
+        const sub_app_ath = path.resolve();
+        const sub_apps = fs.readdirSync(sub_app_ath).filter(i => /^subapp|master/.test(i));
+        sub_apps.forEach(async i => {
+            console.log(`${i} 开始打包,耗时较久请耐心等待...`)
+            const { stdout, stderr } = await exec('npm run build', { cwd: path.resolve(i) });
+            console.log(i, 'success', stdout)
+            console.error(i, 'error', stderr)
+        });
+
