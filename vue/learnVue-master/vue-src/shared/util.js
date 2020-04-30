@@ -6,6 +6,7 @@ export function isUndef (v: any): boolean % checks {
     return v === undefined || v === null
 }
 
+// 是否有值
 export function isDef (v: any): boolean % checks {
     return v !== undefined && v !== null
 }

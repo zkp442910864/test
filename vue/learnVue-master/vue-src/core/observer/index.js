@@ -145,10 +145,14 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
 尝试创建一个Observer实例（__ob__），如果成功创建Observer实例则返回新的Observer实例，如果已有Observer实例则返回现有的Observer实例。
 */
 export function observe (value: any, asRootData: ?boolean): Observer | void {
+
+    // 不属于 对象和数组 的不处理
     if (!isObject(value)) {
         return
     }
+
     let ob: Observer | void
+    
     /*这里用__ob__这个属性来判断是否已经有Observer实例，如果没有Observer实例则会新建一个Observer实例并赋值给__ob__这个属性，如果已有Observer实例则直接返回该Observer实例*/
     if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
         ob = value.__ob__
