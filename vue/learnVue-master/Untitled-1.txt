@@ -1,0 +1,108 @@
+
+
+
+
+
+
+
+    vue执行顺序
+        initMixin(Vue)
+            /*初始化生命周期*/
+            initLifecycle(vm)
+
+
+            /*初始化事件*/
+            initEvents(vm)
+                获取通过$on创建的事件
+
+
+            /*初始化render*/
+            initRender(vm)
+                将DOM抽象成一个以JavaScript对象为节点的虚拟DOM树，以VNode节点模拟真实DOM，可以对这颗抽象树进行创建节点、删除节点以及修改节点等操作，
+                在这过程中都不需要操作真实DOM，只需要操作JavaScript对象后只对差异修改，相对于整块的innerHTML的粗暴式修改，大大提升了性能。
+                修改以后经过diff算法得出一些需要修改的最小单位，再将这些小单位的视图进行更新。
+
+                处理模板templete，编译成render函数，render不存在的时候才会编译template，否则优先使用render
+                template 解析字符串、render 通过函数创建
+                最终创建出 VNode对象，模拟 dom树
+                渲染的dom树
+
+                $slots              存在实例上，表示插槽的数据
+                $scopedSlots        存在实例上，表示插槽的数据
+
+
+            /*调用beforeCreate钩子函数并且触发beforeCreate钩子事件*/
+            callHook(vm, 'beforeCreate')
+
+
+            initInjections(vm) // resolve injections before data/props
+
+
+            /*初始化props、methods、data、computed与watch*/
+            initState(vm)
+                依次把props、methods、data、computed与watch 的内容代理到vue的实例上。
+                    Object.defineProperty
+
+                        
+                data 对象监听
+                    vue实例上的 _data.__ob__ 就是观察者
+                    然后数据里每个对象都会有__ob__观察者
+                    其中还有依赖收集，在值发生改变时进行通知
+
+                    递归
+                    observe 创建观察者
+                    (new Observer()) 实例化的时候，两种数据  数组（循环值，对象走 observe）、对象（走 defineReactive）
+                    defineReactive  对值进行观察并收录
+                    
+                    注意：重写了数组的部分函数 ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse']
+                    
+                    问题
+                    dep 收录问题
+                    
+                    observe -> (new Observer()) -> defineReactive -> observe
+                                            -> observe
+
+
+            initProvide(vm) // resolve provide after data/props
+
+
+            /*调用created钩子函数并且触发created钩子事件*/
+            callHook(vm, 'created')
+
+        stateMixin(Vue)
+            创建这几个函数
+            Vue.prototype.$set
+            Vue.prototype.$delete
+            Vue.prototype.$watch
+
+        eventsMixin(Vue)
+            创建这几个函数
+            Vue.prototype.$on
+            Vue.prototype.$once
+            Vue.prototype.$off
+            Vue.prototype.$emit
+
+
+        lifecycleMixin(Vue)
+            创建这几个函数
+            Vue.prototype._update
+                触发beforeUpdate钩子
+            Vue.prototype.$forceUpdate
+            Vue.prototype.$destroy
+
+        renderMixin(Vue)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
