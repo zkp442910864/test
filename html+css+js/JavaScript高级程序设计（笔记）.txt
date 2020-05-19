@@ -44,7 +44,7 @@ js （大部分api 在js.txt 里）
 			>=		大于或等于
 			<=		小于或等于
 
-		条件语句	
+		条件语句
 			if(){} 语句 - 只有当指定条件为 true 时，使用该语句来执行代码
 			if(){}else{} 语句 - 当条件为 true 时执行代码，当条件为 false 时执行其他代码
 			if(){}else if(){}else{} 语句 - 使用该语句来选择多个代码块之一来执行
@@ -104,7 +104,7 @@ js （大部分api 在js.txt 里）
 					console.log(err);//打印的是empty
 				}
 
-			
+
 	JavaScript 对象
 		值类型 String、Number、Boolean、undefined、null
 		引用类型 Objec、Array、Date、RegExp、Function
@@ -115,9 +115,9 @@ js （大部分api 在js.txt 里）
 		Number 对象
 
 		String 对象
-			
+
 		RegExp 对象 正则
-			
+
 		Function 对象
 			函数声明
 				率先读取函数声明，并使其在执行任何代码之前可用（可以访问）；(相当于var的提升作用域)
@@ -144,17 +144,17 @@ js （大部分api 在js.txt 里）
 				name 			获取当前函数的 方法名
 				caller			这个属性中保存着调用当前函数的函数的引用，如果是在全局作用域中调用当前函数，它的值为null
 					function outer(){inner()};function inner(){alert(inner.caller)};outer();
-					
+
 				toString()		获取当前函数体的 字符串
 				call()	 		方法会用它的第一个参数 作为 当前调用call()函数的this指针  例子:var obj={} f.call(obj)
 				apply() 		apply()和call()类似的，只是apply()要求第二个参数必须是一个数组。
 					这个数组会作为参数传递给目标函数，通过arguments数组来获取  例子:var obj={} f.apply(obj,['q','b','c'])
-				
-		
+
+
 		Global 对象
 			一个虚拟的对象，其实就是 window (自己的理解)
 			var global = function(){return this;}(); // 手动创建 global 对象
-		
+
 		Object 对象
 			对象的高级操作
 				属性类型
@@ -167,7 +167,7 @@ js （大部分api 在js.txt 里）
 						使用 Object.defineProperty(a, b, c) 可以进行修改，a 对象、b Key值、c 要修改的描述符对象 (ie8 不要使用)
 							var person = { name: 'Nicholas' };
 							Object.defineProperty(person, 'name', { writable: false });
-					
+
 					2.访问器属性
 						一对 getter 和 setter 函数 (不必要的，要做拦截操作可以定义来处理数据，严格模式下必须一对一起定义)
 						对取值时调用 getter
@@ -183,7 +183,7 @@ js （大部分api 在js.txt 里）
 									get () {...},
 									set (nVal) {...}
 								});
-						
+
 						ie9 才实现，旧的使用 __defineGetter__() 和 __defineSetter__()
 							person.__defineGetter__('name', function () {})
 							person.__defineSetter__('name', function (nVal) {})
@@ -204,7 +204,7 @@ js （大部分api 在js.txt 里）
 					Object.getOwnPropertyDescriptor(a, b) 读取对象里属性的描述，a 对象， b 对象里的Key (ie9 以上可使用)
 						var person = {name: 'asdf'}
 						Object.getOwnPropertyDescriptor(person, 'name')
-			
+
 			模式 (设计模式)
 				工厂模式 (我的理解：就是封装公共的部分)
 					工厂模式，使用简单的函数创建对象，为对象添加属性和方法，然后返回对象。这个模式后来被构造函数模式所取代。
@@ -262,7 +262,7 @@ js （大部分api 在js.txt 里）
 							/* 这种字面量写法会导致 Person.prototype.constructor 指向 Object，这是解决方法
 							 * 缺点：导致它的 enumerable 描述符 被设置为true，可以使用 Object.defineProperty() 修改为false
 							*/
-							constructor : Person 
+							constructor : Person
 						};
 
 					所有的实例对象都有一个 __proto__ 属性，指向实例函数的 prototype (也是构造函数的原型)
@@ -275,7 +275,7 @@ js （大部分api 在js.txt 里）
 					isPrototypeOf()
 						用来确定对象之间是否存在关系
 						alert(Person.prototype.isPrototypeOf(p)); //true
-					
+
 					Object.getPrototypeOf() (ie9以上可用)
 						这个方法返回 __proto__ 的值
 						alert(Object.getPrototypeOf(p) === Person.prototype);
@@ -336,7 +336,7 @@ js （大部分api 在js.txt 里）
 					}
 					var colors = new SpecialArray("red", "blue", "green");
 					alert(colors.toPipedString()); //"red|blue|green"
-				
+
 				稳妥构造函数模式
 					function Person(name, age, job){
 						//创建要返回的对象
@@ -361,7 +361,7 @@ js （大部分api 在js.txt 里）
 					...
 					实现的本质是重写原型对象，代之以一个新类型的实例。
 					换句话说，原来存在于 SuperType 的实例中的所有属性和方法，现在也存在于 SubType.prototype 中了。
-				
+
 					确定原型和实例的关系
 						instanceof 操作符
 						isPrototypeOf()方法
@@ -377,7 +377,7 @@ js （大部分api 在js.txt 里）
 					原型链的问题
 						继承的父级中存在引用类型值的问题
 						在创建子类型的实例时，不能向超类型的构造函数中传递参数
-				
+
 				借用构造函数
 					解决上面 原型链的问题
 					function SuperType(){ this.colors = ["red", "blue", "green"] }
@@ -435,7 +435,7 @@ js （大部分api 在js.txt 里）
 
 				寄生组合式继承
 					寄生组合式继承，集寄生式继承和组合继承的优点与一身，是实现基于类型继承的最有效方式。
-					
+
 					function inheritPrototype(subType, superType){
 						var prototype = Object(superType.prototype); //创建对象
 						prototype.constructor = subType; //增强对象
@@ -460,7 +460,7 @@ js （大部分api 在js.txt 里）
 
 				小结
 					原型链的构建是通过将一个类型的实例赋值给另一个构造函数的原型实现的。
-	
+
 	函数表达式
 		var f = function () {}
 		(function () {})
@@ -475,7 +475,7 @@ js （大部分api 在js.txt 里）
 					在 全局环境 中调用函数(指的是普通的函数)，函数位于 1 的位置
 				3.销毁
 					一般来讲，当函数执行完毕后，执行环境 和 局部活动对象 就会被销毁，内存中仅保存全局作用域（全局执行环境的变量对象）。
-			
+
 			当执行的函数，返回一个匿名函数时
 				function child () {
 					return function () {
@@ -485,7 +485,7 @@ js （大部分api 在js.txt 里）
 				var a = child();
 				a();
 				a = null;
-				会按上面的步骤走完，但在第三步时，执行完后 局部活动对象，因为返回 匿名函数 且被 a 引用，所以不会被销毁。 
+				会按上面的步骤走完，但在第三步时，执行完后 局部活动对象，因为返回 匿名函数 且被 a 引用，所以不会被销毁。
 				当调用 a 函数时，在上面第二步的 作用域链 是这样的，闭包的活动对象、child 的活动对象、全局环境对象
 				设置为等于 null 解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其他作用域（除了全局作用域）也都可以安全地销毁了。
 
@@ -566,12 +566,12 @@ js （大部分api 在js.txt 里）
 			静态私有变量
 			模块模式
 			增强的模块模式
-	
+
 	BOM (即 window 对象)
 		BOM（浏览器对象模型）
 		BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
 		就是浏览器
-		
+
 		window 对象
 			BOM 的核心对象是 window，它表示浏览器的一个实例。
 
@@ -579,7 +579,7 @@ js （大部分api 在js.txt 里）
 				凡是在全局作用域中声明的 变量、函数 都会变成 window 对象的属性和方法。
 				全局定义的变量和函数 即 window 上的属性和方法，不能通过 delete 删除，但是直接通过 window['key'] = '' 来定义的可以删除。
 					不能删除是因为 描述符configurable 被设置为 false 了。
-			
+
 			窗口关系及框架 （基本不用了）
 				top 		对象始终指向最外围的框架，也就是整个浏览器窗口
 				parent 		对象表示包含当前框架的框架
@@ -605,7 +605,7 @@ js （大部分api 在js.txt 里）
 					兼容写法
 					var leftPos = (typeof window.screenLeft == "number") ? window.screenLeft : window.screenX;
 					var topPos = (typeof window.screenTop == "number") ? window.screenTop : window.screenY;
-			
+
 			移动窗口
 				window.moveTo(x, y)		直接指定位置
 				window.moveBy(x, y)		相对位置移动
@@ -663,7 +663,7 @@ js （大部分api 在js.txt 里）
 							width 		数值 		表示新窗口的宽度。不能小于100
 						var w = window.open("http://www.wrox.com/", "_blank", "height=400,width=400,top=10,left=10,resizable=no,scrollbars=no,status=no,toolbar=no,location=no,menubar=no");
 						这里面的属性有可能会被浏览器禁用
-					
+
 					调用后会返回当前窗口的对象，可以用来对这窗口进行一些操作
 					w.opener	指向创建这窗口的 window
 					w.close()	关闭这个创建的窗口
@@ -733,7 +733,7 @@ js （大部分api 在js.txt 里）
 				window.print()		显示“打印”对话框
 				window.find()		显示“查找”对话框
 				这两个对话框是异步显示的
-		
+
 		location 对象
 			location 对象是很特别的一个对象，因为它既是 window 对象的属性，也是 document 对象的属性
 			window.location === document.location
@@ -897,7 +897,7 @@ js （大部分api 在js.txt 里）
 					xxx.childNodes		返回所有子节点。一个类数组的 NodeList，可以像数组一样取值，也可以通过NodeList 的 item 方法获取
 						xxx.childNodes[1]			找不到返回 undefined
 						xxx.childNodes.item(1)		找不到返回 null
-					
+
 					xxx.parentNode			返回父节点
 					xxx.previousSibling		返回同胞节点，上一个。找不到返回 null
 					xxx.nextSibling			返回同胞节点，下一个。找不到返回 null
@@ -927,7 +927,7 @@ js （大部分api 在js.txt 里）
 
 				document.documentElement			始终指向HTML 页面中的<html>元素
 				document.body						返回html 元素里的body 元素
-				document.head						
+				document.head
 				document.title						获取设置文档标题
 					document.title = "New page title";
 
@@ -966,7 +966,7 @@ js （大部分api 在js.txt 里）
 					document.writeln()
 					document.open()
 					document.close()
-			
+
 			Element类型
 				文档中使用的标签就是 Element(元素)，其中节点包括了元素。
 				节点包括：Element、Text、Comment、ProcessingInstruction、CDATASection 或 EntityReference。
@@ -1021,7 +1021,7 @@ js （大部分api 在js.txt 里）
 
 				创建文本节点
 					document.createTextNode(a)			a 一串字符串，传入字符串返回text 节点
-			
+
 			Comment类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.5 )
 				注释在DOM中是通过Comment 类型来表示的
 
@@ -1032,7 +1032,7 @@ js （大部分api 在js.txt 里）
 
 			CDATASection类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.6 )
 				CDATASection 类型只针对基于XML 的文档，表示的是CDATA 区域。
-				
+
 			DocumentType类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.7 )
 
 			DocumentFragment类型		(可以参考“JavaScript高级程序设计(第三版)” 10.1.8 )
@@ -1180,12 +1180,12 @@ js （大部分api 在js.txt 里）
 				xxx.innerHTML		获取元素下的所有子节点，赋值就替换元素下的所有子节点
 					注意：不要指望所有浏览器返回的innerHTML 值完全相同（ie8及以下貌似返回的节点都是大写的）
 						 不要用来插入 script 标签。
-						 插入 style 标签，ie8及以下的版本 时插入这标签时要前置一个“有作用域的元素(就是下面style标签前面的_)” 
+						 插入 style 标签，ie8及以下的版本 时插入这标签时要前置一个“有作用域的元素(就是下面style标签前面的_)”
 						 	如：div.innerHTML = "_<style type=\"text/css\">body {background-color: red; }</style>";
 						 有些标签不支持 innerHTML 属性
-					
+
 					window.toStaticHTML()		这个方法接收一个参数，即一个HTML 字符串；返回一个经过无害处理后的版本（ie8 及以上版本可用）
-				
+
 				xxx.outerHTML		返回调用它的元素及所有子节点的HTML 标签，赋值就完全替换调用元素
 				xxx.childNodes[0].insertAdjacentHTML()
 					// xxx.childNodes[0] 是一个元素
@@ -1225,7 +1225,7 @@ js （大部分api 在js.txt 里）
 					5：强制将文档模式设置为IE5，忽略文档类型声明。
 
 				document.documentMode 			返回页面的采用的文档模式
-			
+
 			xxx.children			返回所有子元素（ie8及更早的版本会包含注释节点）
 			xxx.contains(a)			a 某个元素，判断值是否属于该元素的子节点，返回布尔值
 			xxx.compareDocumentPosition()			确定节点间的关系 (可以参考“JavaScript高级程序设计(第三版)” 11.4.3 )
@@ -1252,7 +1252,7 @@ js （大部分api 在js.txt 里）
 		DOM2 级遍历和范围（DOM Level 2 Traversal and Range）：引入了遍历DOM 文档和选择其特定部分的新接口。
 	 	DOM2 级 HTML（DOM Level 2 HTML）：在1 级HTML 基础上构建，添加了更多属性、方法和新接口。
 		DOM3 级又增加了“XPath”模块和“加载与保存”（Load and Save）模块。
-					
+
 		DOM 变化
 			DOM2 级和3 级的目的在于扩展DOM API，以满足操作XML 的所有需求，同时提供更好的错误处理及特性检测能力。
 
@@ -1283,7 +1283,7 @@ js （大部分api 在js.txt 里）
 						document.implementation.createDocumentType("html", " -//W3C//DTD XHTML 1.0 Strict//EN", "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd")
 					);
 					这样，就创建了一个带有适当命名空间和文档类型的新XHTML 文档。
-				
+
 				DOM2 级HTML
 					document.implementation.createHTMLDocument("New Doc");
 						这个方法的用途是创建一个完整的HTML 文档，包括<html>、<head>、<title>和<body>元素。这个方法只接受一个参数，即新创建文档的标题（放在<title>元素中的字符串）
@@ -1389,7 +1389,7 @@ js （大部分api 在js.txt 里）
 						insertRule(rule,index)：	（注意兼容）就是添加新规则。向cssRules 集合中指定的位置插入rule 字符串。IE 不支持这个方法，但支持一个类似的addRule()方法。
 						deleteRule(index)：			删除cssRules 集合中指定位置的规则。IE 不支持这个方法，但支持一个类似的removeRule()方法。
 						ownerRule：					如果样式表是通过@import 导入的，这个属性就是一个指针，指向表示导入的规则；否则，值为null。IE 不支持这个属性。
-				
+
 				通过标签取得样式表 (CSSStyleSheet对象)
 					sheet ie不支持这属性，用styleSheet 代替
 					function getStyleSheet(element){ return element.sheet || element.styleSheet; }
@@ -1451,7 +1451,7 @@ js （大部分api 在js.txt 里）
 					id8 及老版本    返回的都是4个属性
 						之后的版本  返回的都是6个属性
 					document.body.getBoundingClientRect()
-		
+
 		遍历 （ie8 及以下不支持）
 			NodeIterator
 				document.createNodeIterator()		创建一个dom 迭代器，四个参数。
@@ -1462,11 +1462,11 @@ js （大部分api 在js.txt 里）
 						如果应该访问给定的节点，该方法返回 NodeFilter.FILTER_ACCEPT
 						如果不应该访问给定的节点，该方法返回 NodeFilter.FILTER_SKIP
 					 entityReferenceExpansion			布尔值，表示是否要扩展实体引用。这个参数在HTML 页面中没有用，因为其中的实体引用不能扩展。
-				
+
 				改函数返回一个dom 列表迭代器
 					nextNode()			获取下一个dom，最终返回null
 					previousNode()		获取上一个dom，最终返回null
-				
+
 				whatToShow		以下属性都是whatToShow 一个位掩码
 					 NodeFilter.SHOW_ALL：显示所有类型的节点。
 					 NodeFilter.SHOW_ELEMENT：显示元素节点。
@@ -1481,7 +1481,7 @@ js （大部分api 在js.txt 里）
 					 NodeFilter.SHOW_DOCUMENT_TYPE：显示文档类型节点。
 					 NodeFilter.SHOW_DOCUMENT_FRAGMENT：显示文档片段节点。对HTML 页面没有用。
 					 NodeFilter.SHOW_NOTATION：显示符号节点。对HTML 页面没有用。
-				
+
 
 				例子：
 					<div id="div1">
@@ -1527,7 +1527,7 @@ js （大部分api 在js.txt 里）
 			var p1 = document.getElementById("p1");
 			range1.selectNode(p1);				// 获取该节点的父节点
 			range2.selectNodeContents(p1);		// 获取该节点
-		
+
 		总结
 			“DOM2 级样式”模块主要针对操作元素的样式信息而开发...
 
@@ -1539,7 +1539,7 @@ js （大部分api 在js.txt 里）
 
 			事件冒泡	事件触发时从里到外 （基本都使用冒泡）
 			事件捕获	事件触发时从外到里
-		
+
 			DOM事件流
 				“DOM2级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段、事件冒泡阶段。
 
@@ -1592,7 +1592,7 @@ js （大部分api 在js.txt 里）
 						}
 					}
 				};
-		
+
 		事件对象
 			DOM中的事件对象 （可以参考“JavaScript高级程序设计(第三版)” 13.3.1 )
 				在触发DOM上的某个事件时，会产生一个事件对象event。所有浏览器都支持event 对象，但支持方式不同。
@@ -1612,7 +1612,7 @@ js （大部分api 在js.txt 里）
 				window.event.cancelBubble = true		停止事件冒泡
 
 			跨浏览器的事件对象		（可以参考“JavaScript高级程序设计(第三版)” 13.3.3 )
-		
+
 		事件类型
 			UI事件
 				UI 事件指的是那些不一定与用户操作有关的事件。
@@ -1674,7 +1674,7 @@ js （大部分api 在js.txt 里）
 
 				鼠标事件对象保存着 clientX 和 clientY (所有浏览器都支持这两个属性)，这样确定鼠标在视口中的位置
 					document.getElementById("myDiv").onclick = (event) => {console.log(`${event.clientX}, ${event.clientY}`)}
-				
+
 				鼠标事件对象保存着 pageX 和 pageY，确定在文档（特别是带滚动条的文档）中的位置。（IE8 及更早版本不支持事件对象上的页面坐标）
 					通过计算得到
 					(document.documentElement.scrollTop || document.body.scrollTop) + event.clientY
@@ -1744,10 +1744,10 @@ js （大部分api 在js.txt 里）
 					DOMNodeRemovedFromDocument		在一个节点被直接从文档中移除或通过子树间接从文档中移除之前触发。这个事件在DOMNodeRemoved 之后触发。
 					DOMAttrModified					在特性被修改之后触发。
 					DOMCharacterDataModified		在文本节点的值发生变化时触发。
-				
+
 				例子：
 					document.body.addEventListener('DOMNodeRemoved', function (e) {console.log(e)})
-			
+
 			HTML5 事件
 				contextmenu 事件（可以参考“JavaScript高级程序设计(第三版)” p406）
 					自定义上下文自定义菜单
@@ -1842,7 +1842,7 @@ js （大部分api 在js.txt 里）
 					gesturechange		当触摸屏幕的任何一个手指的位置发生变化时触发。
 					gestureend			当任何一个手指从屏幕上面移开时触发。
 
-	
+
 		内存和性能（可以参考“JavaScript高级程序设计(第三版)” 13.5 )
 			事件委托
 				利用 addEventListener 的冒泡机制，给父元素添加事件，触发子元素会冒泡上去。
@@ -1906,7 +1906,7 @@ js （大部分api 在js.txt 里）
 				submit()			提交表单。
 				target				用于发送请求和接收响应的窗口名称；等价于HTML 的target 特性。
 
-				html5 
+				html5
 				autofocus			不用 JavaScript 就能自动把焦点移动到相应字段
 
 			document.forms 可以获取到页面中所有的 form 表单。
@@ -1949,7 +1949,7 @@ js （大部分api 在js.txt 里）
 					blur				当前字段失去焦点时触发。
 					change				对于<input>和<textarea>元素，在它们失去焦点且value 值改变时触发；对于<select>元素，在其选项改变时触发。
 					focus				当前字段获得焦点时触发。
-		
+
 		文本框脚本
 			<input>
 			<textarea>
@@ -2270,7 +2270,7 @@ js （大部分api 在js.txt 里）
 									调用 send()之后，请求就会被分派到服务器
 				xhr.abort()			对已发送的请求，进行中止，之后，还应该对 XHR 对象进行解引用操作。（就是赋值为 null）
 
-				
+
 				xhr	属性
 					xhr.readyState
 						0		未初始化。尚未调用 open()方法。
@@ -2278,7 +2278,7 @@ js （大部分api 在js.txt 里）
 						2		发送。已经调用 send()方法，但尚未接收到响应。
 						3		接收。已经接收到部分响应数据。
 						4		完成。已经接收到全部响应数据，而且已经可以在客户端使用了。
-				
+
 				xhr 方法
 					xhr.onreadystatechange		readyState 每次变化都会触发该函数，该函数必须在调用open() 之前定义
 						xhr.onreadystatechange = function(){
@@ -2295,7 +2295,7 @@ js （大部分api 在js.txt 里）
 				状态码：
 					200		作为成功的标识
 					304		表示请求的资源并没有被修改，可以直接使用浏览器中缓存的版本；当然，也意味着响应是有效的
-			
+
 			HTTP头部信息
 				每个 HTTP 请求和响应都会带有相应的头部信息，其中有的对开发人员有用，有的也没有什么用。
 				XHR 对象也提供了操作这两种头部（即请求头部和响应头部）信息的方法。
@@ -2329,14 +2329,14 @@ js （大部分api 在js.txt 里）
 				xhr.send('a=1&b=2&c=3');
 
 			get 发送速度会比 post 快，但 post 也接受更多数据，相对的安全点。
-		
+
 		XMLHttpRequest 2 级
 			FormData
 				var data = new FormData();
 				FormData 为序列化表单以及创建与表单格式相同的数据（用于通过XHR 传输）提供了便利。
 				方法：
 				data.append()		接收两个参数：键和值，分别对应表单字段的名字和字段中包含的值。(可以添加多个)
-				
+
 				通过 append 设置值
 					data.append("name", "Nicholas");
 				通过构造函数
@@ -2355,7 +2355,7 @@ js （大部分api 在js.txt 里）
 					}
 
 				注意：超时后readyState 会变为4，就会触发onreadystatechange。因为超时了，所以正常执行会报错，可以加个try-cacth。
-			
+
 			overrideMimeType()
 				响应的MIME 类型决定了XHR 对象如何处理它，所以提供一种方法能够重写服务器返回的MIME 类型是很有用的。
 				xhr.overrideMimeType("text/xml");
@@ -2396,7 +2396,7 @@ js （大部分api 在js.txt 里）
 					lengthComputable		是一个表示进度信息是否可用的布尔值
 					position 				表示已经接收的字节数
 					totalSize 				表示根据Content-Length 响应头部确定的预期字节数
-				
+
 				例子：
 					xhr.onprogress = function(event){
 						if (event.lengthComputable){
@@ -2454,7 +2454,7 @@ js （大部分api 在js.txt 里）
 			长轮询			发起请求后，一直等待到有数据返回
 			HTTP 流			这个是利用 readyState状态为3 和 onreadystatechange事件来处理。
 							只要请求连接保持不断开，然后每次一点一点的把数据扔出来
-		
+
 		安全（可以参考“JavaScript高级程序设计(第三版)” 21.6 )
 
 	高级技巧
@@ -2651,9 +2651,9 @@ js （大部分api 在js.txt 里）
                     值
                     域                  限制同域名下才能访问
                     路径                限制在某个路径下的请求才能访问到改cookie
-                    失效时间            
+                    失效时间
                     安全标志            不懂
-                
+
                 封装（可以参考“JavaScript高级程序设计(第三版)” 23.3.1 有着更详细的封装)
                 var CookieUtil = {
                     get: function (name) {
@@ -2691,11 +2691,11 @@ js （大部分api 在js.txt 里）
                         this.set(name, "", new Date(0), path, domain, secure);
                     }
                 };
-        
+
             IE用户数据（可以参考“JavaScript高级程序设计(第三版)” 23.3.2)
 
             Web存储机制（可以参考“JavaScript高级程序设计(第三版)” 23.3  有特定于 ie8 的写法)
-                
+
                 Storage 类型提供最大的存储空间（因浏览器而异）来存储名值对儿。Storage 的实例与其他对象类似，有如下方法。
                     getItem(name)                   根据指定的名字name 获取对应的值。
                     setItem(name, value)            为指定的name 设置一个对应的值。
@@ -2747,7 +2747,7 @@ js （大部分api 在js.txt 里）
                      如果是希望对象包含某个特定的方法名，则使用 typeof 操作符确保指定名字的方法存在于对象上
 
                 使用常量
-    
+
         性能（可以参考“JavaScript高级程序设计(第三版)” 24.2)
             注意作用域
                 避免全局查找
@@ -2856,7 +2856,7 @@ js （大部分api 在js.txt 里）
                             process(values[i++]);
                             process(values[i++]);
                         } while (--iterations > 0);
-                        
+
                         这个方法几乎比原始的 Duff装置实现快上 40%。
 
                         针对大数据集使用展开循环可以节省很多时间，但对于小数据集，额外的开销则可能得不偿失。
@@ -2874,7 +2874,7 @@ js （大部分api 在js.txt 里）
                     原生方法较快
                     Switch 语句较快
                     位运算符较快
-            
+
             最小化语句数
                 插入迭代值
                     当使用迭代值（也就是在不同的位置进行增加或减少的值）的时候，尽可能合并语句。
