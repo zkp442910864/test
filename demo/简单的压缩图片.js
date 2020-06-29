@@ -8,15 +8,15 @@ const compress = {
             reader.onload = function (e) {
                 let image = new Image(); //新建一个img标签（还没嵌入DOM节点)
                 image.src = e.target.result;
-            
+
                 image.onload = function() {
-                    let canvas = document.createElement('canvas'), 
+                    let canvas = document.createElement('canvas'),
                         context = canvas.getContext('2d'),
                         data = '',
                         imageWidth = image.width,
                         imageHeight = image.height;
 
-                    
+
                     if (!(imageWidth > 750 && file.type.indexOf('png') === -1)) {
                         rel(file);
                         return;
@@ -27,14 +27,14 @@ const compress = {
                     //压缩后图片的大小
                     imageHeight = 750 * imageHeight / imageWidth;
                     imageWidth = 750;
-                    
+
 
                     canvas.width = imageWidth;
                     canvas.height = imageHeight;
 
                     context.drawImage(image, 0, 0, imageWidth, imageHeight);
                     data = canvas.toDataURL('image/jpeg');
-                    //压缩完成 
+                    //压缩完成
                     rel(new File([self.convertBase64UrlToBlob(data)], file.name, {type: 'image/jpeg', lastModified: Date.now()}));
                 }
             }
@@ -51,6 +51,6 @@ const compress = {
         return new Blob([ab], { type: 'image/png' });
     },
     run (file) {
-        return this.process(file);  
+        return this.process(file);
     }
 }

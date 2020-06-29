@@ -34,9 +34,9 @@ https://www.v2ex.com/t/227773?utm_source=tool.lu
 		同源策略是一堵墙，然而墙并非不透风。有很多方法可以绕过同源策略让 javascript 访问其他源的资源。
 
 		如：
-			JSONP 
+			JSONP
 			基于 iframe 的方法（ iframe+window.name iframe+window.domain iframe+webMessage ）
-			CORS 
+			CORS
 		同源策略是浏览器安全策略的基础，但同源策略面对很多攻击是无能为力的，比如 XSS
 
 	XSS(Cross-Site Script)
@@ -83,8 +83,8 @@ https://www.v2ex.com/t/227773?utm_source=tool.lu
 	CSP(Content Security Policy)
 	 	从原理上说防止 XSS 是很简单的一件事，但实际中，业务代码非常多样和复杂，漏洞还是时不时会出现。
 	 	CSP 并不是用来防止 XSS 攻击的，而是最小化 XSS 发生后所造成的伤害。
-	 	事实上，除了开发者自己做好 XSS 转义，并没有别的方法可以防止 XSS 的发生。 
-	 	CSP 可以说是 html5 给 Web 安全带来的最实惠的东西。 
+	 	事实上，除了开发者自己做好 XSS 转义，并没有别的方法可以防止 XSS 的发生。
+	 	CSP 可以说是 html5 给 Web 安全带来的最实惠的东西。
 	 	CSP 的作用是限制一个页面的行为不论是否是 javacript 控制的。
 	 	如何引入 CSP 呢？
 	 		通过 response 头

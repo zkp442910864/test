@@ -3,6 +3,32 @@
     对于手机端的展示兼容，主要是按一个标准值来进行放大缩小
     现在一般是按 iphone6 的尺寸为标准，设计稿为 750px 来进行开发
 
+    第一种
+        const setSize = () => {
+            var scale = 1 / (window.devicePixelRatio || 1);
+            document.querySelector('meta[name="viewport"]').setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+
+            var deviceWidth = document.documentElement.clientWidth;
+            document.documentElement.style.fontSize = (deviceWidth * 16 / 375 * 3) + 'px';
+        };
+
+    第二种
+        /**
+        * ================================================
+        *   设置根元素font-size
+        * 当设备宽度为375(iPhone6)时，根元素font-size=16px;
+        * 当设备宽度为1920(设计稿)时，根元素font-size=100px;
+        × ================================================
+        */
+        (() => {
+            var scale = 1 / window.devicePixelRatio;
+            document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+
+            var deviceWidth = document.documentElement.clientWidth;
+            document.documentElement.style.fontSize = Math.min(deviceWidth, 1920) / 19.2 + 'px';
+        })();
+
+
 
 设备像素（dpr）
     window.devicePixelRatio
@@ -32,8 +58,8 @@
      /**
         * ================================================
         *   设置根元素font-size
-        * 当设备宽度为375(iPhone6)时，根元素font-size=16px; 
-        * 当设备宽度为1920(设计稿)时，根元素font-size=100px; 
+        * 当设备宽度为375(iPhone6)时，根元素font-size=16px;
+        * 当设备宽度为1920(设计稿)时，根元素font-size=100px;
         × ================================================
         */
     document.documentElement.style.fontSize = 100 * deviceWidth / 1920+ 'px';
@@ -96,7 +122,7 @@
         /**
         * ================================================
         *   设置根元素font-size
-        * 当设备宽度为375(iPhone6)时，根元素font-size=16px; 
+        * 当设备宽度为375(iPhone6)时，根元素font-size=16px;
         × ================================================
         */
         var refreshRem = function () {

@@ -23,6 +23,13 @@ https://baijiahao.baidu.com/s?id=1619544681032320225&wfr=spider&for=pc
     git push -u origin master
 
 
+    查看分支
+        git branch
+
+    合并分支
+        git merge orgin/xxx
+
+
 
 提交代码
     // 查看要提交的文件

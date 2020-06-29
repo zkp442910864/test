@@ -38,48 +38,6 @@ document.getElementById('a').onchange = function () {
 }
 
 
-/**
- * 	<img usemap="#man" ng-src="{{img}}" class="portrait" alt="" id="z-images">
- * 	<map name="man" id="man">
-		<area shape="rect" coords="{{calculate('168,56,218,76')}}" ng-click="rq({bodyPart: '眼'})" />
-	</map>
- * 计算图片缩放比例，放大缩小图上坐标点
- * 以图片大小为标准
- * 页面显示图片大小为参照物
- * 		大的 / 小的，得到比例
- * 		再去处理坐标点 （注意大于和小于不同的处理方法）
- * @param {*} valstr 
- */
-function calculate (valstr) {
-    var arr = valstr.split(',');
-    $scope.imagesDom = document.getElementById('z-images');
-
-    if (!$scope.imagesDom) {
-        return valstr;
-    }
-
-    var width = $scope.imagesDom.offsetWidth;
-    // var height = 739 - $scope.imagesDom.offsetHeight;
-    // var proportion = (width / height).toFixed(2);
-    var proportion = null;
-    var arr2 = [];
-
-    if (389 >= width) {
-        proportion = 389 / width;
-        for (var i in arr) {
-            arr2[i] = parseInt(Number(arr[i]) / Number(proportion));
-        }
-    } else {
-        proportion = width / 389;
-        for (var i in arr) {
-            arr2[i] = parseInt(Number(arr[i]) * Number(proportion));
-        }
-    }
-
-    return arr2.join();
-}
-
-
 // https://www.jianshu.com/p/bc94380c4a22
 function press (r) {
 	/* 百分比与角度的关系
@@ -87,7 +45,7 @@ function press (r) {
 	* 角度与周长的关系
 	* 360度对应长度为800->0.45deg=1px
 	* 百分比与周长的关系
-	* 100%对应周长800->0.125%=1px           
+	* 100%对应周长800->0.125%=1px
 	* ----->1%=8px
 	* 45deg=100px(角度对应的周长)=50%(clip-path中的百分比)
 	* ------->100%(百分比值)=400%(clip-path中的百分比)
@@ -122,8 +80,6 @@ function press (r) {
     /**
      * polygon(50% 50%, 0% 0%, 100% 0%,100% 100%,0% 100%,0% 0%)
      * polygon(50% 50%, 100% 100%,0% 100%,0% 0%)
-     * 
-     * 
      * polygon(50% 50%, 40% 0%, 100% 0%,100% 100%,0% 100%,0% 40%)
      * polygon(50% 50%, 100% 100%,0% 100%,0% 40%)
      */

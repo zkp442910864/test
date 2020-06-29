@@ -47,7 +47,7 @@
 			{
 				'@file': path.resolve(__dirname, "../src/assets")
 			}
-			
+
 			js 中： @import "@file/style/theme"
 			css module 中： @import "~@file/style/theme"
 			css 属性中： background: url("~@file/assets/xxx.jpg")

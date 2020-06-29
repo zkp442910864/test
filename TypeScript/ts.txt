@@ -19,10 +19,10 @@ TypeScript 基础
 			let name: any[] = ['1', 2, true];
 
 		Void
-			void类型像是与any类型相反，它表示没有任何类型。 
+			void类型像是与any类型相反，它表示没有任何类型。
 			声明一个void类型的变量没有什么大用，因为你只能为它赋予undefined和null
 			let unusable: void = undefined;
-		
+
 		Null 和 Undefined
 			let u: undefined = undefined;
 			let n: null = null;
@@ -54,17 +54,17 @@ TypeScript 基础
 
 		只读
 			readonly		声明只读属性，必须在声明时或构造函数里被初始化。
-		
+
 		get/set 存取器
-			首先，存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。 
-			其次，只带有 get不带有 set的存取器自动被推断为 readonly。 
+			首先，存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。
+			其次，只带有 get不带有 set的存取器自动被推断为 readonly。
 			在从代码生成 .d.ts文件时是有帮助的，因为利用这个属性的用户会看到不允许够改变它的值。
 
 			针对于私有属性的
 			private _a: string;
 			get a () {}
 			set a () {}
-		
+
 		抽象类
 			abstract
 			抽象类做为其它派生类的基类使用。抽象类不能进行实例化
@@ -147,7 +147,7 @@ TypeScript 基础
 	outDir：编译输出JavaScript文件存放的文件夹。
 	include、exclude：编译时需要包含/剔除的文件夹。
 
-3.运行 
+3.运行
 	1) vs code 任务->配置任务->监视tsconfig.json
 		vs code 插件
 			Auto Import : 对于一堆组件的我们来说，这货简直贴心，支持JSX和typescript，还有一些细致化的配置参数
@@ -157,8 +157,7 @@ TypeScript 基础
 			Typings : 这个就是用来处理d.ts的
 			AngularDoc for Visual Studio Code : 这个插件可以分析整个项目的依赖生成一个类似思维导图的（经常嗝屁，用了懒加载之后基本不全），
 																					但是有另外一个相当实用的功能就是可以调用angular-cli的新建指令，在侧边栏右键可以直接看到;
-	2) 控制台输入 
+	2) 控制台输入
 		tsc && node ./greeter    './greeter'是ts文件路径，不需要后缀
 		tsc greeter.ts
 		tsc --watch -p 文件   监听文件的变化生成
-			
