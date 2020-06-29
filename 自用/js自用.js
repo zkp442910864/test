@@ -130,6 +130,33 @@ function press (r) {
 }
 
 
+// 根据 parentId 把数据归类
+function fn2 (list) {
+
+    const obj = {};
+
+    list.forEach((item) => {
+        const key = item.parentId;
+        const id = item.id;
+
+        // 创建每组数据
+        obj[key] = obj[key] || [];
+        obj[key].push(item);
+
+        // 为每条数据 挂上对应的子 children
+        obj[id] = obj[id] || [];
+        item.children = obj[id];
+    });
+
+    // 删除多余的空数组
+    list.forEach((item) => {
+        if (item.children && !item.children.length) delete item.children;
+    });
+
+    return obj['0'];
+}
+
+
 
 
 
