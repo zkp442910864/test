@@ -24,6 +24,8 @@
 
         【npm publish/login/logout】 发布/登录/登出,一系列NPM Registry操作
 
+        【npm cache clean --force】 清缓存
+
     yarn
         【yarn init】 初始化
 
@@ -36,6 +38,8 @@
         【yarn remove xxx】 删除某个模块
 
         【yarn publish/login/logout】 发布/登录/登出,一系列NPM Registry操作
+
+        【yarn cache clean】 清缓存
 
 
 
