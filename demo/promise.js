@@ -1,50 +1,69 @@
 
+// 观察者模式
+// 收集依赖 -> 触发通知 -> 取出依赖执行
+// 在Promise里，执行顺序是then收集依赖 -> 异步触发resolve -> resolve执行依赖
 
 // Promise/A+规范的三种状态 Pending（等待态）、Fulfilled（执行态）、Rejected（拒绝态）
+// Pending -> Fulfilled
+// Pending -> Rejected
+// 状态变更不可逆
+
 const PENDING = 'pending';
 const FULFILLED = 'fulfilled';
 const REJECTED = 'rejected';
 
 class Promise3 {
     constructor (executor) {
+        // _relTeam、_rejTeam 两个执行函数队列
+        // _value 第一次执行时，传入的值，保存下来，以便下次调用
         this._status = PENDING;
         this._relTeam = [];
-        this._relVal = null;
         this._rejTeam = [];
-        this._rejVal = null;
+        this._value = null;
 
+        // 两个对调函数的处理，在执行的同时改变当前 Promise 状态，同时存储值
         const rel = (val) => {
-            if (this._status !== PENDING) return;
-            this._status = FULFILLED;
-            this._relVal = val;
-            while (this._relTeam.length) {
-                const fn = this._relTeam.shift();
-                fn(val);
-            }
+            //把resolve执行回调的操作封装成一个函数,放进setTimeout里,以兼容executor是同步代码的情况
+            setTimeout(() => {
+                if (this._status !== PENDING) return;
+                // 状态变更
+                this._status = FULFILLED;
+                this._value = val;
+                while (this._relTeam.length) {
+                    const fn = this._relTeam.shift();
+                    fn(val);
+                }
+            });
+
         };
 
         const rej = (val) => {
-            if (this._status !== PENDING) return;
-            this._status = REJECTED;
-            this._rejVal = val;
-            while (this._rejTeam.length) {
-                const fn = this._rejTeam.shift();
-                fn(val);
-            }
+            setTimeout(() => {
+                if (this._status !== PENDING) return;
+                this._status = REJECTED;
+                this._value = val;
+                while (this._rejTeam.length) {
+                    const fn = this._rejTeam.shift();
+                    fn(val);
+                }
+            });
         };
 
         executor(rel, rej);
     }
 
     then (success, error) {
-        // console.log(1);
+        // 值穿透 处理方式
         success = success ? success : ((val) => val);
         error = error ? error : ((val) => val);
+
+        // then的链式调用
         return new Promise3((rel, rej) => {
-            const _status = this._status;
+            // 这里的 this 指向的上个Promise，注意箭头函数
 
             const relFun = (val) => {
                 try {
+                    // 执行第一个(当前的)Promise的成功回调,并获取返回值
                     const sVal = success(val);
                     sVal instanceof Promise3 ? sVal.then(rel, rej) : rel(sVal);
                 } catch (error) {
@@ -61,16 +80,16 @@ class Promise3 {
                 }
             }
 
-            switch (_status) {
+            switch (this._status) {
                 case PENDING:
                     this._relTeam.push(relFun);
                     this._rejTeam.push(rejFun);
                     break;
                 case FULFILLED:
-                    relFun(this._relVal);
+                    relFun(this._value);
                     break;
                 case REJECTED:
-                    rejFun(this._rejVal);
+                    rejFun(this._value);
                     break;
                 default:
                     break;
@@ -84,43 +103,69 @@ class Promise3 {
 
     finally (cb) {
         return this.then(
-            (val) => {cb();return Promise3.resolve(val)},
-            (val) => {cb();return Promise3.reject(val)},
+            (val) => {cb(val);return Promise3.resolve(val)},
+            (val) => {cb(val);return Promise3.reject(val)},
         );
     }
-}
 
-Promise3.resolve = function (val) {
-    return val instanceof Promise3 ? val : new Promise3((rel) => rel(val));
-}
-Promise3.reject = function (val) {
-    return val instanceof Promise3 ? val : new Promise3((rel, rej) => rej(val));
-}
-Promise3.all = function (arr) {
-    return new Promise3((rel, rej) => {
-        const valArr = [];
-        let index = -1;
-        arr.forEach((fn) => {
-            fn.then((res) => {
-                index++;
-                valArr[index] = res;
-                if (index === arr.length -1) {
-                    rel(valArr);
-                }
-            }).catch((err) => {
-                rej(err);
+    static resolve (val) {
+        return val instanceof Promise3 ? val : new Promise3((rel) => rel(val));
+    }
+
+    static reject (val) {
+        return val instanceof Promise3 ? val : new Promise3((rel, rej) => rej(val));
+    }
+
+    // 一旦迭代器中的某个promise解决或拒绝，返回的 promise就会解决或拒绝。
+    static race (arr) {
+        return new Promise3((rel, rej) => {
+            arr.forEach((fn) => {
+                fn.then((val) => rel(val), (val) => rej(val));
+            })
+        });
+    }
+
+    static all (arr) {
+        return new Promise3((rel, rej) => {
+            const valArr = [];
+            let index = -1;
+            arr.forEach((fn) => {
+                fn.then((res) => {
+                    index++;
+                    valArr[index] = res;
+                    if (index === arr.length -1) {
+                        rel(valArr);
+                    }
+                }).catch((err) => {
+                    rej(err);
+                });
             });
         });
-    });
-}
-Promise3.race = function (arr) {
-    return new Promise3((rel, rej) => {
-        arr.forEach((fn) => {
-            fn.then((val) => rel(val), (val) => rej(val));
-        })
-    });
-}
+    }
 
+    // 只有等到所有这些参数实例都返回结果，不管是fulfilled还是rejected，包装实例才会结束。
+    static allSettled (arr) {
+        return new Promise3((rel, rej) => {
+            const valArr = [];
+            let index = -1;
+            arr.forEach((fn) => {
+                fn.then((res) => {
+                    valArr.push({status: 'fulfilled', value: res});
+                    index++;
+                    if (index === arr.length -1) {
+                        rel(valArr);
+                    }
+                }).catch((res) => {
+                    valArr.push({status: 'rejected', reason: res});
+                    index++;
+                    if (index === arr.length -1) {
+                        rel(valArr);
+                    }
+                });
+            });
+        });
+    }
+}
 
 class Promise2 {
     constructor (cb) {

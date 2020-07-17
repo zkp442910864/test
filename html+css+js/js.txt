@@ -51,6 +51,10 @@
         )
         从里取到 zEmpty, toast, copyObj, confirm, jsCopyObj
 
+    埋点
+        navigator.sendBeacon() 方法可用于通过HTTP将少量数据异步传输到Web服务器。unload 的情况下依然能发送请求出去
+        https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon
+
 
 
 异常错误
