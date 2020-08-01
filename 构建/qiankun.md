@@ -6,31 +6,47 @@
         https://github.com/hql7/wl-micro-frontends
         https://www.javascriptc.com/3977.html
 
+     注意点
+        vue.config.js 配置项
+            publicPath
+                路由使用 mode: 'history' 时，建议使用绝对路径，不然加载资源在多层级时会报错
+                路由使用 mode: 'hash' 时，可以使用相对路径，当 base 貌似不生效，可以自己在项目里根据环境判断，自行处理，增加前缀
+                    建议路由跳转使用 name 进行跳转
+
+            devServer: {
+                // 本地开发加上这个，允许跨域请求，服务器上要记得配置
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                }
+            }
+
+            externals 使用了这个的要注意，可能会引起一系列问题
+                1.window.Vue 貌似和子应用有冲突，目前是直接 delete window.Vue; 或者不要用 externals 引入文件
+                2.同时（主和子）引用了 'https://webapi.amap.com/maps?v=1.4.6&key=5bffe31c75ddac4470b6104b67a7e872'，会报错，把子应用的去掉就可以了
+                估计都是因为挂载到 window 上引起的
+
+            子应用打包方式
+                chainWebpack: (config) => {
+                    // 以这种输出方式，主应用才能识别到子应用
+                    config.output
+                        .jsonpFunction(`webpackJsonp_${packageName}`)
+                        .library(`${packageName}-[name]`)
+                        .libraryTarget('umd');
+                }
+
+        其它
+            判断是否 qiankun 环境
+            const isQianKun = window.__POWERED_BY_QIANKUN__;
+
+            子应用需要使用这个，加载资源用
+            __webpack_public_path__ = window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__;
+
+
     基于Vue-cli3 实现
         主应用
-            注意点
-                vue.config.js 配置项
-                    publicPath
-                        使用绝对路径
-                        mode: 'history' 当路由使用这种模式，相对路径刷新会报错（貌似是因为请求路径出现错了）
-
-                    devServer: {
-                        // 本地开发加上这个，允许跨域请求，服务器上要记得配置
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                        }
-                    }
-
-                    externals 使用了这个的要注意，可能会引起一系列问题
-                        1.window.Vue 貌似和子应用有冲突，目前是直接 delete window.Vue; 或者不要用 externals 引入文件
-                        2.同时（主和子）引用了 'https://webapi.amap.com/maps?v=1.4.6&key=5bffe31c75ddac4470b6104b67a7e872'，会报错，把子应用的去掉就可以了
-                        估计都是因为挂载到 window 上引起的
-
-                路由使用 mode: 'history'， hash 貌似有问题
-
             main.ts 的内容
                 import {registerMicroApps, start} from 'qiankun';
-                let app: Vue | null = null;
+                let app: any = null;
                 function render ({appContent, loading}: any = {}) {
                     // debugger
                     if (!app) {
@@ -69,6 +85,7 @@
                             container: '#yourContainer',
                             // 路由匹配到 ‘/manage’ 的路径就启用注册的子应用
                             activeRule: location => location.pathname.startsWith('/manage'),
+                            // activeRule: location => location.hash.startsWith('#/manage'),
                             // 渲染函数
                             render,
                             // 传递到子应用的数据
@@ -96,29 +113,6 @@
                     }
 
         子应用
-            注意点
-                vue.config.js 配置项
-                    publicPath
-                        使用绝对路径
-                        mode: 'history' 当路由使用这种模式，相对路径刷新会报错（貌似是因为请求路径出现错了）
-
-
-                    devServer: {
-                        // 本地开发加上这个，允许跨域请求，服务器上要记得配置
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                        }
-                    }
-
-                    chainWebpack: (config) => {
-                        // 以这种输出方式，主应用才能识别到子应用
-                        config.output
-                            .jsonpFunction(`webpackJsonp_${packageName}`)
-                            .library(`${packageName}-[name]`)
-                            .libraryTarget('umd');
-                    }
-
-                    externals 使用了这个的要注意，可能会引起一系列问题
 
             main.ts 的内容
                 // 判断是否 qiankun 环境
