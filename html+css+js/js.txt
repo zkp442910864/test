@@ -55,6 +55,12 @@
         navigator.sendBeacon() 方法可用于通过HTTP将少量数据异步传输到Web服务器。unload 的情况下依然能发送请求出去
         https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon
 
+    数组去重
+        var uniqueFruits2 = [...new Set([1,2,3,4,5,123,4,5,1,2])];
+
+    两个数组的交集
+        [...new Set([1,2,3,4,5])].filter(item => [1,2,3].includes(item));
+
 
 
 异常错误
