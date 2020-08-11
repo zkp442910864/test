@@ -1,6 +1,15 @@
 
 技巧
     vue-cli3脚手架
+        eslint 工作区多项不起作用时，可以尝试升级/降级 eslint 相关的，特别是下面三个（记得重新加载窗口）
+            "eslint": "5.16.0",
+            "eslint-plugin-standard": "^4.0.1",
+            "eslint-plugin-vue": "5.0.0",
+
+            .eslintrc.js 这个文件可以复制之前有效的
+                extends 注意这个
+
+
         有的电脑不知道为什么，不能用ip打开网站，通过修改源文件实现
             \node_modules\@vue\cli-service\lib\commands\serve.js
 
