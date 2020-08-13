@@ -89,6 +89,7 @@ ES6:
 			'na'.repeat(0) // ""
 
 		padStart()，padEnd()
+            填补值
 			'x'.padStart(4, 'ab') // 'abax'
 			'x'.padEnd(5, 'ab') // 'xabab'
 
@@ -100,7 +101,7 @@ ES6:
 
 			'12'.padStart(10, 'YYYY-MM-DD') // "YYYY-MM-12"
 			'09-12'.padStart(10, 'YYYY-MM-DD') // "YYYY-09-12"
-            
+
     数组的扩展
         from 				方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
             Array.from(arrayLike, x => x * x)
@@ -110,7 +111,7 @@ ES6:
 
             Array.from({ length: 2 }, () => 'jack')
             // ['jack', 'jack'] 关键在length的长度
-        
+
         of
             Array.of方法用于将一组值，转换为数组。
             Array.of() // []
@@ -131,7 +132,7 @@ ES6:
             // -2相当于3号位，-1相当于4号位,注意：好像要反过来
             [1, 2, 3, 4, 5].copyWithin(0, -2, -1)
             // [4, 2, 3, 4, 5]
-        
+
         数组实例的 fill()
             fill方法使用给定值，填充一个数组, 注意，如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
                 ['a', 'b', 'c'].fill(7)
@@ -149,7 +150,7 @@ ES6:
                 arr
                 // [[5], [5], [5]]
 
-        数组实例的 entries()，keys() 和 values() 
+        数组实例的 entries()，keys() 和 values()
             ES6 提供三个新的方法——entries()，keys()和values()——用于遍历数组。
             它们都返回一个遍历器对象（详见《Iterator》一章），可以用for...of循环进行遍历，唯一的区别是keys()是对键名的遍历、values()是对键值的遍历，entries()是对键值对的遍历。
             for (let index of ['a', 'b'].keys()) {
@@ -243,7 +244,7 @@ ES6:
 			Math.asinh(x) 返回x的反双曲正弦（inverse hyperbolic sine）
 			Math.acosh(x) 返回x的反双曲余弦（inverse hyperbolic cosine）
 			Math.atanh(x) 返回x的反双曲正切（inverse hyperbolic tangent）
-		
+
 		指数运算符 (**)
 			2 ** 2 // 4
 			2 ** 3 // 8
@@ -302,7 +303,7 @@ ES6:
 			函数的 name 属性，返回 函数名。对象方法也是函数，因此也有 name 属性
 				const person = {sayName() {console.log('hello!')}};
 				person.sayName.name   // "sayName"
-			
+
 			有两种特殊情况：bind方法创造的函数，name属性返回bound加上原函数的名字；Function构造函数创造的函数，name属性返回anonymous。
 				(new Function()).name // "anonymous"
 				var doSomething = function() {};
@@ -360,7 +361,7 @@ ES6:
 				（3）数组的处理
 				（4）取值函数的处理
 
-			常见用途 
+			常见用途
 				（1）为对象添加属性 Object.assign(this, {x, y});
 				（2）为对象添加方法
 				（3）克隆对象 Object.assign({}, origin);
@@ -408,12 +409,12 @@ ES6:
 			Symbol.keyFor方法返回一个已登记的 Symbol 类型值的key。只有在 Symbol.for 登记的才能查到
 			Symbol.for为 Symbol 值登记的名字，是全局环境的，可以在不同的 iframe 或 service worker 中取到同一个值。
 
-		内置的 Symbol 值 
+		内置的 Symbol 值
 			Symbol.hasInstance
 				当其他对象使用instanceof运算符，判断是否为该对象的实例时，会调用这个方法。比如，foo instanceof Foo在语言内部，实际调用的是Foo[Symbol.hasInstance](foo)。
 					class MyClass {[Symbol.hasInstance](foo) {return foo instanceof Array;}}
 					[1, 2, 3] instanceof new MyClass() // true
-			
+
 			Symbol.isConcatSpreadable
 			Symbol.species 对象的Symbol.species属性，指向一个构造函数。创建衍生对象时，会使用该属性。
 			Symbol.match
@@ -447,8 +448,8 @@ ES6:
 			forEach()：遍历 Map 的所有成员。
 				for (let key of map.keys()) {console.log(key);}
 
-				for (let [key, value] of map) {console.log(key, value);} // 等同于使用map.entries() 
-		
+				for (let [key, value] of map) {console.log(key, value);} // 等同于使用map.entries()
+
 		Map 结构转为数组结构，比较快速的方法是使用扩展运算符（...）。
 
 	WeakMap
@@ -481,7 +482,7 @@ ES6:
 				apply方法可以接受三个参数，分别是目标对象、目标对象的上下文对象（this）和目标对象的参数数组。
 			has()
 				has方法用来拦截HasProperty操作，即判断对象是否具有某个属性时，这个方法会生效。典型的操作就是in运算符。
-			construct() 
+			construct()
 				construct方法用于拦截new命令，下面是拦截对象的写法。
 			...
 
@@ -550,7 +551,7 @@ ES6:
 				};
 				const proxy = new Proxy(target, handler);
 				proxy.getDate() // 1
-		 
+
 	Reflect
 		http://es6.ruanyifeng.com/#docs/reflect
 		Reflect对象与Proxy对象一样，也是 ES6 为了操作对象而提供的新 API。Reflect对象的设计目的有这样几个。
@@ -573,7 +574,7 @@ ES6:
 
 		每一个Proxy对象的拦截操作（get、delete、has），内部都调用对应的Reflect方法，保证原生行为能够正常执行。
 		添加的工作，就是将每一个操作输出一行日志。
-	
+
 		Reflect对象一共有 13 个静态方法。
 			Reflect.apply(target, thisArg, args)
 			Reflect.construct(target, args)
@@ -587,7 +588,7 @@ ES6:
 			Reflect.preventExtensions(target)
 			Reflect.getOwnPropertyDescriptor(target, name)
 			Reflect.getPrototypeOf(target)
-			Reflect.setPrototypeOf(target, prototype) 
+			Reflect.setPrototypeOf(target, prototype)
 			上面这些方法的作用，大部分与Object对象的同名方法的作用都是相同的，而且它与Proxy对象的方法是一一对应的
 
 		实例：使用 Proxy 实现观察者模式
@@ -641,7 +642,7 @@ ES6:
 			只要 Promise 数据 之中有一个被rejected，返回的状态就变成rejected
 			注意，如果作为参数的 Promise 实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise.all()的catch方法。
 				但只是当前的 Promise 实例，返回的数据是错误的，依然会执行 Promise.all().then()
-				
+
 		Promise.race()          Promise.race方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。
 			const p = Promise.race([p1, p2, p3]);
 			基本同上，但是会率先返回,执行 Promise.race() 的 then，其他的不会在执行 Promise.race() 的 then
@@ -676,7 +677,7 @@ ES6:
 			必须调用遍历器对象的next方法，使得指针移向下一个状态。
 			也就是说，每次调用next方法，内部指针就从函数头部或上一次停下来的地方开始执行，直到遇到下一个yield表达式（或return语句）为止。
 			换言之，Generator 函数是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行。
-			
+
 		yield 表达式
 			由于 Generator 函数返回的遍历器对象，只有调用next方法才会遍历下一个内部状态，所以其实提供了一种可以暂停执行的函数。yield表达式就是暂停标志。
 			（1）遇到yield表达式，就暂停执行后面的操作，并将紧跟在yield后面的那个表达式的值，作为返回的对象的value属性值。
@@ -782,7 +783,7 @@ ES6:
 					await Promise.reject('出错了');
 					await Promise.resolve('hello world'); // 不会执行
 				}
-		
+
 		使用注意点
 			第一点，前面已经说过，await命令后面的Promise对象，运行结果可能是rejected，所以最好把await命令放在try...catch代码块中。
 			第二点，多个await命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。
@@ -875,7 +876,7 @@ ES6:
 		类的 prototype 属性和__proto__属性
 			子类的__proto__属性，表示构造函数的继承，总是指向父类。
 			子类prototype属性的__proto__属性，表示方法的继承，总是指向父类的prototype属性。
-		
+
 		实例的 __proto__ 属性
 
 	修饰器
@@ -999,7 +1000,7 @@ ES6:
 		http://es6.ruanyifeng.com/#docs/module
 		在 ES6 之前,模块加载方案  运行时加载
 		ES6 模块的设计思想是尽量的静态化  编译时加载 或者 静态加载
-		
+
 		严格模式
 			ES6 的模块自动采用严格模式，不管你有没有在模块头部加上"use strict"
 
@@ -1090,7 +1091,7 @@ ES6:
 				（1）按需加载。
 				（2）条件加载
 				（3）动态的模块路径
-			
+
 			注意
 				import()加载模块成功以后，这个模块会作为一个对象，当作then方法的参数。因此，可以使用对象解构赋值的语法，获取输出接口。
 
@@ -1116,10 +1117,10 @@ ES6:
 				ES6 module transpiler
 					 square 公司开源的一个转码器，可以将 ES6 模块转为 CommonJS 模块或 AMD 模块的写法，从而在浏览器中使用。
 					 $ npm install -g es6-module-transpiler
-				
+
 				SystemJS
 					使用 SystemJS。它是一个垫片库（polyfill），可以在浏览器内加载 ES6 模块、AMD 模块和 CommonJS 模块，将其转为 ES5 格式。它在后台调用的是 Google 的 Traceur 转码器。
-	
+
 	编程风格
 		http://es6.ruanyifeng.com/#docs/style
 
@@ -1137,7 +1138,7 @@ ES6:
 
 	最新提案
 		http://es6.ruanyifeng.com/#docs/proposals
-	
+
 	参考链接
 		http://es6.ruanyifeng.com/#docs/reference
 

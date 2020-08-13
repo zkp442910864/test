@@ -1,5 +1,7 @@
 ﻿http://matthewlein.com/ceaser/		贝塞尔曲线
 
+https://github.com/telmomarques/animate-plus.js/
+https://animate.style/
 
 代码写动画
 	$('body').animate({scrollTop:0},300);
