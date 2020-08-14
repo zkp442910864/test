@@ -61,6 +61,14 @@
     两个数组的交集
         [...new Set([1,2,3,4,5])].filter(item => [1,2,3].includes(item));
 
+    禁止网页复制粘贴
+        const html = document.querySelector('html')
+        html.oncopy = () => false
+        html.onpaste = () => false
+
+    input框限制只能输入中文
+        value.replace(/[^\u4e00-\u9fa5]/g, '')
+
 
 
 异常错误
@@ -600,7 +608,7 @@ DOM
     xxx.compareDocumentPosition()	确定节点间的关系 (可以参考“JavaScript高级程序设计(第三版)” 11.4.3 )
 
 
-    getBoundingClientRect() 给出了元素的展示信息
+    getBoundingClientRect() 给出了元素的展示信息   获取当前元素相对于document的偏移量
         元素都提供了一个 getBoundingClientRect() 方法。这个方法返回会一个矩形对象，包含4 个属性：left、top、right 和bottom。这些属性给出了元素在页面中相对于视口的位置。
         自测的浏览器（包含6 个属性：left、top、right、bottom、height 和 width）
         id8 及老版本    返回的都是4个属性
