@@ -3,39 +3,47 @@
 https://github.com/telmomarques/animate-plus.js/
 https://animate.style/
 
-代码写动画
-	$('body').animate({scrollTop:0},300);
 
-	
+技巧
+    css3模拟gif帧动画关于steps（）、step-end使用场景分析
+        https://www.cnblogs.com/pipixiaolaohu/p/7504925.html
+    CSS3中steps()动画的详解
+        https://blog.csdn.net/LY_code/article/details/80209183
+
+
+    代码写动画
+        $('body').animate({scrollTop:0},300);
+
+
 
 transition过渡
 	transition-property  要运动的属性  (宽、高、背景之类的)
 	transition-duration 运动时间	   (过渡的时间)
 	transition-delay 延迟时间
-	transition-timing-function 运动形式 
+	transition-timing-function 运动形式
 		ease：（逐渐变慢）默认值
 		linear：（匀速）
 		ease-in：(加速)
 		ease-out：（减速）
 		ease-in-out：（先加速后减速）
-		cubic-bezier 贝塞尔曲线（ x1, y1, x2, y2 ） 
-	
+		cubic-bezier 贝塞尔曲线（ x1, y1, x2, y2 ）
+
 过渡完成事件 	兼容
-	Webkit： obj.addEventListener('webkitTransitionEnd',function(){},false); 
+	Webkit： obj.addEventListener('webkitTransitionEnd',function(){},false);
 	firefox: obj.addEventListener('transitionend',function(){},false);
 		每个动画完成都会调用(宽高为2个动画)
-	
+
 2D变换基点
 	transform-origin
 	默认中心点位置
 	left  right bottom  top 也可指定具体的像素
 	设置transform-origin: 0 0; 为该div的左上角
 
-2D变换	
+2D变换
 	transform
 	一、
-		rotate()  旋转函数 取值度数					rotate(360deg)	rotateX(360deg)	rotateY(360deg)	
-			deg  度数		
+		rotate()  旋转函数 取值度数					rotate(360deg)	rotateX(360deg)	rotateY(360deg)
+			deg  度数
 			Transform-origin 旋转的基点
 		skew() 倾斜函数 取值度数 					skew(45deg,10deg)
 			skewX()									skewX(45deg)
@@ -46,7 +54,7 @@ transition过渡
 		translate() 位移函数						translate(100px ,100px)
 			translateX()							translateX(100px)
 			translateY()							translateY(100px)
-			
+
 	二、
 		matrix(a,b,c,d,e,f) 矩阵函数    这函数包含了上面4种的功能
 			通过矩阵实现缩放--- a d决定
@@ -59,7 +67,7 @@ transition过渡
 				x轴倾斜: c=Math.tan(xDeg/180*Math.PI)
 				y轴倾斜: b=Math.tan(yDeg/180*Math.PI)
 			通过矩阵实现旋转--matrix(cosθ,sinθ,-sinθ,cosθ,0,0)
-				a=Math.cos(deg/180*Math.PI); 
+				a=Math.cos(deg/180*Math.PI);
 				b=Math.sin(deg/180*Math.PI);
 				c=-Math.sin(deg/180*Math.PI);
 				d=Math.cos(deg/180*Math.PI);
@@ -80,16 +88,16 @@ transition过渡
 		#d1{
 			-webkit-animation: 2s move;
 		}
-			
+
 		@-webkit-keyframes name{
 			from{}
-			to{}		
-		or		
+			to{}
+		or
 			0%{}
 			74%{}
 			100%{}
 		}
-	
+
 	animation-name			动画名称（关键帧名称）
 	animation-duration		动画持续时间
 	animation-delay			动画延迟
@@ -107,37 +115,36 @@ transition过渡
 		ease-out	由快到慢。
 		ease-in-out	由慢到快再到慢。
 		cubic-bezier(number, number, number, number)：特定的贝塞尔曲线类型，4个数值需在[0, 1]区间内
-	 
+
 	可以通过添加class名来执行事先设置好的动画
 
-动画完成事件	
+动画完成事件
 	obj.addEventListener('webkitAnimationEnd', function (){}, false);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
