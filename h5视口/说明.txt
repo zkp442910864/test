@@ -1,4 +1,20 @@
 
+注意点：
+    根节点标签 font-size 不要低于10px
+
+    同一部手机，不同的浏览器上适配，表现不一致（感觉可能是Android 问题）
+        以下只适合小范围的
+        对比了两个浏览器的 userAgent 发现多了 version 这个标识的浏览器，字体会比较小
+        大概在原标准值上增加30% 就差不多了
+        const ua = navigator.userAgent.toLocaleLowerCase();
+        const isSncrease = ua.includes('version');
+
+        以上对 微信小程序无效（小程序内嵌页）
+        mmwebsdk 小程序独有的标识
+        const isSncrease = ua.includes('version') && !ua.includes('mmwebsdk');
+
+
+
 总结：
     对于手机端的展示兼容，主要是按一个标准值来进行放大缩小
     现在一般是按 iphone6 的尺寸为标准，设计稿为 750px 来进行开发

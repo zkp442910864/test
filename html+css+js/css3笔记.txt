@@ -3,8 +3,9 @@
 
 css3
 	技巧
-		pointer-events: none; 可以屏蔽掉所有事件
-		object-fit: cover; 设置img标签图片的缩放
+		pointer-events: none;           可以屏蔽掉所有事件
+		object-fit: cover;              设置img标签图片的缩放
+        background-attachment: fixed;   固定的背景图像
 
         变灰
             ie 使用 grayscale.js
