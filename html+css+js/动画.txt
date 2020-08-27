@@ -16,10 +16,10 @@ https://animate.style/
 
 
 
-transition过渡
-	transition-property  要运动的属性  (宽、高、背景之类的)
-	transition-duration 运动时间	   (过渡的时间)
-	transition-delay 延迟时间
+transition 过渡
+	transition-property     要运动的属性  (宽、高、背景之类的)
+	transition-duration     运动时间	   (过渡的时间)
+	transition-delay        延迟时间
 	transition-timing-function 运动形式
 		ease：（逐渐变慢）默认值
 		linear：（匀速）
@@ -27,6 +27,16 @@ transition过渡
 		ease-out：（减速）
 		ease-in-out：（先加速后减速）
 		cubic-bezier 贝塞尔曲线（ x1, y1, x2, y2 ）
+
+    例子：  可多组数据同时执行
+        transition: background 0.5s ease-in 0.2s;
+            background:     运动的属性
+                  0.5s:     运动时间
+               ease-in:     运动形式
+                  0.2s:     延迟时间
+
+        多组执行
+        transition: background 0.5s ease-in, color 0.3s ease-out;
 
 过渡完成事件 	兼容
 	Webkit： obj.addEventListener('webkitTransitionEnd',function(){},false);
