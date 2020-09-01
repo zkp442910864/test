@@ -78,6 +78,12 @@ css3
             // 暗
             var newColor = lightenDarkenColor("#F06D06", -20);
 
+        倒影
+            注意行高
+            display: block;
+            -webkit-box-reflect: below 0em -webkit-gradient(linear,left top,left bottom, from(rgba(0,0,0,0)),to(rgba(255,255,255,0.1)));
+            line-height: 1.2;
+
 
 
 	单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。
