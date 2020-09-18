@@ -84,6 +84,10 @@ css3
             -webkit-box-reflect: below 0em -webkit-gradient(linear,left top,left bottom, from(rgba(0,0,0,0)),to(rgba(255,255,255,0.1)));
             line-height: 1.2;
 
+        文字竖排
+            writing-mode: vertical-lr;
+            或限制宽度
+
 
 
 	单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。

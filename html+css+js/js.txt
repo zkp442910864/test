@@ -7,8 +7,22 @@
 
 
 
+管道思想，即一个函数的输出值是下一个函数的输入值：
 
+    // pipeline 注意reduce参数的用法，将val作为reduce的第二个参数，也就是回调函数prev的默认值
+    const pipeLine = (...methods) => (val = 0) =>
+        methods.reduce((prev, cur) => cur(prev), val);
 
+    function fun1 (a) {
+        return a + 5
+    }
+    function fun2 (b) {
+        return b + 10
+    }
+    function fun3 (b) {
+        return b + 10
+    }
+    console.log(pipeLine(fun1, fun2, fun3)(10));// 35
 
 
 
