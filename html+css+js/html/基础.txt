@@ -1,0 +1,84 @@
+语义化标签：
+	<html>
+		定义 HTML 文档。
+	<head>
+		定义关于文档的信息。
+	<meta>
+		定义关于 HTML 文档的元信息。
+	<link>
+		定义文档与外部资源的关系。
+	<base>
+		设置界面中所有链接的默认地址或默认目标。写在head
+		例：<base href="http://www.w3school.com.cn/i/" />
+	<a>
+		标签定义超链接，用于从一张页面链接到另一张页面。
+		元素最重要的属性是 href 属性，它指示链接的目标。
+		例：<a href="#">asdd</a>
+	<h1> to <h6>
+		定义 HTML 标题。
+	<p>
+		定义段落。
+	<b>
+		定义粗体字。
+	<i>
+		定义斜体字。
+	<pre>
+		定义预格式文本。
+	<img>
+		定义图像。
+		例：<img src="/i/eg_tulip.jpg"  alt="上海鲜花港 - 郁金香" />  src：路径   alt：显示不出时的提示文
+	<hr>
+		定义水平线。
+	<br>
+		定义换行。
+	dl-dt-dd
+		定义定义列表-定义定义列表中的标题-定义定义列表中项
+		例：<dl>
+			   <dt>计算机</dt>
+			   <dd>用来计算的仪器 ... ...</dd>
+			   <dt>显示器</dt>
+			   <dd>以视觉方式显示信息的装置 ... ...</dd>
+			</dl>
+	ul-li
+		定义无序列表
+	ol-li
+		定义有序列表
+	<select>
+		定义选择列表（下拉列表）。
+		例：<select>
+			  <option value ="volvo">Volvo</option>
+			  <option value ="saab">Saab</option>
+			  <option value="opel">Opel</option>
+			  <option value="audi">Audi</option>
+			</select>
+	<style>
+		定义文档的样式信息。
+	<em>
+		定义强调文本。
+		就是加粗字体
+	<strong>
+		定义强调文本。
+		就是加粗字体
+	<sub>
+		定义下标文本。
+	<sup>
+		定义上标文本。
+	<form action="" method="post">
+		<input type="submit"/>
+	</form>
+		定义供用户输入的 HTML 表单。
+		action:规定当提交表单时向何处发送表单数据。
+		method:请求方式
+	<input>
+		定义输入控件。
+		例：<input type="submit"/> 通过type设置需要的控件
+	<ins>
+		定义被插入文本。
+	<menu>
+		定义命令的列表或菜单。
+	<q>
+		定义短的
+	<blockquote>
+		定义长的引用
+	<cite>
+		定义引用

@@ -1,0 +1,81 @@
+https://baijiahao.baidu.com/s?id=1619544681032320225&wfr=spider&for=pc
+
+
+本地代码同步到 GitHub
+    // 初始化
+    git init
+
+    // 查看要提交的文件
+    git status
+
+    // 配置 .gitignore 忽略不需要的文件
+
+    // 添加
+    git add ***.**
+    git add --all
+
+    // 提交
+    git commit -m "第一次提交"
+
+    在 GitHub 上创建新的库，然后执行第二步 (本地库同步到 GitHub 上)
+
+    git remote add origin ***
+    git push -u origin master
+
+
+    查看分支
+        git branch
+
+    合并分支
+        git merge orgin/xxx
+
+
+
+提交代码
+    // 查看要提交的文件
+    git status
+
+    // 添加
+    git add ***.**
+    git add --all
+
+    // 提交
+    git commit -m "第一次提交"
+
+    git push
+
+一、使用git在本地创建一个项目的过程
+    首先得在github或者git@OSC上创建一个hello-world项目。本地才能进行推送
+    $ makdir ~/hello-world    //创建一个项目hello-world
+    $ cd ~/hello-world       //打开这个项目
+    $ git init             //初始化 
+    $ touch README
+    $ git add README        //更新README文件
+    $ git commit -m 'first commit'     //提交更新，并注释信息“first commit” 
+    $ git remote add origin git@github.com:defnngj/hello-world.git     //连接远程github项目  当然 origin还可以 origin_new
+    $ git push -u origin master     //将本地项目更新到github项目上去   
+
+    执行：git push -u origin master -f 以及 git push origin master  
+
+二、其他常用命令：
+    git remote -v  //查看地址
+    git config --list  //查看配置
+    git status  //查看状态
+    git remote rm origin  //删除origin这个push地址
+    rm -rf  ~/.ssh  删除.ssh 文件和文件夹
+    rm -f ~/.ssh 删除文件
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

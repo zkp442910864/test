@@ -1,0 +1,291 @@
+﻿http://jcscript.com/				jCanvaScript(canvas中的jQuery)
+
+
+
+
+canvas标签：
+	<canvas id="ca">
+		<!--默认的宽高：width：300px heigh：150px-->
+		温馨提示：该浏览器不支持canvas标签
+	</canvas>
+
+	绘制环境
+		getContext('2d'): 目前支持2d的场景
+		var oc = document.getElementById('ca');
+		//设置绘制的场景：目前支持2d
+		var ctx = oc.getContext('2d');
+
+	清除画布
+		ctx.clearRect(0,0,oc.width,oc.height);
+
+	设置绘图
+		fillStyle:填充颜色(绘制canvas是有顺序的)
+		linewidth:线宽度, 是一个数值
+		strokeStyle:边线颜色
+
+	边界绘制
+		lineJoin:边界连接点样式
+			miter(默认)、round(圆角)、bevel(斜角)
+		lineCap:设置或返回线条末端线帽的样式			*不懂
+			butt(默认)、round(圆角)、square(高度多出为宽一半的值)
+
+	绘制方块
+		参数是x,y起点和x,y终点(终点相对起点)	默认黑色
+		fileRect(L,T,W,H)  	 绘制方块		ctx.fillRect(0,0,100,100);
+		strokeRect(L,T,W,H)  绘制方框		ctx.strokeRect(100,100,100,100);
+
+	绘制路径
+		绘制出来的路径要进行画线或填充，否则没效果，还要注意保存路径
+
+		stroke:画线, 默认黑色
+		fill:填充, 默认黑色
+		rect:矩形区域			ctx.rect(100,100,100,100);
+		clearRect:删除一个画布的矩形区域
+
+		为了绘制时不出现错乱要保存路径
+		save:保存当前路径
+		restore:恢复保存前的路径
+
+		beginPath:开始绘制路径
+		closePath:结束绘制路径		根据需求写进行封闭或不封闭
+		moveTo:移动到绘制的新目标点(起点)
+		lineTo:新的目标点(终点也是新的起点)
+			例：ctx.beginPath();
+				ctx.moveTo(10,10);
+				ctx.lineTo(100,100);
+				ctx.lineTo(120,50);
+				ctx.closePath();
+				ctx.stroke();画线
+				ctx.fill();画块
+
+	绘制圆
+		最后要进行画线或填充
+		arc(x, y, 半径, 起始弧度, 结束弧度, 旋转方向)
+			x, y：圆心位置
+			弧度与角度的关系:  弧度 = 角度*Math.PI/180
+			旋转方向: 顺时针(默认: false)、逆时针(true)
+		例：ctx.beginPath();
+			ctx.arc(100,100,50,0,180*Math.PI/180,false);
+			ctx.stroke();
+
+	绘制其他曲线
+		最后要进行画线
+		通过moveTo设置起点
+		arcTo(x1, y1, x2,y2,r)
+			第一组坐标、第二组坐标、半径			ctx.arcTo(100,100,200,100,50);
+		quadraticCurveTo(dx, dy, x1, y1)
+			二次贝塞尔曲线: 第一组控制点、第二组结束点			ctx.quadraticCurveTo(100,100,200,200);
+		bezierCurveTo(dx1, dy1, dx2, dy2, x1, y1)
+			三次贝塞尔曲线: 第一组控制点、第二组控制点、第三组结束点			ctx.bezierCurveTo(100,80,200,250,200,100);
+
+	变换
+		translate			ctx.translate(100,100);
+			偏移: 从起始点为基点, 移动当前坐标位置
+			如果多次偏移，会在前一个的基础上加减
+		rotate				ctx.rotate(45*Math.PI/180);
+			旋转: 参数为弧度
+		scale				ctx.scale(2,1);
+			缩放例子: 旋转和缩放的小方块
+			x,y轴的缩放，正常为1
+
+	插入图片
+		创建图片对象，设置src，等图片加载完，在执行canvas操作
+			图片预加载: 在onload中调用方法
+		drawImage(oImg, x,y, w, h)
+			oImg: 当前图片x, y : 坐标w, h : 宽高
+		例：//创建图片，设置图片源
+				var oimg = new Image();
+				oimg.src = '2.jpg';
+
+				//加载完之后才能进行canvas操作
+				oimg.onload = function(){
+
+					//参数1：图片对象
+					//参数2：绘制基点
+					//ctx.drawImage(oimg,0,0);
+
+					//1.创建背景样式
+					var bg = ctx.createPattern(oimg,'repeat');
+					//2.设置填充样式属性
+					ctx.fillStyle = bg;
+					//3.设置背景区域
+					ctx.fillRect(0,0,400,400);
+				}
+
+		设置背景
+			createPattern(oImg, 平铺方式)
+				2参为: repeat、repeat-x、repeat-y、no-repeat
+				通过背景设置填充样式，fillRect设置填充范围
+
+	渐变
+		createLinearGradient(x1, y1, x2, y2)			线性渐变
+			第一组参数: 起始点坐标、第二组参数、结束点坐标
+		createRadialGradient(x1, y1,r1, x2, y2,r2)		放射性渐变
+			参数: 第一个圆的坐标和半径，第二个圆的坐标和半径
+		addColorStop(位置，颜色)添加渐变点
+
+		例://1.创建渐变对象
+				//var obj = ctx.createLinearGradient(100,100,300,300);
+				var obj = ctx.createRadialGradient(200,200,50,200,200,100);
+
+				//2.添加渐变点
+				//位置：0~1   颜色
+				obj.addColorStop(0.1,'red');
+				obj.addColorStop(0.5,'blue');
+				obj.addColorStop(0.8,'yellow');
+
+				ctx.fillStyle = obj;
+				ctx.fillRect(0,0,400,400);
+
+	文本
+		strokeText(文字,x,y)		文字边框
+		fillText(文字, x, y)		文字填充
+		font						文字大小: '60px arial'
+		textAlign					默认是start跟left一样的效果end right center
+		textBaseline				文字上下的位置的方式默认: alphabetic
+
+		阴影
+		shadowOffsetX、shadowOffsetY	X轴偏移、Y轴偏移
+		shadowBlur						高斯模糊值
+		shadowColor						阴影颜色
+
+		例://绘制文字
+			ctx.font = '60px arial 宋体';
+			//设置文字显示地方，默认是左下角（x，y）
+			//ctx.textAlign = 'right';
+			//设置基线方式
+			ctx.textBaseline = 'top';
+			ctx.fillText('泽林信息',100,100);
+
+			//文字阴影效果
+			ctx.shadowOffsetX = 10;
+			ctx.shadowOffsetY = 10;
+			ctx.shadowBlur = 3;
+			ctx.shadowColor = 'red';
+			ctx.strokeText('妹子漂亮',100,200);
+			//获取文字的宽度，没有高度获取
+
+	像素
+		var oimg = getImageData(x,y,w,h)		获取图像数据,就是获取图片每个像素的颜色,参数是指定范围
+			获取到的图像数据是数组,每4个数为一组rgba,对应一个颜色
+		//var oimg = createImageData(w,h)			生成新的像素矩阵，初始值是全透明的黑色, 即(0,0,0,0)
+
+		putImageData(oimg,x,y)					设置新的图像数据,把获取的数据放到这里来显示出来，xy为起始点
+
+		属性   都是数组
+			width:一行的像素个数
+			Height:一列的像素个数
+			data:整个图像数组，包含每个像素的rgba四个值, 注意每个值都在0~255之间的整数
+
+		例:	//获取图像数据
+			var oimg = ctx.getImageData(0,0,100,100);
+			//修改图像数据
+			for(var i = 0;i<oimg.data.length/4;i++){
+				oimg.data[4*i] = 255; //r
+				oimg.data[4*i+1] = 0;//g
+				oimg.data[4*i+2] = 0;//b
+				oimg.data[4*i+3] = 100;
+			}
+			//设置新的图像，参数1：图像对象  参数2：铺开的位置
+			ctx.putImageData(oimg,100,100);
+
+	合成
+		globalAlpha 		全局阿尔法值
+		覆盖合成
+		源: 已经绘制过的图形
+		目标: 新的图形
+		globalCompositeOperation属性
+			source-over   destination-over   source-atop
+			destination-atop  source-in  destination-in
+			source-out  destination-out  lighter
+			copy   xor
+
+		例:	ctx.fillRect(0,0,100,100);
+			ctx.fillStyle = 'red';
+			//全局阿尔法值
+			ctx.globalAlpha = 0.5;
+			//合成
+			ctx.globalCompositeOperation = 'xor';
+			ctx.fillRect(50,50,100,100);
+
+	将画布导出为图像
+		toDataURL      设置图片源
+			火狐右键可以直接导出成图片
+
+		例:	var oc = document.getElementById('ca');
+			var oImg = document.getElementById('img');
+			...
+			oImg.src = oc.toDataURL();
+
+	事件操作
+		isPointInPath 该方法不支持两个fillRect()和strokeRect()绘图
+			是否在点击范围内
+		例:	oc.onmousedown = function(ev){
+				var ev = ev || window.event;
+				var x = ev.clientX - oc.offsetLeft;
+				var y = ev.clientY - oc.offsetTop;
+				//判断是否在圆内
+				if(ctx.isPointInPath(x,y)){
+					alert(6666);
+				}
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

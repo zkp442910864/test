@@ -1,0 +1,111 @@
+
+
+
+<div style="……"></div>  行间样式表
+
+<style>…………</style> 内部样式表
+
+<link href="style.css" rel="stylesheet"/>   外部样式表
+
+
+选择器
+    id选择符
+        如: #app{}
+    群组选择符，以逗号隔开
+        如: div,p,a{}
+    class选择符
+        如: .app{}
+    类型选择符(各种标签)
+        如: div{}
+    包含选择符
+        如: div p{}
+    通配符
+        如: *{}
+
+
+伪类：
+	link          未访问（默认）
+	hover         鼠标悬停（鼠标划过）
+	active        链接激活（鼠标按下）
+	visited       访问过后（点击过后）
+
+块元素和内嵌元素
+	块的特征
+		1、默认独占一行
+		2、没有宽度时，默认撑满一排
+		3、支持所有css命令
+	内嵌(内联、行内)的特征
+		1、同排可以继续跟同类的标签
+		2、内容撑开宽度
+		3、不支持宽高
+		4、不支持上下的margin和padding
+		5、代码换行被解析
+	display：block        显示为块
+	display：inline       显示为内嵌
+	display：inline-block
+		1、块在一行显示；
+		2、行内属性标签支持宽高；
+		3、没有宽度的时候内容撑开宽度
+		问题：
+			1、代码换行被解析；
+			2、ie6 ie7 不支持块属性标签的inline-block;
+
+
+Css:
+
+	cursor 指针样式
+
+	background:
+		width   宽度
+		height  高度
+		background-attachment: fixed;       背景是否滚动
+		background-color: gray;             背景颜色
+		background-image: url(bg.jpg);      背景图
+		background-repeat: no-repeat;       背景图是否重复
+		background-position: center 0px;    背景图位置
+
+	border
+		border-width    边框宽度
+		border-style    边框样式
+			solid       实线
+			dashed      虚线
+			dotted      点线（IE6不兼容）
+		border-color    边框颜色
+
+	padding 内边距、margin 外边距
+
+	文本样式
+		font-size                文字大小（一般均为偶数）
+		font-family              字体（中文默认宋体）
+		color                    文字颜色（英文、rgb、十六位进制色彩值）
+		line-height              行高
+		text-align               文本对齐方式
+		text-indent              首行缩进（em缩进字符）
+		font-weight              文字着重
+		font-style               文字倾斜
+		text-decoration          文本修饰
+		letter-spacing           字母间距
+		word-spacing             单词间距（以空格为解析单位）
+
+	常见样式
+		width                   宽度
+		height                  高度
+		background              背景
+		border                  边框
+		padding                 内边距
+		margin                  外边距
+		font-size               文字大小
+		font-family             字体
+		color                   文字颜色
+		line-height             行高
+		text-align              文本对齐方式
+		text-indent             首行缩进
+		font-weight             文字着重(加粗)
+		font-style              文字样式
+		text-decoration         文本修饰
+		letter-spacing          字母间距
+		word-spacing            单词间距
+
+
+
+

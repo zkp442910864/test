@@ -1,0 +1,195 @@
+
+全局属性
+	contenteditable		规定元素内容是否是可编辑的
+	例:<div contenteditable></div>  内容可编辑
+
+
+H5标签
+
+	*在不兼容的情况下，我们可以通过javascript在页面的头部创建标签
+		例：<script>document.createElement(“header”);</script>
+			我们用js创建出来之后，他是不会有任何默认样式的甚至是 display，所以在样式表里 要对这些标签定义一下 它默认的display
+
+    <input/>
+        type属性-值：
+            email               电子邮箱文本框
+            tel                 电话号码     *tel类型：本身不能实现验证，需要结合正则验证	pattern="/^\d{11}$/"
+            url                 网页的URL
+            search              定义用于搜索的文本字段。
+            range               特定范围内的数值选择器 	min、max、step( 步数 )
+            number              只能包含数字的输入框
+            color               颜色选择器
+            datetime            显示完整日期
+            datetime-local      显示完整日期，不含时区
+            time                显示时间，不含时区
+            date                显示日期
+            week                显示周
+            month               显示月
+
+        属性：
+            placeholder         输入框提示信息
+            autocomplete        是否提示用户输入过值      默认为on，关闭提示选择off
+            autofocus           指定表单获取输入焦点
+            list                为输入框构造一个选择列表配合datalist
+            required            此项必填，不能为空
+            Pattern             正则验证  pattern="\d{1,5}“
+            Formaction          在submit里定义提交地址
+            formnovalidate      关闭验证
+
+        表单验证：
+            Invalid事件:验证反馈
+            input.addEventListener('invalid', function (ev) {}, false)
+                阻止默认验证：ev.preventDefault()
+
+    <script></script>
+        延迟加载JS
+            defer:延迟加载
+            async:异步加载
+
+    <header></header>
+        页眉
+
+	<hgroup></hgroup>
+        页面上的一个标题组合  h1-6写里面
+
+	<nav></nav>
+        导航
+
+	<section></section>
+        页面上的版块
+
+	<footer></footer>
+        页脚
+
+	<article></article>
+        定义一个文章区域      用来在页面中表示一套结构完整且独立的内容部分
+		可以用来呈现论坛的一个帖子，杂志或报纸中的一篇文章，一篇博客，用户提交的评论内容，可互动的页面模块挂件等。
+
+	<aside></aside>
+        定义页面的侧边栏内容      元素标签可以包含与当前页面或主要内容相关的引用、侧边栏、广告、nav元素组
+
+	<figure></figure>
+        规定独立的流内容（图像、图表、照片、代码等等）。     用于对元素进行组合。一般用于图片或视频
+
+	<figcaption></figcaption>
+        定义<figure> 元素的标题    figure的子元素 用于对figure的内容 进行说明
+
+	<time></time>
+        用来表现时间或日期
+
+	<datalist></datalist>
+        选项列表  与 input 元素配合使用，来定义 input 可能的值。
+		例：<input type="text" list="valList" />
+			<datalist id="valList">
+				<option value="javascript">javascript</option>
+				<option value="html">html</option>
+				<option value="css">css</option>
+			</datalist>
+
+	<details></details>
+        用于描述文档或文档某个部分的细节    *通过点击展示详细信息   FF不兼容
+
+	<summary></summary>
+        details 元素的标题
+
+	<dialog></dialog>
+        定义一段对话   子标签dt、dd   chrome不支持
+
+	<address></address>
+        定义文章 或页面作者的详细联系信息    字体是倾斜
+
+	<mark></mark>
+        需要标记的词或句子   定义带有记号的文本。请在需要突出显示文本时使用该标签。
+
+	<keygen>
+        给表单添加一个公钥      *不懂
+
+	<progress></progress>
+        定义进度条
+
+	<canvas>
+		定义图形。
+
+	<svg>
+		绘制矢量图
+		viewBox属性:比例
+		<path>
+			是一个模拟画图动作的svg标签，拥有很强的表达能力，主要借助其基于计算的矢量性质。
+			d属性:是一个字符串，字符串编码了path的画法，可以看成若干命令组成，命令可以带参数（一般是带坐标参数）。解析字符串是在看到命令时结束上一个命令并分段。形式类似
+				M :- moveto 将绘画点重置到指定点上
+				L :- lineto 从当前的点画一条直线到目标点上，同时当前点更新
+				z :- last,closepath 从当前点连回最早的点，以line的形式
+
+				M m:moveto
+				Z z:closepath
+				L l:lintto
+				H h:horizontal lineto :这个只有一个可以看成y值不变的L l
+				V v:verical lineto:类似H h，x值不变
+				C c:curveto 给定三个坐标，以前两个为控制点，作从当前点到第三个点的贝塞尔曲线，并且更新当前点
+				S s:shorthand/smooth curveto 上面的简化版本，省略第一个坐标的给出，第一个坐标被自动设定为当前点与上一个贝塞尔曲线命令第二个坐标的的相对点。所以你可以连续用S绘制。
+				Q q:quadratic Bezier curveto 就是只有一个控制点的贝塞尔曲线
+				T t:Shorthand/smooth quadratic Bezier curveto省略一个控制点的一个控制点的贝塞尔曲线，那个点被取成上一个一个控制点的贝塞尔曲线与当面点的相对点。
+
+				A a:ellipical arc 这个东西比较蛋疼，一共六个参数，原x半径，原y半径，椭圆自x轴旋转角度（这个旋转貌似是顺时针转的，可能是因为y轴是反着取的），大弧flag，sweep_flag,目标点x,y。其中前三个参数是为了确定一个椭圆，现在可以把一个椭圆嵌到当前点和目标点中，我们画的就是两点之间的弧。然而事实上可以嵌入对称的两个椭圆，而且弧也有取大取小两种取法，这就使用两个flag（0,1编码）确定到底取四个弧中的哪一个。大小弧flag容易理解（1取大的），sweep flag大致说是若取1则取“正角度”那边的（那边不是同一个椭圆，而是一个椭圆的大边以及另一个椭圆的小边作为一边，这个看图就清楚），稍微考虑一下就知道的确一边旋转方向是一致的，另一边相反，不管y轴有没有看成倒置。不过奇葩的是貌似正反是按照看到的方向来算的而不是倒置的方向。总之屏幕或者矩阵这种y倒置的副作用真的挺蛋疼
+
+			fill属性:图形如果闭合的话在图形里面显示特定颜色。
+			stroke属性:边的颜色
+			stroke-width属性:边宽
+        例:
+            <div style="height: 200px;width: 200px">
+                <svg viewBox="0 0 320 320"><path d="M 0 0 L 0 100 L 100 100 L 100 0 z M 100 0 L 200 0 L 100 300 z"></path></svg>
+            </div>
+            M - z 为一个起点和终点,通过多个来组合成复杂图形。
+            M起点,L目标点、可多个,z闭合你的画图
+
+    音频和视频标签：
+        <audio> 定义声音内容
+            例: <!--音频控件  controls IE不支持 -->
+                <audio src="johann_sebastian_bach_air.mp3" autoplay="autoplay" controls="controls" loop="loop" ></audio>
+
+        <video> 定义视频
+            例: <!--视频控件-->
+                <!--<video src="Intermission-Walk-in_512kb.mp4" controls="controls"></video>-->
+                <!--格式兼容的时候，可以通过source标签指定不同的视频格式-->
+                <video controls="controls" >
+                    <source src="Intermission-Walk-in_512kb.mp4"></source>
+                    <source src="Intermission-Walk-in.ogv"></source>
+                    <source src="johann_sebastian_bach_air.ogg"></source>
+                </video>
+
+        Video额外特性
+            poster:视频播放前的预览图片
+            width、height:设置视频的尺寸
+            videoWidth、videoHeight:视频的实际尺寸(只读)
+
+        媒体元素
+            controls:显示或隐藏用户控制界面
+            autoplay:媒体是否自动播放
+            loop:媒体是否循环播放
+            currentTime:开始到播放现在所用的时间
+            duration:媒体总时间(只读)
+            volume:0.0-1.0的音量相对值
+            muted:是否静音
+            autobuffer:开始的时候是否缓冲加载，autoplay的时候，忽略此属性
+
+            paused:媒体是否暂停(只读)
+            ended:媒体是否播放完毕(只读)
+            error:媒体发生错误的时候，返回错误代码 (只读)
+            currentSrc:以字符串的形式返回媒体地址(只读)
+            play():媒体播放
+            pause():媒体暂停
+            load():重新加载媒体
+
+        视频与canvas结合,可以再结合自制播放器
+            var oV = document.getElementById('vd');
+            var oc = document.getElementById('ca');
+            var ctx = oc.getContext('2d');
+
+            //设置canvas宽高
+            oc.width = oV.videoWidth;
+            oc.height = oV.videoHeight;
+
+            setInterval(function(){
+                //参数1：视频对象   参数2：绘制位置
+                ctx.drawImage(oV,0,0);
+            },10);

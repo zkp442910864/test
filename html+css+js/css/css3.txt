@@ -1,0 +1,562 @@
+﻿
+
+
+css3
+
+	单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素。
+	如果你的网站只需要兼容webkit、firefox、opera等浏览器，建议对于伪元素采用双冒号的写法，如果不得不兼容IE浏览器，还是用CSS2的单冒号写法比较安全。
+
+	选择器 -属性选择器
+		属性名筛选				p[name]{background: red;}					筛选出p标签里包含name属性
+		属性值筛选				p[name='lily']{background: red;}			筛选出p标签里name属性值等于‘lily’
+		属性值中包含某个词		p[name~='li']{background:red};				筛选出p标签里name属性值中包含某个词
+		属性值指定值开头		p[name^='li']{background: red;}				筛选出p标签里name属性值以‘li’开头的
+		指定结束值				p[name$='ly']{background: red;}
+		包裹指定的字母			p[name*='li']{background: greenyellow;}
+		指定值加-开头			p[name|='li']{background: yellowgreen;}		筛选出这种<p name='li-ly'>li-ly</p>
+
+	选择器 –结构性伪类
+		(n+9) 是从最后的元素开始,选择第 1 至第 9 个元素
+		(-n+9) 是从开头的元素开始,选择第 1 至第 9 个元素
+
+		:nth-child(n)  				表示属于父元素中的第n个子节点的当前元素
+		:nth-last-child(n) 			表示父元素中的第n个字节点，从后向前计算
+		:nth-of-type(n)  			表示父元素中的第n个字节点，且类型为当前的元素
+		:nth-last-of-type(n)		表示父元素中的第n个字节点，且类型为当前的元素,从后向前计算
+		:empty 						表示元素中没有子节点。注意：子节点包含文本节点
+		:first-child 				表示当前元素中的第一个子节点
+		:last-child 				表示当前元素中的最后一个子节点
+		:first-of-type 				表示当前父元素中的第一个子节点且节点类型是当前元素同类的
+		:last-of-type				表示当前父元素中的最后一个子节点且节点类型是当前元素同类的
+		:only-child					表示当前元素中只有一个子节点。注意：子节点不包含文本节点
+		:only-of-type 				表示当前的父元素中只有一个子节点，且这个唯一的子节点的类型必须是当前元素的同类。注意：子节点不包含文本节点
+
+	选择器 --伪类
+		E:animated				表示E元素执行动画中
+		E:target 				表示当前的URL片段的元素类型，这个元素必须是E
+		E:disabled 				表示不可点击的表单控件
+		E:enabled 				表示可点击的表单控件
+		E:checked 				表示已选中的checkbox或radio
+		E:first-line 			表示E元素中的第一行
+		E:first-letter 			表示E元素中的第一个字符
+		E::selection			表示E元素在用户选中文字时
+		E::before 				生成内容在E元素前
+		E::after 				生成内容在E元素后
+			Content 属性  			写内容
+			:before(前) 及 :after(后) 伪元素配合使用，来插入生成内容。
+		E:not(s) 				如果not()为空,表示E元素不被匹配,如果not(s)不为空,表示s不被匹配。
+			如: li:not(:nth-of-type(2)){border:1px solid black;}
+			    li:not(:last-child){border:1px solid black;}
+			    多条件写法
+			   		li:not(:last-child):not(:first-child){border:1px solid black;}
+		E~F表示E元素毗邻的F元素
+			/*选中后面邻居或者邻居的邻居*/		h1~p{background: yellow;}
+			/*只会选择后面的邻居*/				h1+p{background: green;}
+
+	文字阴影
+		text-shadow：x y blur color
+		参数
+			x			横向偏移
+			y			纵向偏移
+			blur		模糊距离
+			color		阴影颜色
+			文本阴影如果加很多层，通过，隔开，会很卡很卡很卡
+		阴影叠加例子:text-shadow:0 0 10px #fff, 0 0 20px #fff
+
+	文字描边
+		-webkit-text-stroke:宽度 颜色  chrome才支持
+
+	新增文本功能
+		文字排列方式
+		Direction  定义文字排列方式(全兼容)
+			Rtl 从左向右排列
+			Ltr 从右向左排列
+			注意要配合unicode-bidi 一块使用
+		例：p{border: 1px solid black;direction: rtl;unicode-bidi: bidi-override;}
+
+		文字缺省
+		Text-overflow 定义省略文本的处理方式
+			clip  无省略号
+			Ellipsis 省略号 (注意配合overflow:hidden和white-space:nowrap一块使用)
+
+		自定义字体
+			@font-face {
+				font-family:;		//命名
+				src: url();			//引入的文字
+			}
+
+	兼容
+		chrome\safari 	----->		-webkit
+		mozilla			----->		-moz
+		opera			----->		-opera
+		trident			----->		-ms
+
+	滚动区域和触摸回弹
+		-webkit-overflow-scrolling: touch
+
+	圆角
+		border-radius
+			单位:px、%
+
+	边框图片
+		边框图片 border-image
+			border-image-sourceg 引入图片
+			border-image-slice 边框向内偏移
+			border-image-width 边框宽度
+			border-image-repeat 图片的排列方式
+			round 平铺,repeat 重复,stretch拉伸
+		边框颜色 border-colors
+			多边框颜色只能是Firefox支持-moz-border-right-colors
+
+		例: /*
+			参数1：图片源
+			参数2：x,y 裁剪图片的位置
+			参数3：1个参数  垂直水平都受这个排列方式影响   2个参数：前面一个决定水平，后面一个决定垂直方向
+			*/
+			.box{width: 200px;height: 200px;border-width: 20px;-webkit-border-image: url(img/border.png) 26 26 round stretch;}
+
+	渐变
+		线性渐变
+			只能用在背景上
+			linear-gradient([<起点> || <角度>,]? <点>, <点>…)
+			IE兼容		 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ff0000',GradientType='1');
+			参数
+				起点：从什么方向开始渐变		默认：top		{background: -webkit-linear-gradient(top,red,blue);}
+					left、top、left top
+				角度：从什么角度开始渐变						{background:-webkit-linear-gradient(45deg,red,yellow);}
+					45deg的形式
+				点：渐变点的颜色和位置							{background:-webkit-linear-gradient(45deg,red 0,blue 50%);}
+					black 50%，位置可选
+			配合rgba		{background: -webkit-linear-gradient(left,rgba(100,0,100,0.5) 50px,rgba(0,255,0,0.6) 100px);}
+			加入背景图片	{background: -webkit-linear-gradient (top, rgba(255,255,255,1) 30%, rgba(255,255,255,0)), url(a.gif)}
+
+		径向渐变
+			radial-gradient([<起点>]? [<形状> || <大小>,]? <点>, <点>…);
+				起点：可以是关键字（left,top,right,bottom），具体数值或百分比
+					{background: -webkit-repeating-linear-gradient(top,red,blue 20%);}
+				形状:ellipse、circle
+					{background: -webkit-radial-gradient(center,circle,red,blue);}
+				大小:具体数值或百分比，也可以是关键字（最近端，最近角，最远端，最远角，包含或覆盖
+						(closest-side, closest-corner, farthest-side, farthest-corner, contain or cover)）;
+					{background: -webkit-radial-gradient(cover,red,blue);}
+
+	多背景
+		逗号分开		{background: url(a.jpg), url(b.jpg);}
+
+	背景尺寸
+		background-size:x y
+			background-size:100% 100%
+			Cover 放大						background-size: cover
+			Contain 缩小					background-size: contain
+		例: 多背景的情况下
+			.box{
+				width: 300px;height:300px;
+				background: url(img/1.jpg) no-repeat,url(img/2.jpg) no-repeat 0 bottom;
+				-webkit-background-size: contain,300px 100px;
+				background-size:contain,300px 100px;
+				border: 10px solid black;
+			}
+
+	背景原点
+		background-origin:border | padding | content
+			border-box:			从border区域开始显示背景。 		-webkit-background-origin: border-box;
+			padding-box:		从padding区域开始显示背景。 	-webkit-background-origin: padding-box;
+			content-box:		从content区域开始显示背景。		background-origin: content-box;
+
+	背景裁剪
+		background-clip
+			border： 			从border区域向外裁剪背景。
+			padding： 			从padding区域向外裁剪背景。
+			content： 			从content区域向外裁剪背景。 	-webkit-background-clip: content-box;
+
+	文字裁剪
+		只兼容chrome
+		兼容上有问题，不是所有的chrome都兼容
+		-webkit-background-clip: -webkit-text;
+
+	遮罩
+		一张图片有内容的部分显示，透明的部分来遮挡
+		Mask-image			遮挡的图片
+		Mask-position		遮挡位置的偏移
+		Mask-repeat			重复
+
+		例:.box{width: 500px;height: 500px;border: 10px solid black;
+				background: url(img/1.jpg)  no-repeat;
+				background-size:100% 100% ;
+
+				-webkit-mask: url(img/mask.png) 100px 10px no-repeat;
+			}
+
+	弹性盒模型
+		注意在使用弹性盒模型的时候 父元素必须要加display:box 或 display:inline-box（需要加浏览器相关支持）
+		Box-orient 			定义盒模型的布局方向
+			Horizontal 			水平显示
+			vertical			垂直方向
+		box-direction 		元素排列顺序
+			Normal 				正序
+			Reverse 			反序
+		box-pack 			对盒子富裕的空间进行管理
+			Start 				所有子元素在盒子左侧显示，富裕空间在右侧
+			End 				所有子元素在盒子右侧显示，富裕空间在左侧
+			Center 				所有子元素居中
+			Justify 			富余空间在子元素之间平均分布
+		box-align 			在垂直方向上对元素的位置进行管理
+			Star 				所有子元素在据顶
+			End 				所有子元素在据底
+			Center 				所有子元素居中
+
+
+		box-ordinal-group 	设置元素的具体位置		*要先选择到某个子元素，再给它指定某个位置
+			如:	.box div:nth-of-type(1){-webkit-box-ordinal-group: 2;}
+		Box-flex 			定义盒子的弹性空间		*要先选择到某个子元素，再给它指定占位
+			子元素的尺寸=盒子的尺寸*子元素的box-flex属性值 / 所有子元素的box-flex属性值的和
+			如:.box div:nth-of-type(1){-webkit-box-flex: 2;}
+
+
+			例: .box{height: 100px;border: 10px solid black;padding: 10px;display: -webkit-box;display: -moz-box;
+					/*弹性盒模型布局方向*/
+					/*-webkit-box-orient:vertical;-moz-box-orient: vertical;*/
+
+					/*元素排列顺序*/
+					/*reverse:反序*/
+					/*-webkit-box-direction: reverse;*/
+
+					/*end:富裕空间左边
+					 center:富裕空间在左右两边
+					 justify:富裕空间均匀分布*/
+					/*-webkit-box-pack: justify;*/
+
+					-webkit-box-align: end;
+				}
+
+		flex布局
+			采用Flex布局的元素，称为Flex容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为Flex项目（flex item），简称”项目”。
+			容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。
+			项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。
+
+
+			容器就是设置了flex的父元素。
+			项目就是容器里的子元素。
+
+
+			display: flex;				任何一个容器都可以指定为Flex布局
+					 inline-flex;		行内元素也可以使用Flex布局。
+					 -webkit-flex;		Webkit内核的浏览器，必须加上-webkit前缀。
+
+
+			以下6个属性设置在容器上
+				flex-direction			属性决定主轴的方向（即项目的排列方向）。
+					4个值	flex-direction: row | row-reverse | column | column-reverse;
+					row（默认值）：主轴为水平方向，起点在左端。
+					row-reverse：主轴为水平方向，起点在右端。
+					column：主轴为垂直方向，起点在上沿。
+					column-reverse：主轴为垂直方向，起点在下沿。
+
+
+				flex-wrap				默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。
+					3个值	 flex-wrap: nowrap | wrap | wrap-reverse;
+					nowrap（默认）：不换行。
+					wrap：换行，第一行在上方。
+					wrap-reverse：换行，第一行在下方。
+
+
+				flex-flow				flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
+
+
+				justify-content			justify-content属性定义了项目在主轴上的对齐方式。
+					5个值,具体对齐方式与轴的方向有关。下面假设主轴为从左到右。
+					flex-start（默认值）：左对齐
+					flex-end：右对齐
+					center： 居中
+					space-between：两端对齐，项目之间的间隔都相等。
+					space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。
+
+
+				align-items				align-items属性定义项目在交叉轴上如何对齐。
+					5个值,具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下。
+					flex-start：交叉轴的起点对齐。
+					flex-end：交叉轴的终点对齐。
+					center：交叉轴的中点对齐。
+					baseline: 项目的第一行文字的基线对齐。
+					stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。
+
+
+				align-content			align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+					6个值
+					flex-start：与交叉轴的起点对齐。
+					flex-end：与交叉轴的终点对齐。
+					center：与交叉轴的中点对齐。
+					space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。
+					space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。
+					stretch（默认值）：轴线占满整个交叉轴。
+
+
+			以下6个属性设置在项目上
+				order					order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+					就是给父元素下的每个子元素添加该属性，然后赋值，根据这值来进行排序。
+
+
+				flex-grow				flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+					如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。
+
+
+				flex-shrink				flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+					如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。
+					负值对该属性无效。
+
+
+				flex-basis				flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+					它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。
+
+
+				flex 					flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+					该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。
+					建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
+
+
+				align-self				align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
+					该属性可能取6个值，除了auto，其他都与align-items属性完全一致。
+
+	盒模型阴影
+		box-shadow:[inset] x y blur [spread] color
+			参数
+				inset：		投影方式
+					inset：		内投影
+					不给：		外投影
+				x、y：		阴影偏移
+				blur：		模糊半径
+				spread：	扩展阴影半径
+					先扩展原有形状，再开始画阴影
+				color
+
+			例：box-shadow:/*inset*/ 10px 10px 10px green
+				多阴影box-shadow:inset 10px 10px 10px rgba(0,255,0,0.5),10px 10px 10px rgba(100,20,80,0.5)
+
+	其他盒模型新增属性
+		box-reflect 	倒影
+			参数:
+				direction  方向     above|below|left|right;
+				距离
+
+			例：/*chrome支持倒影*/
+				img{margin: 100px;-webkit-box-reflect: right 10px;}
+				/*倒影渐变：
+				 * 参数1 ：倒影发生的位置
+				 * 参数2：原图片跟倒影之间的间隙
+				 * 参数3：渐变形式*/
+				img{margin: 100px;-webkit-box-reflect: right 10px -webkit-linear-gradient(right,rgba(0,0,0,0),rgba(0,0,0,1));}
+
+
+		resize 			自由缩放			不懂
+			Both 			水平垂直都可以缩放
+			Horizontal 		只有水平方向可以缩放
+			Vertical 		只有垂直方向可以缩放
+			注意：一定要配合overflow:auto 一块使用
+
+			例:.box{width: 200px;height: 200px;background: url(1.png);resize: Vertical;overflow: auto;}
+
+		box-sizing 		盒模型解析模式
+			content-box  	标准盒模型 width/height=border+padding+content
+			border-box 		怪异盒模型 width/height=content
+
+			例: .wrap{width: 400px;height: 400px;border: 10px solid black;box-sizing: content-box;}
+				.box{width: 100px;height: 100px;background: red;box-sizing: border-box;border: 10px solid black;}
+
+	分栏布局
+		*貌似只能等分
+		column-width 		栏目宽度
+		column-count 		栏目列数
+		column-gap   		栏目距离
+		column-rule  		栏目间隔线
+
+		例: div{border: 1px solid black;
+				/*栏目宽度*/
+				-webkit-column-width: 200px;
+				/* 栏目列数*/
+				-webkit-column-count: 3;
+				-webkit-column-gap: 10px;
+				/*栏目间隔线:solid dotted double*/
+				-webkit-column-rule: 5px double black;
+			}
+
+	响应式布局
+		就是随着可视界面宽的改变而改变内容的布局
+		媒体类型
+			all 			所有媒体
+			braille 		盲文触觉设备
+			embossed 		盲文打印机
+			print 			手持设备
+			projection 		打印预览
+			screen 			彩屏设备
+			speech 			'听觉'类似的媒体类型
+			tty 			不适用像素的设备
+			tv  			电视
+
+		媒体特性
+			(max-width:600px)
+			(max-device-width: 480px)  				设备输出宽度
+			(orientation:portrait)  				竖屏
+			(orientation:landscape)					横屏
+			(-webkit-min-device-pixel-ratio: 2) 	像素比
+				devicePixelRatio 设备像素比 window.devicePixelRatio = 物理像素 / dips
+
+		关键字
+			and
+			not      not关键字是用来排除某种制定的媒体类型
+			only     only用来定某种特定的媒体类型
+
+		例: //响应式布局1
+			/*and在括号之间一定要加空格*/
+			/*800px以上的屏幕支持的样式*/
+			@media only screen and (min-width: 800px) {
+				/*style*/
+				body{
+					/*-webkit-column-width: 200px;*/
+					/* 栏目列数*/
+					-webkit-column-count: 4;
+					-webkit-column-gap: 10px;
+					 /*栏目间隔线:solid dotted double*/
+					-webkit-column-rule: 5px double black;
+				}
+			}
+
+			/*600p到800px之间*/
+			@media only screen and (min-width:600px ) and (max-width:800px) {
+				body{
+					/*-webkit-column-width: 200px;*/
+					/* 栏目列数*/
+					-webkit-column-count: 3;
+					-webkit-column-gap: 10px;
+					 /*栏目间隔线:solid dotted double*/
+					-webkit-column-rule: 5px double blue;
+				}
+			}
+
+			/*600px以下支持*/
+			@media only screen and (max-width: 500px) {
+				body{
+					/*-webkit-column-width: 200px;*/
+					/* 栏目列数*/
+					color: red;
+					-webkit-column-count: 1;
+					-webkit-column-gap: 10px;
+					 /*栏目间隔线:solid dotted double*/
+					-webkit-column-rule: 5px double red;
+				}
+			}
+
+			//响应式布局2
+			//写好对应的样式，然后通过link引入，再设置media值
+			<link type="text/css" rel="stylesheet" href="link1.css" media="screen and (min-width: 800px)"/>
+			<link type="text/css" rel="stylesheet" href="link2.css" media="screen and (min-width:600px ) and (max-width:800px)"/>
+			<link type="text/css" rel="stylesheet" href="link3.css" media="screen and (max-width: 500px)"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,301 @@
+
+
+
+拖放事件
+    设置属性draggable为true
+    拖拽元素事件:事件对象为被拖拽元素
+    dragstart,拖拽前触发
+    drag,拖拽中，连续触发
+    dragend,拖拽结束触发
+
+    目标元素事件:事件对象为目标元素
+    dragenter,进入目标元素触发，相当于mouseover
+    dragover,进入目标、离开目标之间，连续触发
+    dragleave,离开目标元素触发，相当于mouseout
+    drop,在目标元素上释放鼠标触发					*drop触发的时候(dragover的时候阻止默认事件)
+
+File API
+    File API在表单中的文件输入字段的基础上，又添加了一些直接访问文件信息的接口。
+    H5在DOM中为文件输入元素添加了一个files集合，在通过文本输入字段选择了一或多个文件时，
+    files集合中将包含一组File对象，每个File对象对应着一个文件。
+    每个File对象都有下列只读属性：
+                                name: 本地文件系统的文件名
+                                size： 文件的字节大小
+                                type：字符串，文件的MIME类型。
+                                lastModifiedDate：字符串，文件上一次被修改的事件（只有chrome实现了这个属性）
+
+
+    FlieReader类型实现的是一种异步文件读取机制。
+    可以把FileReader想象成XMLHttpRequest，区别只是它读取的是文件，而不是远程服务器。
+    为了读取文件中的数据，FileReader提供了如下几个方法：
+                                                    readAsText(file, encoding):以纯文本的形式读取文件，将读取到的文本保存在result属性中。
+                                                    readAsDataURL(file)：读取文件并将文件一数据URI的形式保存在result属性中
+                                                    readAsBinaryString(file)(已废弃)：读取文件并将一个字符串保存在result属性中，字符串中的每一个字符表示一字节
+                                                    readAsArrayBuffer(file)：读取文件并将一个包含文件内容的ArrayBuffer保存在result属性中。
+    由于读取过程是异步的，因此FileReader也提供了几个事件。其中最有用的三个事件是progress、error和load，分别表示是否又读取了新数据，是否发生了错误以及是否读完了整个文件。
+
+
+    做用:
+        读取内容
+        读取部分内容
+        读取文件的32B内容
+        读取拖放的文件
+        对象URL:对象URL也被称为blob URL，指的是引用保存在File或Blob中数据的URL。使用对象URL的好处是可以不必把文件内容读取到JavaScript中而直接使用文件内容。为此，只要在需要文件内容的地方提供对象URL即可。要创建对象URL，可以使用window.URL.createObjectURL()方法，并传入File或Blob对象。
+        这个方法在Chrome中的实现叫window.webkitURL.createObjectURL()，因此可以通过如下函数来消除命名的差异：
+            function createObjectURL(blob){
+                if(window.URL){
+                    return window.URL.createObjectURL(blob);
+                } else if (window.webkitURL) {
+                    return window.webkitURL.createObjectURL(blob);
+                } else {
+                    return null;
+                }
+            }
+
+
+    读取内容:
+        <input type="file" id="ff" /> 		通过file上传文件
+
+        例子:
+        var ff = document.getElementById('ff');		//获取id
+        ff.addEventListener('change',function(){	//创建change事件
+            var files = this.files,		//获取文件的信息,以数组新式存放数据
+                type = 'default',
+                reader = new FileReader();		//FlieReader类型实现的是一种异步文件读取机制,通过这个来转化文件
+
+            if(/image/.test(files[0].type)){	//判断文件是图片或者文本
+                type = 'image';
+                reader.readAsDataURL(files[0]);		//读取文件并将文件以数据URI的形式保存在result属性中
+            }else{
+                type = 'text';
+                reader.readAsText(files[0]);	//以纯文本的形式读取文件，将读取到的文本保存在result属性中。
+            }
+
+            reader.onerror = function(){	//是否发生了错误
+                console.log('出错 '+reader.error.code);
+            }
+
+            reader.onprogress = function(e){	//是否又读取了新数据
+                if(event.lengthComputable){
+                    console.log('进展 '+ e.loaded + '/' + e.total);
+                }
+            }
+
+            reader.onload = function(){		//是否读完了整个文件
+                switch (type) {
+                    case 'image':
+                        console.log(reader.result)
+                        break;
+                    case 'text':
+                        console.log(reader.result)
+                        break;
+                }
+            }
+
+        },false);
+
+        把图片转换为路径
+        var windowURL = window.URL || window.webkitURL;
+        windowURL.createObjectURL(event.target.files[0]);
+
+位置信息
+    地理位置
+        经度  :   南北极的连接线
+        纬度  :   东西连接的线
+    位置信息从何而来
+        IP地址
+        GPS全球定位系统
+        Wi-Fi无线网络
+        基站
+
+    地理位置对象
+        navigator.geolocation
+        单次定位请求  ：getCurrentPosition(请求成功，请求失败，数据收集方式)
+        请求成功函数
+            经度:coords.longitude
+            纬度:coords.latitude
+            准确度:coords.accuracy
+            海拔:coords.altitude
+            海拔准确度:coords.altitudeAcuracy
+            行进方向:coords.heading
+            地面速度:coords.speed
+            时间戳:new Date(position.timestamp)
+
+        请求失败函数
+            失败编号  ：code
+            0:不包括其他错误编号中的错误
+            1:用户拒绝浏览器获取位置信息
+            2:尝试获取用户信息，但失败了
+            3:设置了timeout值，获取位置超时了
+
+        数据收集:json的形式
+            enableHighAcuracy:更精确的查找，默认false
+            timeout:获取位置允许最长时间，默认infinity
+            maximumAge:位置可以缓存的最大时间，默认0
+
+        多次定位请求:watchPosition(像setInterval)
+            移动设备有用，位置改变才会触发
+            配置参数:frequency 更新的频率
+        关闭更新请求:clearWatch(像clearInterval)
+
+        例:
+            //单次定位请求			getCurrentPosition
+            navigator.geolocation.getCurrentPosition(function(position){
+                oText.value += "经度："+position.coords.longitude + '\n';
+                oText.value +="纬度："+ position.coords.latitude + '\n';
+                oText.value += "海拔："+position.coords.altitude+ '\n';
+                oText.value += "时间："+new Date(position.timestamp);
+            },function(error){
+                //查看定位失败的编码
+                alert(error.code);
+            },{
+                //参数信息
+                enableHighAcuracy:false,  //精确度
+                //timeout:30000,   //超时的时间
+                maximumAge:1000 //缓存时间
+            });
+
+            //多次请求			watchPosition
+            timer = navigator.geolocation.watchPosition(function(position){
+                oText.value += "经度："+position.coords.longitude + '\n';
+                oText.value +="纬度："+ position.coords.latitude + '\n';
+                oText.value += "海拔："+position.coords.altitude+ '\n';
+                oText.value += "时间："+new Date(position.timestamp);
+            },function(error){
+                //查看定位失败的编码
+                alert(error.code);
+                //请求失败的时候，不再请求定位
+                navigator.geolocation.clearWatch(timer);
+
+            },{
+                //参数信息
+                enableHighAcuracy:false,  //精确度
+                //timeout:30000,   //超时的时间
+                maximumAge:1000, //缓存时间
+                frequency:1000   //请求的频率
+            });
+
+applicationCache离线应用程序		不懂
+    离线应用是什么？
+        乘坐飞机、手机信号弱、去演讲的时候，可能没有网络，这个时候就可以采用离线应用。
+        离线存储如何工作的？
+
+    离线存储的好处？
+        没网的时候，可以正常访问
+        快速响应页面，不必用多个HTTP占用资源带宽
+        缓存的可以是任何文件
+
+    搭建离线应用程序
+        ①服务器设置头信息 :
+            AddType text/cache-manifest .manifest
+        ② html标签加 :
+            manifest=“xxxxx.manifest”
+        ③写manifest文件 :  离线的清单列表
+            先写 :  CACHE MANIFEST
+            FALLBACK :  第一个网络地址没获取到，就走第二个缓存的
+            NETWORK ：无论缓存中存在与否，均从网络获取
+
+https://html.spec.whatwg.org/multipage/workers.html#shared-workers-and-the-sharedworkerglobalscope-interface:handler-sharedworkerglobalscope-onconnect
+Web  Workers  单页面线程
+    什么是worker?
+        JS的单线程（放入UI队列的个数，利用定时器解决）
+        可以让web应用程序具备后台处理能力，对多线程的支持非常好。
+
+    Worker API
+        new Worker(‘后台处理的JS地址’)
+        利用postMessage传输数据
+        importScripts(‘导入其他JS文件’)
+
+    Worker运行环境
+        navgator:appName、appVersion、userAgent、platform
+        location:所有属性都是只读的
+        self:指向全局 worker 对象
+        所有的ECMA对象，Object、Array、Date等
+        XMLHttpRequest构造器
+        setTimeout和setInterval方法
+        close()方法，立刻停止worker运行
+        importScripts方法
+
+Web  SharedWorker  共享线程
+    线程 workers.js
+        var nextName = 0;
+        function getNextName() {
+            return nextName++;
+        };
+        var viewers = {};
+        onconnect = function (event) {
+            //当线程开启，每个页面会有对应的event.ports[0]（如果页面没有开启线程，不会有event.ports[0]），要保存下来。发送信息时，要循环发送，才能发送到每个页面。
+            var name = getNextName();
+            viewers[name] = { port: event.ports[0]};
+            event.ports[0].onmessage = function(event){
+                for (var viewer in viewers)
+                    viewers[viewer].port.postMessage(event.data);
+            }
+        };
+
+    每个页面
+        //判断浏览器是否支持
+        if(typeof(SharedWorker)!=="undefined"){
+            //判断是否创建
+            if(typeof(worker)=="undefined"){
+                worker = new SharedWorker('workers.js');
+
+                // 监听回调信息，处理业务
+                // worker.port.addEventListener('message',function(e){
+                //     console.log(e.data)
+                // },false);
+
+                // 开启线程，发送信息。只有开启线程，才能进行共享。
+                // worker.port.start();
+                // worker.port.postMessage('txt ');
+            }
+        }
+
+history
+    浏览器是通过window对象的history对象来对浏览器历史访问记录，从而可以实现前进和后退。
+    history对象可以理解其保存了一个有序的列表对象，每个对象都代表了一个页面信息（包括页面的url等信息），注意当前页面也被保存在里面。
+
+    这样就可以通过浏览器本身提供的前进和后退按钮来操作，
+    也可以利用javascript调用history对象的
+                                        back()
+                                        forward()
+                                        go()		方法来实现页面的切换。
+
+    HTML5引入了:
+        histtory.pushState()
+            1）第一个参数是个js对象，可以放任何的内容，可以在onpostate事件中（后面介绍）获取到便于做相应的处理。
+            2）第二个参数是个字符串，目前好像没有起作用，可以传个空串。
+            3）第三个参数是个字符串，就是保存到history中的url。
+            例: history.pushState({}, "newtitle","test1.html");
+
+
+        history.replaceState()
+            同样有三个参数。区别在于，replaceState()是用来修改history对象中记录的当前页面的信息，它不是新建一个记录。
+            例: history.replaceState({}, "newtitle","test"+i+".html");	假设i持续改变，地址栏的url也会一直改变，但页面并没有改变。
+
+        window.onpostate事件
+            在这个事件进行逻辑处理
+            假设当要改变某部分内容，先把内容备份，通过history.pushState()跳转另一个页。当点击浏览器的返回或前进时，根据判断进性重新赋值。
+            window.addEventListener('popstate',function(){
+
+            },false);
+
+    使用步骤:
+        1.创建数组或对象，用来保存当前页ajax的数据
+            var storage_arr = [];
+        2.改变当前页面的路径
+            history.replaceState({}, "newtitle",$('.href').val()+"?qa=1");
+        3.监听onpostate事件，进行逻辑处理
+            window.addEventListener('popstate',function(data){
+                //在这里把保存的数据根据当前路径，进行替换。
+            },false);
+
+图片懒加载/预加载
+    http://www.w3school.com.cn/jsref/dom_obj_image.asp
+    var _img = new Image();
+    _img.src = '图片路径';
+    _img.onload =function(){//加载成功回调}
+    _img.onerror =function(){//加载失败回调}
+
+    有兼容问题
+    _img.decode()  返回一个Promise
