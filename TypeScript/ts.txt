@@ -1,5 +1,18 @@
 
 
+
+内置
+    ReadOnly<T>         将 T 中的类型都变为只读。
+    Partial<T>          将 T 中的类型都变为可选。
+    Exclude<T, U>       从 T 中剔除可以赋值给 U 的类型。
+    Extract<T, U>       提取 T 中可以赋值给 U 的类型。
+    NonNullable<T>      从 T 中剔除 null 和 undefined。
+    ReturnType<T>       获取函数返回值类型。
+    InstanceType<T>     获取构造函数类型的实例类型。
+
+
+
+
 TypeScript 基础
 	基础类型
 		let isDone: boolean = false;
@@ -89,13 +102,13 @@ TypeScript 基础
 		主要是限制 传参和返回值 的数据类型
 		类使用可以统一的使用一个类型
 
-		function identity<T> (arg: T): T { return arg }
+		function identity<T>            (arg: T): T { return arg }
 
 		这两个等价
-		function loggingIdentity<T> (arr: T[]): T[] { return arr }
-		function loggingIdentity<T> (arr: Array<T>): Array<T> { return arr }
+		function loggingIdentity<T>         (arr: T[]): T[] { return arr }
+		function loggingIdentity<T>         (arr: Array<T>          : Array<T>      { return arr }
 
-		class GNumber<T> { val: T; add: (x: T, y: T) => T; }
+		class GNumber<T>            { val: T; add: (x: T, y: T) => T; }
 
 		// 写法一 手动指定 T 的类型
 		console.log(identity<string>('123'));
