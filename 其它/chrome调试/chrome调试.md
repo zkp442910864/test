@@ -7,6 +7,16 @@
 
 p表示搜索后面关键词
 
+可以编辑DOM中的任何内容         document.body.contentEditable = true
+
+控制台快捷键
+    ctrl+p                      查找当前网站已加载的资源文件
+    ctrl+shift+p                显示所有命令
+    ctrl+shift+d                切换控制面板展示
+    ctrl+l                      清空console面板数据
+    ctrl+R / f5                 正常重新加载
+    ctrl+shift+R/shift f5       硬性重新加载
+
 
 ```
     Element 面板
@@ -33,6 +43,7 @@ p表示搜索后面关键词
             在列表头右键或空白处,右键弹出菜单
 
         重新发送请求        在请求接口右键, 选择 Replay XHR 重新发送请求
+        禁止某个请求        在请求接口右键, 选择 Block request URL / Block request domain
 
         对接口进行断点(p: 接口断点)
 ```
@@ -57,8 +68,15 @@ p表示搜索后面关键词
         console.assert(null, '无值')               当第一个参数为false 时会打印第二个参数，否则啥都不会打印
         console.table(a, b)                        a: 对象或数组时会以 表格方式 打印出来, b(可选): 需要的字段
         console.dir(a)                             把值以对象的方式打印出来，主要可针对节点和函数等
+        console.trace()                            打印执行栈
         console.time('a')                          开启一个计时器
-        console.timeEnd('a')                       结束计时并且将结果在 console 中打印出来
+            console.timeEnd('a')                   结束计时并且将结果在 console 中打印出来
+        console.group('start')                     打印一组数据
+            console.log('sub1');
+            console.log('sub1');
+            console.log('sub1');
+            console.groupEnd();
+        console.count('调用次数');                  调用次数累加
         console.log('%casdf', 'font-size:50px')    增加样式
                 基于调用堆栈自动缩进    https://juejin.im/book/6844733783166418958/section/6844733783216766983
 

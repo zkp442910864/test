@@ -60,6 +60,54 @@
             /* transition: transform 3s steps(14); */
             /* animation: name .6s 1.5s linear; */
         }
+
+        .demo3{
+            width: 5.125rem;
+            height: 7.5rem;
+            background: url('./113.png') no-repeat left top;
+            background-size: cover;
+            /* animation: name2 5s linear infinite normal; */
+            transition: background .8s steps(4);
+
+        }
+        .demo3.yd, .demo3:hover{
+            background-position: -20.5rem top;
+            /* transition: background 1s steps(5); */
+        }
+
+        @-webkit-keyframes name2 {
+            0% {
+                /* height: 42px; */
+                /* transition: background 1s steps(5); */
+                background-position: -0rem top;
+            }
+
+            50% {
+                /* height: 42px; */
+                /* transition: background 1s steps(5); */
+                background-position: -25.625rem top;
+            }
+
+            100% {
+                /* height: 42px; */
+                /* transition: background 1s steps(5); */
+                background-position: -0rem top;
+            }
+        }
+
+        .demo4{
+            width: 84px;
+            height: 120px;
+            background: url('./113.png') no-repeat left top;
+            background-size: cover;
+            /* background-position-x: -2.7rem; */
+            /* background-position: -30.75rem top;
+            transition: background 1s steps(6); */
+        }
+        .demo4:hover{
+            background-position: -402px top;
+            transition: background 1s steps(5);
+        }
     </style>
 
 </head>
@@ -74,6 +122,20 @@
     </div>
 
     <div class="demo2"></div>
+
+    <div class="demo3" id="demo3"></div>
+    <div class="demo4"></div>
+
+    <script>
+        const demo3 = document.getElementById('demo3');
+
+        setTimeout(() => {
+            demo3.classList.toggle('yd');
+            setInterval(() => {
+                demo3.classList.toggle('yd');
+            }, 850);
+        }, 0);
+    </script>
 </body>
 
 </html>

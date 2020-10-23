@@ -22,6 +22,7 @@ https://baijiahao.baidu.com/s?id=1619544681032320225&wfr=spider&for=pc
     git remote add origin ***
     git push -u origin master
 
+    git fetch
 
     查看分支
         git branch
