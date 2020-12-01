@@ -1,3 +1,12 @@
+
+TODO:
+    bfc 可不可以理解成，元素（包括元素里的内容，margin等）都被盒子框起来。使得这个盒子独立开来，不和其它的元素相交（覆盖）
+    感觉就是元素相加，隔离的问题
+
+    ifc 水平排列，横向的 padding、margin 能生效，基线（上中下）对齐
+
+
+
 技巧
 
     cursor                  指针样式
@@ -9,6 +18,15 @@
     pointer-events: none;                   可以屏蔽掉所有事件
     object-fit: cover;                      设置img标签图片的缩放
     background-attachment: fixed;           固定的背景图像
+
+    禁用用户选中一个元素（element）的文本
+        user-select: none;
+
+    更改选中文本的背景颜色 (选择器::selection)
+        ::selection {
+            color: #ececec;
+            background: #222831;
+        }
 
     变灰
         ie 使用 grayscale.js
