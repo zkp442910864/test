@@ -1,6 +1,8 @@
 
 
-
+初始化，数据观察（创建Dep）
+实例化观察者，把Dep里的观察者切换成当前的，渲染，调用get的时候进行收集（去重）
+当_data里的数据进行变更的时候通知到所有观察者
 
 
 
@@ -43,7 +45,7 @@
                 依次把props、methods、data、computed与watch 的内容代理到vue的实例上。
                     Object.defineProperty
 
-                        
+
                 data 对象监听
                     vue实例上的 _data.__ob__ 就是观察者
                     然后数据里每个对象都会有__ob__观察者
@@ -53,12 +55,12 @@
                     observe 创建观察者
                     (new Observer()) 实例化的时候，两种数据  数组（循环值，对象走 observe）、对象（走 defineReactive）
                     defineReactive  对值进行观察并收录
-                    
+
                     注意：重写了数组的部分函数 ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse']
-                    
+
                     问题
                     dep 收录问题
-                    
+
                     observe -> (new Observer()) -> defineReactive -> observe
                                             -> observe
 
