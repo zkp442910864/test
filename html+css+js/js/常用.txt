@@ -201,9 +201,13 @@ JavaScript 对象
 
         arr.splice()				从数组中添加或删除元素,并返回添加或删除的数组给你
             array.splice(index,howmany,item1,.....,itemX)
-            index插入的位置，必需
-            howmany是否删除当前位置的值，不0，是1，必需
-            item1插入的值，可多个，可选
+            index 插入的位置，必需
+            howmany 是否删除当前位置的值
+                howmany 0 不进行删除
+                howmany 1 删除当前位置的值
+                默认当前位置到后面的值
+                    比如: [1,2,3,4].splice(1); howmany 就是3
+            item1 插入的值，可多个，可选
         arr.unshift()				向数组的开头添加一个或更多元素，并返回新的长度。
 
     Date 对象 时间操作
@@ -276,7 +280,14 @@ JavaScript 对象
         (1.123123).toExponential(x)		指定小数为x位,带e表示
         (1.123123).toPrecision()
         Number.parseFloat(x)            x 被转成浮点数的值
-        Number.parseInt(x)              x 被转成整数的值
+        Number.parseInt(x, radix)       x 被转成整数的值
+            radix 基数不是必须的，范围在2-36之间，0也可以，默认是十进制
+                0 // radix为0时，且string参数不以“0x”和“0”开头时，按照10为基数处理。这个时候返回1
+                1 // 不在范围内直接NaN
+                2 // 接受 x 为 0, 1 开头的字符串
+                3 // 接受 x 为 0, 1, 2 开头的字符串
+                4 // 接受 x 为 0, 1, 2, 3 开头的字符串
+                以此类推，但凡不符合的都返回NaN
         Number()                        把非数值转换为数值（上两个也有同样的效果）
 
     String 对象
