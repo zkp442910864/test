@@ -169,6 +169,25 @@
 
 
 
+注意点:
+    变量声明
+        函数的声明优先于变量
+        function 会隐式声明（注意在作用域里的一样会隐式声明）
+        自执行函数
+            在非匿名自执行函数中，函数变量为只读状态无法修改
+            执行时间：所有变量先提升，再按代码顺序执行
+
+
+        var a = 1;
+        function a () {}
+        等价于:
+            a = 1;
+            function a () {}
+        等价于:
+            var a;
+            a = function a () {};
+            a = 1; // 如果a 没有赋值，这一步不会执行
+
 
 JavaScript 对象
     值类型 String、Number、Boolean、undefined、null
