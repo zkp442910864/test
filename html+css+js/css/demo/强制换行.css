@@ -1,0 +1,5 @@
+/* 一串数字强制换行 */
+.line-feed {
+    word-break: break-all;
+    white-space: normal;
+}

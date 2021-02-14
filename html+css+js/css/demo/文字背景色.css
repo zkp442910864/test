@@ -1,0 +1,6 @@
+/* 文字背景色 */
+.sort-arrow.bottom{
+    color: transparent;
+    background: -webkit-linear-gradient(bottom, #285ade 50%, #db1010 50%);
+    -webkit-background-clip: text;
+}

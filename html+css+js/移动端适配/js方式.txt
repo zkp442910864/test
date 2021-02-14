@@ -1,7 +1,23 @@
 
-注意点：
-    根节点标签 font-size 不要低于10px
 
+/**
+ * 注意点：
+ * 根节点标签 font-size 不要低于10px
+ */
+
+
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
 
 
 
@@ -33,25 +49,6 @@
             var deviceWidth = document.documentElement.clientWidth;
             document.documentElement.style.fontSize = Math.min(deviceWidth, 1920) / 19.2 + 'px';
         })();
-
-
-
-设备像素（dpr）
-    window.devicePixelRatio
-    设备像素比 ＝ 物理像素 / 设备独立像素
-            2 = 750 / 375
-
-设备独立像素（dip）
-    设备无关像素
-
-设备像素（dp）
-    也就是物理像素的意思
-
-设置理想视口
-    <meta name="viewport" content="width=width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-
-    设置理想视口，使得DOM宽度(layout viewport)与屏幕宽度(visual viewport)一样大,DOM文档主宽度即为屏幕宽度。
-    1个CSS像素(1px)由多少设备像素显示由具体设备而不同。
 
 
 (() => {

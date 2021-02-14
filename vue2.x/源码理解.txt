@@ -24,7 +24,7 @@
                 在这过程中都不需要操作真实DOM，只需要操作JavaScript对象后只对差异修改，相对于整块的innerHTML的粗暴式修改，大大提升了性能。
                 修改以后经过diff算法得出一些需要修改的最小单位，再将这些小单位的视图进行更新。
 
-                处理模板templete，编译成render函数，render不存在的时候才会编译template，否则优先使用render
+                处理模板template，编译成render函数，render不存在的时候才会编译template，否则优先使用render
                 template 解析字符串、render 通过函数创建
                 最终创建出 VNode对象，模拟 dom树
                 渲染的dom树

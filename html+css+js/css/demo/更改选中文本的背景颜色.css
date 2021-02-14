@@ -1,0 +1,5 @@
+/* 更改选中文本的背景颜色 (选择器::selection) */
+::selection {
+    color: #ececec;
+    background: #222831;
+}

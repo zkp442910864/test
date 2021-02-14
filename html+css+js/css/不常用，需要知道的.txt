@@ -1,0 +1,49 @@
+
+TODO:
+    bfc 可不可以理解成，元素（包括元素里的内容，margin等）都被盒子框起来。使得这个盒子独立开来，不和其它的元素相交（覆盖）
+    感觉就是元素相加，隔离的问题
+
+    ifc 水平排列，横向的 padding、margin 能生效，基线（上中下）对齐
+
+
+
+技巧
+
+    cursor                  指针样式
+    text-decoration         文本修饰 上中下划线
+    letter-spacing          字母间距
+    line-height             行高
+
+    -webkit-overflow-scrolling: touch       滚动区域和触摸回弹
+    object-fit: cover;                      设置img标签图片的缩放
+    background-attachment: fixed;           固定的背景图像
+
+单位
+    px
+        相对长度单位。像素（Pixels）
+
+    em
+        如果你用em一层一层级联得定义嵌套元素的字体大小,那么从里面开始每个层都相对父级的font-size。
+
+    rem
+        依赖单一的相对度量单位用rem，rem中的r代表根元素，它的值就是根元素设置的字体大小。在大多数情况下，根元素就是html了。
+        适用于网格布局
+            rem 不仅适用于字体大小，也用于网格布局。
+            例如，
+                你可以用基于html根元素字体大小的rem作为整个网格布局或者UI库的大小单位，然后在其他特定的地方用em单位。
+                这样将会给你带来更多的字体大小和伸缩的可控性。
+
+    vh和vw
+        使用的是视口宽高
+        例如，浏览器高度是900px，那么1vh = 900*1%=9px，同理，若视口宽度是750px,则1vw是7.5px。
+
+    vmin和vmax
+        vmin：vw和vh中较小的那个。
+        vmax：vw和vh中较大的那个。
+
+        关于视口高度和宽度两者的最小或者最大值
+        例如，如果浏览器的高宽分别为700px和1100px，则1vmin=7px，1vmax=11px；如果高宽分别是1080px和800px,则1vmin=8px,1vmax=10.8px。
+
+    ex和ch			不懂
+
+

@@ -1,0 +1,6 @@
+/* 文字竖排 */
+/* 或限制宽度 */
+.ver {
+
+    writing-mode: vertical-lr;
+}

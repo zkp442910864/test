@@ -1,0 +1,4 @@
+/* 这个样式可以禁止掉所有事件 */
+.disabled {
+    pointer-events: none;
+}

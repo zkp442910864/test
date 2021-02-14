@@ -1,0 +1,25 @@
+
+
+
+设备像素（dpr）
+    window.devicePixelRatio
+    设备像素比 ＝ 物理像素 / 设备独立像素
+            2 = 750 / 375
+
+设备独立像素（dip）
+    设备无关像素
+
+设备像素（dp）
+    也就是物理像素的意思
+
+设置理想视口
+    <meta name="viewport" content="width=width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        user-scalable=no    不可缩放
+        width=device-width  宽按设备宽度
+        initial-scale=1     初始展示方式
+
+    设置理想视口，使得DOM宽度(layout viewport)与屏幕宽度(visual viewport)一样大,DOM文档主宽度即为屏幕宽度。
+    1个CSS像素(1px)由多少设备像素显示由具体设备而不同。
+
+
+

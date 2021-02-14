@@ -59,12 +59,12 @@ const ajax = {
 
 		url = domain[type] + url;
 
-		
+
 		if (options.isLoad) {
 			load = new common.Loding();
 			load.open();
 		}
-		
+
 		return new Promise((resolve, reject) => {
 			if (typeof this.cache[url] === 'function') {
 				this.cache[url]();
