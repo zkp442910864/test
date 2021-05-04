@@ -135,6 +135,11 @@ JavaScript 对象
         arr.unshift()				向数组的开头添加一个或更多元素，并返回新的长度。
 
     Date 对象 时间操作
+        UTC 时间格式: 2021-03-24T05:50:06.341Z
+            使用date 处理时间会按当地（北京）时间进行处理
+            为国际标准时间，根据不同所在的时区不同，在这基础上进行加减，转为当地时间，比如中国： utc + 8 === 北京时间
+        北京 时间格式: 2021-03-24T05:50:06.341
+
         静态方法
             Date.parse()					接收一个表示日期的字符串参数，然后尝试根据这个字符串返回相应日期的毫秒数
             Date.UTC()						参数分别是 y,m(一月是0，二月是1，以此类推),d,h,m,s, 返回相应日期的毫秒数
@@ -147,7 +152,17 @@ JavaScript 对象
             getDate()				从 Date 对象返回一个月中的某一天 (1 ~ 31)。
             getHours()				返回 Date 对象的小时 (0 ~ 23)。
             getMinutes()			返回 Date 对象的分钟 (0 ~ 59)。
+            getMinutes()			返回 Date 对象的秒 (0 ~ 59)。
             getMilliseconds()		返回 Date 对象的毫秒(0 ~ 999)。
+
+            对应utc的时间
+            getUTCFullYear()			从 Date 对象以四位数字返回年份。
+            getUTCMonth()				从 Date 对象返回月份 (0 ~ 11)。
+            getUTCDate()				从 Date 对象返回一个月中的某一天 (1 ~ 31)。
+            getUTCHours()				返回 Date 对象的小时 (0 ~ 23)。
+            getUTCMinutes()			    返回 Date 对象的分钟 (0 ~ 59)。
+            getUTCMinutes()			    返回 Date 对象的秒 (0 ~ 59)。
+            getUTCMilliseconds()		返回 Date 对象的毫秒(0 ~ 999)。
 
             getDay()				从 Date 对象返回一周中的某一天 (0 ~ 6)。
             getTime()				返回 1970 年 1 月 1 日至今的毫秒数。时间戳
