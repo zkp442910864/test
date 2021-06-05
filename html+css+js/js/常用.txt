@@ -72,6 +72,40 @@
             a = 1; // 如果a 没有赋值，这一步不会执行
 
 
+页面间通信 (跨域名 -> 跨页面，跨iframe)
+    资料: https://blog.csdn.net/document_dom/article/details/108475371
+
+    使用的 window 对象很重要，这会导致信息是否能成功发送
+        简单点说，就是要使用同一个对象
+
+    跨页面 有局限性，好像是要通过 window.open 打开的才可以
+
+    window.postMessage(a, b)
+        a: 信息体
+        b: 接收源 'http://127.0.0.1:5500' || '*'
+            源（origin）协议 + 域名 + 端口号
+        例子:
+            window.opener.postMessage('子传父', 'http://127.0.0.1:5500')
+                这个是通过 window.open() 打开的页面
+                window.opener 可返回对创建该窗口的 Window 对象的引用。
+            window.parent.postMessage({a: 12}, 'http://127.0.0.1:5500')
+                这个是通过 iframe 打开的页面
+
+    接收 postMessage 信息
+        window.addEventListener('message', (e) => {
+            // e.source 指向发送信息过来的页面 window ，然后可以通过实现页面相互通信
+            // e.origin 指向发送信息过来的页面 域名
+            // e.data 数据信息
+        }, false);
+
+
+    另一种方式： 同源的可以通过监听 storage 来实现
+        主页面监听 storage 变化，其它窗口的页面 改变 localStorage 时，会触发回调
+        window.addEventListener('storage', (e) => {
+            console.log(e)
+        });
+
+
 JavaScript 对象
     值类型 String、Number、Boolean、undefined、null
     引用类型 Objec、Array、Date、RegExp、Function
@@ -215,6 +249,9 @@ JavaScript 对象
             Math.floor(Math.random() * 8 + 2) // 获取 2-8 之间的数，通过修改2和8，来改范围
 
     Number 对象
+        (123).toString(x)       可以进行进制转换
+            10进制 -> (2, 8, 10, 16) 进制间转换
+            x 默认为 10
         (1.123123).toFixed(x)			指定小数为x位。
             规则-银行家舍入：
                 所谓银行家舍入法，其实质是一种四舍六入五取偶（又称四舍六入五留双）法。
@@ -229,6 +266,8 @@ JavaScript 对象
                 2 // 接受 x 为 0, 1 开头的字符串
                 3 // 接受 x 为 0, 1, 2 开头的字符串
                 4 // 接受 x 为 0, 1, 2, 3 开头的字符串
+                ...
+                这规律只到 9 为止，后面的就不是这规律
                 以此类推，但凡不符合的都返回NaN
         Number()                        把非数值转换为数值（上两个也有同样的效果）
 
