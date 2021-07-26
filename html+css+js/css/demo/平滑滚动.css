@@ -1,0 +1,7 @@
+/* 滚动区域使用 window.scrollTo(0, 1000) 增加平滑效果 */
+
+/* window 滚动区域 */
+html {
+    scroll-behavior: smooth;
+}
+
