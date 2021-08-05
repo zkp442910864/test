@@ -4,6 +4,10 @@
 
 	包里（插件）的 package.json 里 main 指向引用的js
 
+
+    注意：
+        使用样式抽离的时候，只对异步文件有效
+
 	package.json 运行命令
 		/*
 			package.json 里配置 --mode 三种模式
