@@ -6,6 +6,8 @@ const config = {
     总售出: {color: '#ee6666', key: 'ListingQuantitySold', index: 3, isNum: true, formatter: (val: string | number) => val},
     平均费率: {color: '#abd9ec', key: 'BidPercentageAvg', index: 4, isNum: false, formatter: (val: string | number) => `${val}%`},
 };
+
+// 获取对象中的key 枚举
 type TConfigKey = keyof typeof config;
 
 // 排除某个字段
