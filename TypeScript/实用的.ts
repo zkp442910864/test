@@ -8,6 +8,12 @@ const config = {
 };
 type TConfigKey = keyof typeof config;
 
+// 排除某个字段
+type a = Omit<{type: string, key: string}, 'type'>;
+
+// 指定其中一个属性
+type b = a['key'];
+
 // keyof typeof 值  可以得到该值 key的枚举值
 // @deprecated     注释里面加上这个，被标识为弃用
 // ReadOnly<T>         将 T 中的类型都变为只读。
