@@ -1,4 +1,9 @@
 
+参考文献
+    https://mp.weixin.qq.com/s?__biz=MzUxMjkwMjU1MQ==&mid=2247487596&idx=2&sn=4d8180a78c411c47f92b6608136e88b9&chksm=f95c0494ce2b8d82cd8a8a6fffe5dddf9a9297043f6a62e856fdae5168c4bd4fc39d5700cdba&scene=21#wechat_redirect
+    <br>
+    https://network.51cto.com/art/202012/634943.htm
+
 
 问题:
     HTTP协议优缺点
@@ -15,6 +20,12 @@
     介绍一下HTTPS和HTTP区别
     介绍一个HTTPS工作原理（重新看吧）
 
+>对头阻塞问题
+>> http/1.1 最多只能开启6个 tcp链接，多余6个请求，就会出现接口等待时间
+>>
+>> http2 采用了多路复用，会共用一个 tcp链接，可以无限发送请求，但 tcp会有阻塞问题
+>>> TCP传输过程中会把数据拆分为一个个按照顺序排列的数据包，这些数据包通过网络传输到了接收端，接收端再按照顺序将这些数据包组合成原始数据，这样就完成了数据传输。
+>>> 但是如果其中的某一个数据包没有按照顺序到达，接收端会一直保持连接等待数据包返回，这时候就会阻塞后续请求。这就发生了TCP队头阻塞
 
 ### 状态码列表
 ```
@@ -198,7 +209,3 @@ const codeMessage = {
 
 ###### 图1
 ![Image text](2.0%20%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E5%B8%A7.png)
-
-
-参考文献
-    https://mp.weixin.qq.com/s?__biz=MzUxMjkwMjU1MQ==&mid=2247487596&idx=2&sn=4d8180a78c411c47f92b6608136e88b9&chksm=f95c0494ce2b8d82cd8a8a6fffe5dddf9a9297043f6a62e856fdae5168c4bd4fc39d5700cdba&scene=21#wechat_redirect
