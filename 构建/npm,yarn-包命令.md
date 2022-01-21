@@ -4,6 +4,7 @@
 ### 发布包
 - ``` npm adduser // 添加账号 ```
 - ``` npm publish // 发布 ```
+- ``` npm publish --access public // 发布公有范围包 ```
 - ``` npm version patch ```
     - patch：小变动，比如修复bug等，版本号变动 v1.0.0->v1.0.1
 - ``` npm version minor ```
