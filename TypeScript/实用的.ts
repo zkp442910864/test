@@ -1,3 +1,5 @@
+// https://www.typescriptlang.org/docs/handbook/utility-types.html#omitthisparametertype
+
 // keyof typeof 值  可以得到该值 key的枚举值
 
 // @deprecated     注释里面加上这个，被标识为弃用
