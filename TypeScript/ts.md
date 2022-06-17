@@ -12,7 +12,7 @@
     NonNullable<T>      从 T 中剔除 null 和 undefined。
     ReturnType<T>       获取函数返回值类型。
     InstanceType<T>     获取构造函数类型的实例类型。
-    Pick<T, K>          从T中，选择一组键位于联合K中的属性
+    Pick<T, K>          从T中，选择一组键位于联合K中的属性 (指定需要的属性
         源码实现
         type Pick<T, K extends keyof T> = {
             [P in K]: T[P];
