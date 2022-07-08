@@ -7,6 +7,7 @@
             [P in keyof T]?: T[P];
         };
 
+    Record<T, K>        创建对象类型
     Exclude<T, U>       从 T 中剔除可以赋值给 U 的类型。
     Extract<T, U>       提取 T 中可以赋值给 U 的类型。
     NonNullable<T>      从 T 中剔除 null 和 undefined。
