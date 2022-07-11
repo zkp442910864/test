@@ -1,4 +1,11 @@
 
+### 指定声明文件
+
+- 不需要后缀，可以加路径:
+    - [资料](https://ts.xcatliu.com/basics/declaration-files.html#%E5%A3%B0%E6%98%8E%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E4%BE%9D%E8%B5%96)
+    - `/// <reference types="jquery" />`
+    - `/// <reference types="../../global" />`
+
 内置
     ReadOnly<T>         将 T 中的类型都变为只读。
     Partial<T>          将 T 中的类型都变为可选。
@@ -22,8 +29,6 @@
     typeof              js对象 转 ts类型
     keyof               ts类型 转 key枚举
     keyof typeof        js对象 转 key枚举
-
-
 
 TypeScript 基础
 	基础类型
