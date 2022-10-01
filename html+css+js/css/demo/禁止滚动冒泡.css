@@ -1,0 +1,12 @@
+/* https://developer.mozilla.org/zh-CN/docs/Web/CSS/overscroll-behavior */
+html {
+    /* 区域内滚动，到底(顶)时候，滚动没禁止了 */
+    /* 临近滚动区域不受到滚动链影响，而且默认的滚动到边界的表现也被阻止。 */
+    /* 好像是彻底一点的 */
+    overscroll-behavior: none;
+
+    /* 设置这个值后，默认的滚动边界行为不变（“触底”效果或者刷新），但是临近的滚动区域不会被滚动链影响到，比如对话框后方的页面不会滚动。 */
+    /* 好像是只限制了临近的 */
+    overscroll-behavior: contain;
+}
+
