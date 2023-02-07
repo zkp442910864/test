@@ -429,7 +429,9 @@ JavaScript 对象
 BOM（是window 对象，也叫 Global对象）
     浏览器对象模型，BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
 
-    window.sessionStorage       session临时回话，从页面打开到页面关闭的时间段,窗口的临时存储，页面关闭，本地存储消失
+    window.sessionStorage       (独立的)session临时回话，从页面打开到页面关闭的时间段,窗口的临时存储，页面关闭，本地存储消失
+        当复制 或用 window.open 打开同域页面时候，会复制 sessionStorage 中的内容
+
     window.localStorage         永久存储（可以手动删除数据）
         setItem():
 				设置数据，key\value类型，类型都是字符串
