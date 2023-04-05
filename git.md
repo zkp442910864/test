@@ -17,4 +17,4 @@
     - 简化查看 `git log --graph --oneline`
 - 合并指定文件夹
     - `git checkout <branch_name> -- <folder_path>`
-        - 如果是定位到分支的子级目录，执行命令，<folder_path> 这个路径不用进行指定
+        - 如果是定位到分支的子级目录，执行命令，<folder_path> 这个路径不用进行指定，使用 `./` 代替
