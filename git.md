@@ -2,6 +2,9 @@
 # 自用
 
 - 长列表的时候，需要按`q`进行退出
+
+- 提交
+	- 强制提交 `git add -A && git commit --no-verify -m "暂存"`
 - 合并指定提交id
     - `git cherry-pick <id>` 提交id
 - 列出分支
