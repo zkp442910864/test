@@ -1894,6 +1894,11 @@ js （大部分api 在js.txt 里）
 					const event = document.createEvent('CustomEvent');
 					event.initCustomEvent('myevent', true, false, 'hhhhhhh');
 					btn.dispatchEvent(event);
+					
+					或者
+					
+					const event2 = new Event('myevent');
+					btn.dispatchEvent(event2);
 
 			IE中的事件模拟
 
