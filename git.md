@@ -3,8 +3,12 @@
 
 - 长列表的时候，需要按`q`进行退出
 
+- 拉取
+	- 拉取 `git pull`
+
 - 提交
 	- 强制提交 `git add -A && git commit --no-verify -m "暂存"`
+	- 推送 `git push`
 - 合并指定提交id
     - `git cherry-pick <id>` 提交id
 - 列出分支
