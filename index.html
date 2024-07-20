@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .raw-canvas-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div >
+        <div style="position:relative">
+            <canvas id="raw"></canvas>
+            <canvas class="raw-canvas-mask" id="mask"></canvas>
+        </div>
+        <canvas id="new"></canvas>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+</html>
