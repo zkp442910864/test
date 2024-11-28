@@ -43,6 +43,12 @@
 
 - [目录结构](https://shopify.dev/themes/architecture)
 
+### 店铺配置
+
+- [商店政策配置](https://help.shopify.com/zh-CN/manual/checkout-settings/refund-privacy-tos)
+
+### 代码
+
 ###### 设置全局属性 (config
 
 - [settings_schema.json 文档](https://shopify.dev/themes/architecture/config/settings-schema-json)
