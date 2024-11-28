@@ -1,0 +1,4 @@
+[submodule "其它/vite-shopify"]
+	path = 其它/vite-shopify
+	url = https://github.com/zkp442910864/simple-scaffold.git
+	branch = vite-shopify
