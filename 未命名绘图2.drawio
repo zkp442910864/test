@@ -1,10 +1,60 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="26.2.15">
-  <diagram name="第 1 页" id="MAqCIfaCo9ZV79UvG2cq">
-    <mxGraphModel>
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-      </root>
-    </mxGraphModel>
-  </diagram>
+<mxfile host="app.diagrams.net" version="16.5.6" modified="2023-10-15T08:30:00.000Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="abc123" type="device">
+ <diagram id="your-diagram-id" name="System Architecture">
+ <![CDATA[
+ <mxGraphModel>
+ <root>
+ <!-- 优化建议：使用分层布局（左→右：流程→模块→技术栈） -->
+ <mxCell id="0"/>
+ <mxCell id="1" parent="0"/>
+ <mxCell id="2" value="" style="shape=rect;fillColor=#FFF9C4;strokeColor=#000;dashed=0;labelBackgroundColor=#FFF9C4;fontFamily=Arial;fontSize=12;" vertex="1" parent="1">
+ <mxGeometry x="10" y="10" width="800" height="600" as="geometry"/>
+ </mxCell>
+ 
+ <!-- 优化示例：阶段一 - 系统交互 -->
+ <mxCell id="3" value="阶段一：系统交互与数据准备" style="rounded=1;strokeWidth=2;fillColor=#FFF9C4;fontSize=14;horizontal=1;labelPosition=center;spacingLeft=20;spacingRight=20;spacingTop=10;spacingBottom=10;" vertex="1" parent="1">
+ <mxGeometry x="50" y="50" width="350" height="150" as="geometry"/>
+ </mxCell>
+ <mxCell id="4" value="1. 数据源接入\n- 接入多种数据源（如Kafka、API）\n- 数据清洗与标准化" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=12;" vertex="1" parent="3">
+ <mxGeometry x="0" y="0" width="350" height="150" as="geometry"/>
+ </mxCell>
+
+ <!-- 优化示例：阶段二 - 技术组件 -->
+ <mxCell id="5" value="阶段二：核心处理模块" style="rounded=1;strokeWidth=2;fillColor=#FFF9C4;fontSize=14;horizontal=1;labelPosition=center;spacingLeft=20;spacingRight=20;spacingTop=10;spacingBottom=10;" vertex="1" parent="1">
+ <mxGeometry x="400" y="50" width="350" height="250" as="geometry"/>
+ </mxCell>
+ <mxCell id="6" value="2.1 数据存储\n- MySQL（事务型数据）\n- MongoDB（非结构化数据）" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=12;" vertex="1" parent="5">
+ <mxGeometry x="0" y="0" width="350" height="125" as="geometry"/>
+ </mxCell>
+ <mxCell id="7" value="2.2 实时计算\n- Flink流处理\n- 规则引擎" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=12;" vertex="1" parent="5">
+ <mxGeometry x="0" y="125" width="350" height="125" as="geometry"/>
+ </mxCell>
+
+ <!-- 优化示例：阶段三 - 输出与监控 -->
+ <mxCell id="8" value="阶段三：结果交付与运维" style="rounded=1;strokeWidth=2;fillColor=#FFF9C4;fontSize=14;horizontal=1;labelPosition=center;spacingLeft=20;spacingRight=20;spacingTop=10;spacingBottom=10;" vertex="1" parent="1">
+ <mxGeometry x="700" y="50" width="350" height="300" as="geometry"/>
+ </mxCell>
+ <mxCell id="9" value="3.1 可视化输出\n- Grafana看板\n- 自定义API" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=12;" vertex="1" parent="8">
+ <mxGeometry x="0" y="0" width="350" height="150" as="geometry"/>
+ </mxCell>
+ <mxCell id="10" value="3.2 系统监控\n- Prometheus警报\n- 日志分析" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=12;" vertex="1" parent="8">
+ <mxGeometry x="0" y="150" width="350" height="150" as="geometry"/>
+ </mxCell>
+
+ <!-- 连接线优化 -->
+ <mxCell id="11" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;strokeWidth=2;fillColor=none;" edge="1" parent="1">
+ <mxGeometry relative="1" as="geometry">
+ <mxPoint x="350" y="200" as="sourcePoint"/>
+ <mxPoint x="400" y="200" as="targetPoint"/>
+ </mxGeometry>
+ </mxCell>
+ <mxCell id="12" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;strokeWidth=2;fillColor=none;" edge="1" parent="1">
+ <mxGeometry relative="1" as="geometry">
+ <mxPoint x="650" y="200" as="sourcePoint"/>
+ <mxPoint x="700" y="200" as="targetPoint"/>
+ </mxGeometry>
+ </mxCell>
+ </root>
+ </mxGraphModel>
+ ]]>
+ </diagram>
 </mxfile>
