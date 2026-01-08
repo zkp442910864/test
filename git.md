@@ -25,3 +25,6 @@
 - 合并指定文件夹
     - `git checkout <branch_name> -- <folder_path>`
         - 如果是定位到分支的子级目录，执行命令，<folder_path> 这个路径不用进行指定，使用 `./` 代替
+- 强制重置成其他分支,并使用对应的历史记录
+	- `git reset --hard <other_branch_name>` 重置成其他分支
+ 	- `git push origin <my_branch_name> --force` 强制推送至远端的分支(自己的分支)
